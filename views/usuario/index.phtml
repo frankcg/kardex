@@ -1,0 +1,256 @@
+<div class="px-content">
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>usuario">Seguridad</a></li>
+    <li class="active">Control de Acceso</li>
+  </ol>
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Control de Acceso</h1>
+  </div>
+
+  <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
+    <li class="active"><a href="#tab_user" data-toggle="tab">Usuario</a></li>
+    <li><a href="#tab_perfil" data-toggle="tab">Perfil</a></li>
+  </ul>
+  
+  <div class="tab-content">
+
+   <div class="tab-pane active" id="tab_user">
+
+    <div class="panel-body">
+      <button type="button" id="btn_nuevo_usuario" class="btn btn-md btn-primary btn-outline btn-3d btn-block" data-toggle="modal" data-target="#addusuario">Nuevo Usuario</button>      
+    </div>
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Relacion de Usuarios</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablausuarios" width="100%">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>USUARIO</th>
+                  <th>N° DOC</th>
+                  <th>NOMBRE</th>
+                  <th>ESTADO</th>
+                  <th>FECHA CREACION</th>
+                  <th>OPCIONES</th>
+                </tr>
+              </thead>
+              <tbody id="asd">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane" id="tab_perfil">
+
+    <div class="panel-body">
+      <button type="button" id="btn_nuevo_perfil" class="btn btn-md btn-primary btn-outline btn-3d btn-block" data-toggle="modal" data-target="#m_addperfil">Nuevo Perfil</button>      
+    </div>
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Relacion de Perfiles</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablaprofile" width="100%">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>NOMBRE</th>
+                  <th>ESTADO</th>
+                  <th>CANT. MODULOS</th>
+                  <th>FECHA CREACION</th>
+                  <th>OPCIONES</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<div class="modal fade" id="addusuario" tabindex="-1">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title" id="title_user">Agregar Ususario</h4>
+      </div>
+      <div class="modal-body">
+
+        <form class="" id="form_usuario">
+
+          <div class="form-group col-sm-6">
+            <label class="control-label required" for="required-input">Usuario</label>
+            <input type="text" class="letras form-control" id="usuario" name="usuario" autocomplete="off" maxlength="15">
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="control-label required" for="required-input">N° Doc</label>
+            <input type="text" class="numeros form-control" id="ndoc" name="ndoc" autocomplete="off" maxlength="10">
+          </div>
+
+          <div class="form-group col-sm-4">
+            <label class="control-label required" for="required-input">Apellido Paterno</label>
+            <input type="text" class="letras form-control" id="apepaterno" name="apepaterno" autocomplete="off" maxlength="30">
+          </div>
+
+          <div class="form-group col-sm-4">
+            <label class="control-label required" for="required-input">Apellido Materno</label>
+            <input type="text" class="letras form-control" id="apematerno" name="apematerno" autocomplete="off" maxlength="30">
+          </div>
+
+          <div class="form-group col-sm-4">
+            <label class="control-label required" for="required-input">Nombre</label>
+            <input type="text" class="letras form-control" id="nombre" name="nombre" autocomplete="off" maxlength="30">
+          </div>
+
+          <div class="form-group col-sm-6">
+            <label class="control-label" for="required-input">Telefono</label>
+            <input type="text" class="numeros form-control" id="telefono" name="telefono" autocomplete="off" maxlength="9">
+          </div>          
+
+          <div class="form-group col-sm-6">
+            <label class="control-label" for="required-input">Correo</label>
+            <input type="text" class="form-control" id="correo" name="correo" autocomplete="off" maxlength="30">
+          </div>
+
+          <!--
+          <div class="form-group col-sm-6">
+            <label class="control-label required" for="required-input">Area</label>
+            <select class="form-control" id="area" name="area" >
+              <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+              <?php //while($reg=$this->area->fetch_object()): ?>
+              <option value="<?php //echo $reg->IDAREA; ?>"><?php //echo $reg->NOMBRE; ?></option>
+              <?php //endwhile; ?>
+            </select>            
+          </div>          
+
+          <div class="form-group col-sm-6">
+            <label class="control-label required" for="required-input">Cargo</label>
+            <select class="form-control" id="cargo" name="cargo" >
+              <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+              <?php //while($reg=$this->cargo->fetch_object()): ?>
+              <option value="<?php //echo $reg->IDCARGO; ?>"><?php //echo $reg->NOMBRE; ?></option>
+              <?php //endwhile; ?>
+            </select>
+          </div>
+          -->
+          <div class="form-group">
+            <label class="control-label required" for="required-input">Contraseña</label>
+            <input type="password" class="form-control" id="contrasenia" name="contrasenia" autocomplete="off" maxlength="60">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label required" for="required-input">Re-Contraseña</label>
+            <input type="password" class="form-control" id="re_contrasenia" name="re_contrasenia" autocomplete="off" maxlength="60">
+          </div>
+
+        </form>
+
+        <div class="form-group has-error">              
+          <small class="form-message" id="msj_usuario"></small>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>        
+        <button type="button" class="btn btn-primary m-r-1" id="btn_add_usuario">Guardar</button>
+        <button type="button" class="btn btn-primary m-r-1" id="btn_update_usuario">Actualizar</button>
+        <button type="button" class="btn btn-warning m-r-1" id="btn_acceso_usuario" data-toggle="modal" data-target="#m_addacceso" >Acceso</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="m_addacceso" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title" id="title_acceso">Añadir Acceso</h4>
+      </div>
+      <div class="modal-body">
+
+        <form class="" id="form_acceso">                    
+
+          <div class="form-group">
+            <label class="control-label required" for="required-input">Seleccione Perfil</label>
+            <select id="select_idperfil" name="select_idperfil" class="form-control select2-primary" style="width: 100%">                            
+            </select>
+          </div>         
+        </form>
+
+        <div class="form-group has-error">              
+          <small class="form-message" id="msj_acceso"></small>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>        
+        <button type="button" class="btn btn-primary m-r-1" id="btn_save_acceso">Guardar</button>           
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal_select2 modal fade" id="m_addperfil" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title" id="title_profile"></h4>
+      </div>
+      <div class="modal-body">
+
+        <form class="" id="form_profile">
+
+          <div class="form-group" style="display: none;">
+            <label class="control-label required" for="required-input">IDPERFIL</label>
+            <input type="text" class="letras form-control" id="idperfil" name="idperfil">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label required" for="required-input">Nombre del Perfil</label>
+            <input type="text" class="letras form-control" id="nom_profile" name="nom_profile" autocomplete="off" maxlength="30">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label required" for="required-input">Seleccione Modulos</label>
+            <select id="idmodulo" name="idmodulo[]" class="select2 form-control select2-primary" multiple style="width: 100%">                            
+            </select>
+          </div>         
+
+        </form>
+
+        <div class="form-group has-error">              
+          <small class="form-message" id="msj_profile"></small>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>        
+        <button type="button" class="btn btn-primary m-r-1" id="btn_add_profile">Guardar</button>
+        <button type="button" class="btn btn-primary m-r-1" id="btn_update_profile">Actualizar</button>        
+      </div>
+    </div>
+  </div>
+</div>

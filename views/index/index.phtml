@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  
+  <title>Kardex</title>
+
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
+  <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+
+  <!-- DEMO ONLY: Function for the proper stylesheet loading according to the demo settings -->
+  <script>function _pxDemo_loadStylesheet(a,b,c){var c=c||decodeURIComponent((new RegExp(";\\s*"+encodeURIComponent("px-demo-theme")+"\\s*=\\s*([^;]+)\\s*;","g").exec(";"+document.cookie+";")||[])[1]||"clean"),d="rtl"===document.getElementsByTagName("html")[0].getAttribute("dir");document.write(a.replace(/^(.*?)((?:\.min)?\.css)$/,'<link href="$1'+(c.indexOf("dark")!==-1&&a.indexOf("/css/")!==-1&&a.indexOf("/themes/")===-1?"-dark":"")+(!d||0!==a.indexOf("public/css")&&0!==a.indexOf("public/demo")?"":".rtl")+'$2" rel="stylesheet" type="text/css"'+(b?'class="'+b+'"':"")+">"))}</script>
+
+  <!-- DEMO ONLY: Set RTL direction -->
+  <script>"ltr"!==document.getElementsByTagName("html")[0].getAttribute("dir")&&"1"===decodeURIComponent((new RegExp(";\\s*"+encodeURIComponent("px-demo-rtl")+"\\s*=\\s*([^;]+)\\s*;","g").exec(";"+document.cookie+";")||[])[1]||"0")&&document.getElementsByTagName("html")[0].setAttribute("dir","rtl");</script>
+
+  <!-- DEMO ONLY: Load PixelAdmin core stylesheets -->
+  <script>
+    _pxDemo_loadStylesheet('public/css/bootstrap.min.css', 'px-demo-stylesheet-bs');
+    _pxDemo_loadStylesheet('public/css/pixeladmin.min.css', 'px-demo-stylesheet-core');
+  </script>
+
+  <!-- DEMO ONLY: Load theme -->
+  <script>
+    function _pxDemo_loadTheme(a){var b=decodeURIComponent((new RegExp(";\\s*"+encodeURIComponent("px-demo-theme")+"\\s*=\\s*([^;]+)\\s*;","g").exec(";"+document.cookie+";")||[])[1]||"clean");_pxDemo_loadStylesheet(a+b+".min.css","px-demo-stylesheet-theme",b)}
+    _pxDemo_loadTheme('public/css/themes/');
+  </script>
+
+  <!-- Demo public -->
+  <script>_pxDemo_loadStylesheet('public/demo/demo.css');</script>
+  <!-- / Demo public -->
+
+  <!-- Pace.js -->
+  <script src="public/pace/pace.min.js"></script>
+
+  <script src="public/demo/demo.js"></script>
+
+  <!-- Custom styling -->
+  <style>
+    .page-signup-modal {
+      position: relative;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      z-index: 1;
+      display: block;
+    }
+
+    .page-signup-form-group { position: relative; }
+
+    .page-signup-icon {
+      position: absolute;
+      line-height: 21px;
+      width: 36px;
+      border-color: rgba(0, 0, 0, .14);
+      border-right-width: 1px;
+      border-right-style: solid;
+      left: 1px;
+      top: 9px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    html[dir="rtl"] .page-signup-icon {
+      border-right: 0;
+      border-left-width: 1px;
+      border-left-style: solid;
+      left: auto;
+      right: 1px;
+    }
+
+    html:not([dir="rtl"]) .page-signup-icon + .page-signup-form-control { padding-left: 50px; }
+    html[dir="rtl"] .page-signup-icon + .page-signup-form-control { padding-right: 50px; }
+
+    /* Margins */
+
+    .page-signup-modal > .modal-dialog { margin: 30px 10px; }
+
+    @media (min-width: 544px) {
+      .page-signup-modal > .modal-dialog {
+        width: 400px;
+        margin: 60px auto;
+      }
+    }
+  </style>
+  <!-- / Custom styling -->
+  
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+  <script src="<?php echo BASE_URL ?>public/js/jquery-2.1.1.min.js"></script> 
+  <script src="<?php echo BASE_URL ?>public/js/jquery-ui-1.10.3.min.js"></script>
+  <script src="public/js/bootstrap.min.js"></script>
+  <script src="public/js/pixeladmin.min.js"></script>
+
+  <?php if(isset($_layoutParams['js']) && count($_layoutParams['js'])): ?>
+      <?php foreach($_layoutParams['js'] as $layout): ?>
+        <script src="<?php echo  $layout ?>" type="text/javascript"></script>
+      <?php endforeach; ?>
+  <?php endif; ?>
+
+  <!-- jQuery -->
+  
+
+  
+
+</head>
+<body>
+  <div class="page-signup-modal modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="text-xs-center bg-primary p-y-4">
+          <a class="px-demo-brand px-demo-brand-lg" href="<?php echo BASE_URL;?>">
+            <span class="font-size-20 line-height-1"><img src="public/img/kardex.png" alt="" class="pull-xs-left m-r-2 border-round" style="width: 300px; height: 100px;"></span></span></a>          
+        </div>
+
+        <form action="" class="p-a-4">
+          <h4 class="m-t-0 m-b-4 text-xs-center font-weight-semibold">Control de Acceso</h4>          
+
+          <fieldset class="page-signup-form-group form-group form-group-lg">
+            <div class="page-signup-icon text-muted"><i class="ion-person"></i></div>
+            <input type="text" class="page-signup-form-control form-control" name="user" id="user" placeholder="Username">
+          </fieldset>
+
+          <fieldset class="page-signup-form-group form-group form-group-lg">
+            <div class="page-signup-icon text-muted"><i class="ion-asterisk"></i></div>
+            <input type="password" class="page-signup-form-control form-control" name="pass" id="pass" placeholder="Password">
+            <small class="text-muted">Minimo 6 caracteres</small>
+          </fieldset> 
+          <div class="form-group has-error">              
+              <small class="form-message" id="msj"></small>
+          </div>
+          <button type="button" id="btn_ingresar" class="btn btn-block btn-lg btn-primary m-t-3">Ingresar</button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==============================================================================
+  |
+  |  SCRIPTS
+  |
+  =============================================================================== -->
+
+  
+
+ 
+
+  <script>
+    // -------------------------------------------------------------------------
+    // Initialize DEMO sidebar
+
+    $(function() {
+      pxDemo.initializeDemoSidebar();
+
+      $('#px-demo-sidebar').pxSidebar();
+      pxDemo.initializeDemo();
+    });
+  </script>
+
+  <script>
+    // -------------------------------------------------------------------------
+    // Initialize page components
+
+    $(function() {
+      pxDemo.initializeBgsDemo('body', 1, '#000', function(isBgSet) {
+        $('#px-demo-signin-link, #px-demo-signin-link a')
+          .addClass(isBgSet ? 'text-white' : 'text-muted')
+          .removeClass(isBgSet ? 'text-muted' : 'text-white');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<div class="px-content">
+
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>busqueda">Reporte</a></li>
+    <li class="active">Busqueda de Evaluaciones</li>
+  </ol>
+
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Busqueda de Evaluaciones</h1>
+  </div>
+
+  <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
+    <li class="active"><a href="#tab_busqueda_evaluador" data-toggle="tab">Busqueda x Evaluador</a></li>
+    <li><a href="#tab_busqueda_area" data-toggle="tab">Busqueda x Area</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+   <div class="tab-pane active" id="tab_busqueda_evaluador">
+    <div class="panel">
+      <div class="panel-heading">
+        <div class="panel-title">Filtros</div>
+      </div>
+      <form class="panel-body">
+        <fieldset class="form-group col-sm-4">
+          <label for="form-group-input-1">Evaluacion</label>
+          <select class="form-control" id="evaluacion" name="evaluacion" >
+            <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+            <?php while($reg=$this->evaluacion->fetch_object()): ?>
+              <option value="<?php echo $reg->IDEVALUACION; ?>"><?php echo $reg->NOMBRE; ?></option>
+            <?php endwhile; ?>          
+          </select>
+        </fieldset>
+
+        <fieldset class="form-group col-sm-4">
+          <label for="form-group-input-1">Evaluador</label>
+          <select class="form-control" id="evaluador" name="evaluador" >
+            <option selected="selected" disabled="disabled">--SELECCIONE--</option>                  
+          </select>
+        </fieldset>
+
+        <fieldset class="form-group col-sm-4">
+          <label for="form-group-input-1">Evaluado</label>
+          <select class="form-control" id="evaluado" name="evaluado" >
+            <option selected="selected" disabled="disabled">--SELECCIONE--</option>                  
+          </select>
+        </fieldset>  
+
+      </form>
+      <div class="panel-footer text-right">
+        <button type="button" id="btn_consultar" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Consultar</button>
+      </div>
+    </div>
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Detalle de la Evaluacion</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablaevaluaciones" width="100%">
+              <thead>
+                <tr>                  
+                  <th>EVALUACION</th>
+                  <th>EVALUADOR</th>
+                  <th>EVALUADO</th>
+                  <th>COMPETENCIA</th>
+                  <th>CONDUCTA</th>               
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="tab-pane" id="tab_busqueda_area">
+      <div class="panel">
+      <div class="panel-heading">
+        <div class="panel-title">Filtros</div>
+      </div>
+      <form class="panel-body">
+        <fieldset class="form-group col-sm-4">
+          <label for="form-group-input-1">Evaluacion</label>
+          <select class="form-control" id="evaluacion2" name="evaluacion2" >
+            <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+            <?php while($reg=$this->evaluacion2->fetch_object()): ?>
+              <option value="<?php echo $reg->IDEVALUACION; ?>"><?php echo $reg->NOMBRE; ?></option>
+            <?php endwhile; ?>          
+          </select>
+        </fieldset>
+
+        <fieldset class="form-group col-sm-4">
+          <label for="form-group-input-1">Area</label>
+          <select class="form-control" id="area" name="area" >
+            <option selected="selected" disabled="disabled">--SELECCIONE--</option>                  
+          </select>
+        </fieldset>
+
+      </form>
+      <div class="panel-footer text-right">
+        <button type="button" id="btn_consultar_area" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Consultar</button>
+      </div>
+    </div>
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Evaluacion de Personal x Area</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablaevaluacionesxarea" width="100%">
+              <thead>
+                <tr>                  
+                  <th>EVALUACION</th>
+                  <th>EVALUADO</th>
+                  <th>PROMEDIO</th>              
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+</div>

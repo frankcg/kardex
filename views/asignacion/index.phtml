@@ -1,0 +1,70 @@
+<div class="px-content">
+
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>competencia">Evaluacion</a></li>
+    <li class="active">Asignacion</li>
+  </ol>
+
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Asignacion de Evaluacion</h1>
+  </div> 
+
+
+  <div class="panel">
+    <div class="panel-heading">
+      <div class="panel-title">Filtros</div>
+    </div>
+    <form class="panel-body">
+      <fieldset class="form-group col-sm-6">
+        <label for="form-group-input-1">Evaluacion</label>
+        <select class="form-control" id="evaluacion" name="evaluacion" >
+          <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+          <?php while($reg=$this->evaluacion->fetch_object()): ?>
+            <option value="<?php echo $reg->IDEVALUACION; ?>"><?php echo $reg->NOMBRE; ?></option>
+          <?php endwhile; ?>
+        </select>
+      </fieldset>
+      <fieldset class="form-group col-sm-6">
+        <label for="form-group-input-2">Area</label>
+        <select class="form-control" id="area" name="area" >
+          <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+          <?php while($reg=$this->area->fetch_object()): ?>
+            <option value="<?php echo $reg->IDAREA; ?>"><?php echo $reg->NOMBRE; ?></option>
+          <?php endwhile; ?>
+        </select>        
+      </fieldset>      
+
+    </form>
+    <div class="panel-footer text-right">
+      <button type="button" id="btn_consultar" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Consultar</button>
+    </div>
+  </div>
+
+  <div class="row">    
+    <div class="col-md-12">
+      <div class="panel">
+        <div class="panel-heading">
+          <div class="panel-title">Relacion de Personal a cargo</div>
+        </div>
+        <div class="panel-body">
+          <table class="table table-hover" id="tablasignacion" width="100%">
+            <thead>
+              <tr>                  
+                <th>NOMBRE</th>
+                <th>AREA</th>
+                <th>CARGO</th>
+                <th>GERENTE</th>
+                <th>COLEGA</th>
+                <th>CLIENTE</th>
+                <th>PROVEEDOR</th>                
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

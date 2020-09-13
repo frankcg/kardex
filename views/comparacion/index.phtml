@@ -1,0 +1,102 @@
+<div class="px-content">
+
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>comparacion">Reporte</a></li>
+    <li class="active">Comparacion de Evaluaciones</li>
+  </ol>
+
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Comparacion de Evaluaciones</h1>
+  </div>   
+
+
+  <div class="panel">
+    <div class="panel-heading">
+      <div class="panel-title">Filtros</div>
+    </div>
+
+    <form class="panel-body">
+      <div id="contenedor_evaluacion">
+        <fieldset class="form-group col-sm-4">
+          <label for="form-group-input-1">Seleccione Evaluacion</label>
+          <select class="form-control" id="evaluacion1" name="evaluacion1" >
+            <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+            <?php while($reg=$this->evaluacion1->fetch_object()): ?>
+              <option value="<?php echo $reg->IDEVALUACION; ?>"><?php echo $reg->NOMBRE; ?></option>
+            <?php endwhile; ?>          
+          </select>
+        </fieldset>
+
+        <fieldset class="form-group col-sm-4">
+          <label for="form-group-input-1">Seleccione Evaluacion</label>
+          <select class="form-control" id="evaluacion2" name="evaluacion2" >
+            <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+            <?php while($reg=$this->evaluacion2->fetch_object()): ?>
+              <option value="<?php echo $reg->IDEVALUACION; ?>"><?php echo $reg->NOMBRE; ?></option>
+            <?php endwhile; ?>                  
+          </select>
+        </fieldset>
+      </div>
+
+      <fieldset class="form-group col-sm-4">
+        <label for="form-group-input-1">Seleccione Personal</label>
+        <select class="form-control" id="evaluado" name="evaluado" >
+          <option selected="selected" disabled="disabled">--SELECCIONE--</option>                  
+        </select>
+      </fieldset>  
+
+    </form>
+
+    <div class="panel-footer text-right">
+      <button type="button" id="btn_consultar" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Consultar</button>
+    </div>
+  </div>
+
+  <div class="row" id="contenedor_comparacion" style="display: none;">    
+    <div class="col-md-6">
+      <div class="table-warning">
+        <div class="table-header">
+          <div class="table-caption" id="title_idevaluacion1">
+          </div>
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Evaluacion</th>
+              <th>Evaluador</th>
+              <th>Calificacion</th>
+            </tr>
+          </thead>
+          <tbody id="body_idevaluacion1">            
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="table-info">
+        <div class="table-header">
+          <div class="table-caption" id="title_idevaluacion2">
+          </div>
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Evaluacion</th>
+              <th>Evaluador</th>
+              <th>Calificacion</th>
+            </tr>
+          </thead>
+          <tbody id="body_idevaluacion2">            
+          </tbody>
+        </table>
+        <!--
+        <div class="table-footer">
+          Footer
+        </div>
+        -->
+      </div>
+    </div>
+  </div>
+</div>

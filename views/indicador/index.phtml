@@ -1,0 +1,156 @@
+<div class="px-content">
+
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>indicador">Indicador</a></li>
+    <li class="active">Grado de Cumplimiento / Eficacia</li>
+  </ol>
+
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Indicadores</h1>
+  </div> 
+
+  
+
+
+  <div class="panel">
+    <div class="panel-heading">
+      <div class="panel-title">Filtros</div>
+    </div>
+    <form class="panel-body">
+      <fieldset class="form-group col-sm-6">
+        <label for="form-group-input-1">Evaluacion</label>
+        <select class="form-control" id="evaluacion" name="evaluacion" >
+          <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+          <?php while($reg=$this->evaluacion->fetch_object()): ?>
+            <option value="<?php echo $reg->IDEVALUACION; ?>"><?php echo $reg->NOMBRE; ?></option>
+          <?php endwhile; ?>
+        </select>
+      </fieldset>   
+
+    </form>
+    <div class="panel-footer text-right">
+      <button type="button" id="btn_consultar" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Consultar</button>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
+    <li class="active"><a href="#tab_cumplimiento" data-toggle="tab">Grado Cumplimiento</a></li>
+    <li><a href="#tab_eficacia" data-toggle="tab">Eficacia</a></li>
+    <li id="tab-picture"><a href="#tab_dashboard" data-toggle="tab">Dashboard</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+   <div class="tab-pane active" id="tab_cumplimiento">
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Indicador Grado de Cumplimiento</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablaindicador_cumplimiento" width="100%">
+              <thead>
+                <tr>                  
+                  <th>FECHA</th>
+                  <th>AREA</th>
+                  <th>N° Eval. Previsto</th>
+                  <th>N° Eval. Realizadas</th>
+                  <th>N° Eval. Veraces</th>
+                  <th>N° Eval. Incloncusas</th>
+                  <th>GRADO CUMPLIMIENTO</th>                
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tab-pane" id="tab_eficacia">
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Indicador Eficacia</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablaindicador_eficacia" width="100%">
+              <thead>
+                <tr>                  
+                  <th>FECHA</th>
+                  <th>AREA</th>
+                  <th>N° Eval. Previsto</th>
+                  <th>N° Eval. Realizadas</th>
+                  <th>N° Eval. Veraces</th>
+                  <th>N° Eval. No Realizadas</th>
+                  <th>Nivel Eficacia</th>                
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tab-pane" id="tab_dashboard">
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">          
+          <div class="panel-body">
+            <div class="page-wide-block">
+              <div class="box border-radius-0 bg-black">
+
+                <!-- Revenue -->
+                <div class="box-cell col-md-6 p-a-4 bg-black darken">
+                  <div>
+                    <span class="font-size-17 font-weight-light">Grado Cumplimiento</span>&nbsp;&nbsp;
+                    
+                  </div>
+                  <div class="text-muted font-size-11 font-weight-light id-name-evaluation" ></div>
+                  <div class="font-size-34" id="porcentaje-grado-cp"><small class="font-weight-light text-muted">%</small><strong></strong></div>
+
+                  <!-- Chart -->
+                  <div class="p-t-4">
+                    <canvas id="grado-cumplimiento-chart" width="400" height="150"></canvas>
+                  </div>
+                </div>
+
+                <hr class="m-a-0 visible-xs visible-sm">
+
+                <!-- Expenses -->
+                <div class="box-cell col-md-6 p-a-4">
+                  <div>
+                    <span class="font-size-17 font-weight-light">Eficacia</span>&nbsp;&nbsp;                   
+                  </div>
+                  <div class="text-muted font-size-11 font-weight-light id-name-evaluation"></div>
+                  <div class="font-size-34" id="porcentaje-eficacia"><small class="font-weight-light text-muted">%</small><strong></strong></div>
+
+                  <!-- Chart -->
+                  <div class="p-t-4">
+                    <canvas id="efcacia-chart" width="400" height="150"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
