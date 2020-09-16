@@ -14,7 +14,7 @@ define('DEFAULT_LAYOUT', 'default');
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '12345678');
-define('DB_NAME', 'kardex');
+define('DB_NAME', 'kardex1');
 
 define('LIMIT_REGXPAG',5);
 define('LIMIT_PAGEVIEW',10);

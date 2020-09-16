@@ -8,9 +8,17 @@
 
   <title>Kardex</title>
 
-  <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
+  <!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">-->
+
+  <link href="<?php echo BASE_URL ?>public/css/css.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL ?>public/css/ionicons.min.css">
   <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
-  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  
+
+  <link rel="stylesheet" type="text/css" crossorigin="anonymous" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" href="<?php echo BASE_URL ?>public/css/font-awesome.min.css">
+  <!--<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">-->
+
   <!-- DEMO ONLY: Function for the proper stylesheet loading according to the demo settings -->
   <script>function _pxDemo_loadStylesheet(a,b,c){var c=c||decodeURIComponent((new RegExp(";\\s*"+encodeURIComponent("px-demo-theme")+"\\s*=\\s*([^;]+)\\s*;","g").exec(";"+document.cookie+";")||[])[1]||"clean"),d="rtl"===document.getElementsByTagName("html")[0].getAttribute("dir");document.write(a.replace(/^(.*?)((?:\.min)?\.css)$/,'<link href="$1'+(c.indexOf("dark")!==-1&&a.indexOf("/css/")!==-1&&a.indexOf("/themes/")===-1?"-dark":"")+(!d||0!==a.indexOf("public/css")&&0!==a.indexOf("public/demo")?"":".rtl")+'$2" rel="stylesheet" type="text/css"'+(b?'class="'+b+'"':"")+">"))}</script>
 
@@ -35,7 +43,8 @@
   <!-- / Demo public -->
 
   <!-- holder.js -->
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
+  <!--<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>-->
+  <script src="<?php echo BASE_URL ?>public/js/holder/holder.js"></script>   
 
   <!-- Pace.js -->
   <script src="public/pace/pace.min.js"></script>
@@ -43,6 +52,7 @@
   <script src="public/demo/demo.js"></script>
 
 
+  
 
   <!-- Custom styling -->
   <style>
@@ -71,6 +81,8 @@
 <script src="<?php echo BASE_URL?>public/js/datatables/dataTables.scroller.min.js"></script>
 
 <script src="<?php echo BASE_URL ?>public/js/validasololetras/validCampoFranz.js"></script>
+
+
 
 <!-- ALERT DIALOG -->
 <link rel="stylesheet" href="<?php echo BASE_URL ?>public/js/alert_dialog/jquery-confirm.css">
@@ -115,7 +127,7 @@
   html='';
   cont=0;
 
-  $.ajax({
+  /*$.ajax({
     url: 'asignacion/getsolicitudes',  
     type: 'POST',
     cache: false,
@@ -139,7 +151,7 @@
       $('#contador').html(cont);
       $('#navbar-messages').html(html);
     }                     
-  });
+  });*/
 </script>
 
 
