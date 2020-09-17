@@ -10,15 +10,9 @@ $(document).on('ready',function(){
 		$('#tablaCatalogo').DataTable({
 
 			//PARA EXPORTAR
-			/*
+			
 			dom: "Bfrtip",
 			buttons: [{
-				extend: "copy",
-				className: "btn-sm"
-			}, {
-				extend: "csv",
-				className: "btn-sm"
-			}, {
 				extend: "excel",
 				className: "btn-sm"
 			}, {
@@ -28,7 +22,7 @@ $(document).on('ready',function(){
 				extend: "print",
 				className: "btn-sm"
 			}],
-			responsive: !0,*/
+			responsive: !0,
 			
 			//"order" : [ [ 0, "desc" ] ],
 			"ajax" : "catalogo/getCatalogo",
