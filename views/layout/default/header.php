@@ -201,35 +201,12 @@
               </li>
             <?php endif;?>
 
-            
+
             <?php if (isset($_SESSION['menu']['MENU_COM'])):?>
               <li class="px-nav-item px-nav-dropdown">
-              <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Competencia</span></a>
+              <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Compra</span></a>
                 <ul class="px-nav-dropdown-menu">
                   <?php foreach ($_SESSION['menu']['MENU_COM'] as $submenu):?>
-                    <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
-                  <?php endforeach;?>
-                </ul>
-              </li>
-            <?php endif;?>
-
-            
-            <?php if (isset($_SESSION['menu']['MENU_EVA'])):?>
-              <li class="px-nav-item px-nav-dropdown">
-              <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Evaluacion</span></a>
-                <ul class="px-nav-dropdown-menu">
-                  <?php foreach ($_SESSION['menu']['MENU_EVA'] as $submenu):?>
-                    <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
-                  <?php endforeach;?>
-                </ul>
-              </li>
-            <?php endif;?>
-
-            <?php if (isset($_SESSION['menu']['MENU_IND'])):?>
-              <li class="px-nav-item px-nav-dropdown">
-              <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Reportes</span></a>
-                <ul class="px-nav-dropdown-menu">
-                  <?php foreach ($_SESSION['menu']['MENU_IND'] as $submenu):?>
                     <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
                   <?php endforeach;?>
                 </ul>

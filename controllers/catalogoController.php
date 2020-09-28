@@ -25,17 +25,14 @@ class catalogoController extends Controller{
 
 			$data ['data'] [] = array (				
 				'CONT'=>$cont,
-				'PRODUCTO' => utf8_encode($reg->NOMBRE),
-				'MARCA' => utf8_encode($reg->MARCA),
-				'MODELO' => utf8_encode($reg->MODELO),
-				'PRECIO'=> 'S/.'.$reg->PRECIO_VENTA,
+				'PRODUCTO' => utf8_encode($reg->NOMBRE),				
+				//'PRECIO'=> 'S/.'.$reg->PRECIO_UNIDAD,//PRECIO DE COMPRA
 				'STOCK_GENERAL'=>$reg->STOCK_GENERAL,
 				'CANTIDAD_VENTAS'=>$reg->CANT_VENTA,
 				'STOCK_ACTUAL'=>$reg->STOCK_ACTUAL,
 				'IDPRODUCTO'=>$reg->IDPRODUCTO,
-				'IDPRODUCTODETALLE'=>$reg->IDPRODUCTODETALLE,
-				'IDSTOCK'=>$reg->IDSTOCK,
-				);
+				'IDCOMPRA'=>$reg->IDCOMPRA,
+			);
 		}
 		echo json_encode ( $data );
 	}

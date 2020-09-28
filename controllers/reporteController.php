@@ -26,19 +26,23 @@ class reporteController extends Controller{
 
 			$data ['data'] [] = array (
 				'CONT' => $cont,
-				'IDSTOCK' => $reg->IDSTOCK,
-				'IDPRODUCTODETALLE' => $reg->IDPRODUCTODETALLE,
-				'FECHA_VENTA' => $reg->FECHA_VENTA,
+				'IDVENTA' => $reg->IDVENTA,
+				'IDCOMPRA' => $reg->IDCOMPRA,
+				'IDPRODUCTO' => $reg->IDPRODUCTO,
 				'PRODUCTO' => $reg->PRODUCTO,
-				'MARCA' => $reg->MARCA,
-				'MODELO' => $reg->MODELO,
+				'FECHA_VENTA' => $reg->FECHA_VENTA,				
 				'CANTIDAD' => $reg->CANTIDAD,
-				'PRECIO_SUGERIDO' => $reg->PRECIO_SUGERIDO,
-				'PRECIO_VENDIDO' => $reg->PRECIO_VENDIDO,
+				'OBSERVACION' => $reg->OBSERVACION,
+				'PRECIO_VENTA_UNIDAD' => $reg->PRECIO_VENTA,
+				'PRECIO_VENTA_TOTAL' => $reg->PRECIO_VENTA_TOTAL,
+				'PRECIO_COMPRA_UNIDAD' => $reg->PRECIO_UNIDAD,
+				'PRECIO_COMPRA_TOTAL' => $reg->PRECIO_COMPRA_TOTAL,
+				'GANANCIA' => $reg->GANANCIA,
 				'VENDEDOR' => $reg->VENDEDOR,
 				);
 		}
 		echo json_encode ( $data );
 	}
+	
 }
 ?>

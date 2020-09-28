@@ -1,5 +1,27 @@
 $(document).on('ready',function(){
 
+	$( "#city" ).autocomplete({
+	 	source: function( request, response ) {
+	   	
+	  	$.ajax({
+			url: "reporte/prueba",
+	    	type: 'post',
+	    	dataType: "json",
+	    	data: {
+	     		search: request.term
+	    	},
+	    	success: function( data ) {
+	    		response( data );
+			}
+		});
+		},select: function (event, ui) {		
+			$('#city').val(ui.item.label); // display the selected text
+	  		//$('#selectuser_id').val(ui.item.value); // save selected id to input
+	  		return false;
+	  	}
+	});
+
+
 	$('#btnBuscar').click(function(){
 		var fechaInicio = $('#fechaInicio').val();
 		var fechaFin = $('#fechaFin').val();
@@ -62,23 +84,25 @@ $(document).on('ready',function(){
 			{
 				"data" : "CONT"
 			},{
-				"data" : "IDSTOCK"
+				"data" : "IDVENTA"
 			},{
-				"data" : "IDPRODUCTODETALLE"
+				"data" : "IDCOMPRA"
+			},{
+				"data" : "IDPRODUCTO"
 			},{
 				"data" : "FECHA_VENTA"
 			},{
 				"data" : "PRODUCTO"
 			},{
-				"data" : "MARCA"
-			},{
-				"data" : "MODELO"
-			},{
 				"data" : "CANTIDAD"
 			},{
-				"data" : "PRECIO_SUGERIDO"
+				"data" : "PRECIO_COMPRA_UNIDAD"
 			},{
-				"data" : "PRECIO_VENDIDO"
+				"data" : "PRECIO_VENTA_UNIDAD"
+			},{
+				"data" : "PRECIO_VENTA_TOTAL"
+			},{
+				"data" : "GANANCIA"
 			},{
 				"data" : "VENDEDOR",
 				"visible": false

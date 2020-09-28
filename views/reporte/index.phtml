@@ -1,3 +1,7 @@
+<!-- jQuery UI -->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
 <div class="px-content">
   <ol class="breadcrumb page-breadcrumb">
     <li><a href="<?php echo BASE_URL; ?>reporte">Reporte</a></li>
@@ -15,9 +19,7 @@
         </div>
         <div class="panel-body">
 
-          <form class="smart-form" id="formReporte">
-
-                   
+          <form class="smart-form" id="formReporte">                   
 
               <div class="form-group col-sm-6">
                 <label class="control-label required" for="required-input">Fecha Inicio</label>
@@ -35,9 +37,7 @@
                 </div>
               </div>
 
-          </form>
-
-          
+          </form>          
           
         </div>
 
@@ -57,20 +57,20 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>COD. KARDEX</th>
+                        <th>COD. VENTA</th>
+                        <th>COD. COMPRA</th>
                         <th>COD. PRODUCTO</th>
                         <th>FECHA VENTA</th>
-                        <th>PRODUCTO</th>
-                        <th>MARCA</th>
-                        <th>MODELO</th>
+                        <th>PRODUCTO</th>                        
                         <th>CANTIDAD</th>
-                        <th>PRECIO SUGERIDO</th>
-                        <th>PRECIO VENDIDO</th>
+                        <th>PRECIO COMPRA (UNIDAD)</th>
+                        <th>PRECIO VENTA (UNIDAD)</th>
+                        <th>PRECIO VENTA (TOTAL)</th>
+                        <th>GANANCIA</th>
                         <th>VENDEDOR</th>
                       </tr>
                     </thead>
                     <tbody id="">
-
                     </tbody>
                     <tfoot>
                         <tr>

@@ -15,30 +15,20 @@ class ventaController extends Controller{
 		$this->_view->renderizar('index');
 	}
 
-	public function getProductoDetalle(){
+	public function getCompras(){
 		$idProducto = $_POST['idProducto'];
 		$objModel=$this->loadModel('venta');
-		$result = $objModel->getProductoDetalle($idProducto);
+		$result = $objModel->getCompras($idProducto);
 		echo '<option selected disabled> SELECCIONE </option>';
 		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->IDPRODUCTODETALLE.'" > '.$reg->MARCA." / ".$reg->MODELO. ' </option>';
-		}
-	}
-
-	public function getPrecios(){
-		$idProductoDetalle = $_POST['idProductoDetalle'];
-		$objModel=$this->loadModel('venta');
-		$result = $objModel->getPrecios($idProductoDetalle);
-		echo '<option> SELECCIONE </option>';
-		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->IDSTOCK.'" precio="'.$reg->PRECIO_VENTA.'"> '.$reg->PRECIO_VENTA. ' </option>';
+			echo '<option value="'.$reg->IDCOMPRA.'" > '.$reg->ALIAS. ' </option>';
 		}
 	}
 
 	public function getStockActual(){
-		$idStock = $_POST['idStock'];
+		$idCompra = $_POST['idCompra'];
 		$objModel=$this->loadModel('venta');
-		$result = $objModel->getStockActual($idStock);
+		$result = $objModel->getStockActual($idCompra);
 		echo json_encode($result->fetch_object());
 	}
 
@@ -52,16 +42,13 @@ class ventaController extends Controller{
 	public function addVenta(){
 
 		$idProducto = $_POST['idProducto'];
-		$idProductoDetalle = $_POST['idProductoDetalle'];
-		$idStock = $_POST['idStock'];
+		$idCompra = $_POST['idCompra'];
 		$cantidad = $_POST['cantidad'];		
-		$precioVenta = $_POST['precioVenta'];
-		$precioSugerido = $_POST['precioSugerido'];
-		$stockActual = $_POST['stockActual'];
+		$precioVenta = $_POST['precioVenta'];		
 		$observacion= strtoupper(trim($_POST['observacion']));		
 
 		$objModel=$this->loadModel('venta');
-		$result = $objModel->addVenta($idProducto,$idProductoDetalle,$idStock,$cantidad,$precioVenta,$precioSugerido,$stockActual,$observacion);
+		$result = $objModel->addVenta($idProducto,$idCompra,$cantidad,$precioVenta,$observacion);
 		if($result) echo 'ok'; else echo 'error';
 	}
 }

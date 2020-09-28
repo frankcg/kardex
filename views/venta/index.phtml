@@ -30,20 +30,19 @@
               </div>
 
               <div class="form-group col-sm-12">
-                <label class="control-label required" for="required-input">Seleccionar Marca / Modelo</label>
-                <select class="form-control" id="idProductoDetalle" name="idProductoDetalle">
-                </select>            
-              </div>
-
-              <div class="form-group col-sm-12">
-                <label class="control-label required" for="required-input">Seleccionar Precio</label>
-                <select class="form-control" id="idStock" name="idStock">
+                <label class="control-label required" for="required-input">Seleccionar Alias (Compra)</label>
+                <select class="form-control" id="idCompra" name="idCompra">
                 </select>            
               </div>
 
               <div class="form-group col-sm-6">
                 <label class="control-label required" for="required-input">Cantidad</label>
-                <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off">
+                <input type="text" class="form-control numeros" id="cantidad" name="cantidad" autocomplete="off">
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label class="control-label required" for="required-input">Precio Venta (Unidad)</label>
+                <input type="text" class="form-control numerospunto" id="precioVenta" name="precioVenta" autocomplete="off">
               </div>
 
               <div class="form-group col-sm-6">
@@ -52,14 +51,9 @@
               </div>
 
               <div class="form-group col-sm-6">
-                <label class="control-label required" for="required-input">Precio Venta</label>
-                <input type="text" class="form-control numerospunto" id="precioVenta" name="precioVenta" autocomplete="off">
-              </div>
-
-              <div class="form-group col-sm-6">
-                <label class="control-label required" for="required-input">Precio Segurido</label>
-                <input type="text" class="form-control" id="precioSugerido" name="precioSugerido" autocomplete="off" readonly="readonly">
-              </div>
+                <label class="control-label required" for="required-input">Precio Total</label>
+                <input type="text" class="form-control" id="precioTotal" name="precioTotal" autocomplete="off" readonly="readonly">
+              </div>              
 
               <div class="form-group col-sm-12">
                 <label lass="control-label" for="required-input">Observacion</label>
@@ -73,21 +67,7 @@
               </div>
 
             </section>
-
-            <section class="col-sm-6">
-
-              <div class="well well-sm well-light">
-                <h3> Descripcion del Producto:
-                <br>
-                <small><hr></small></h3>
-
-                <pre>
-                  <p id="descripcionProducto"></p>
-                </pre>
-
-              </div>
-              
-            </section>            
+                    
 
           </form>
           

@@ -30,17 +30,11 @@ $(document).on('ready',function(){
 			{
 				"data" : "CONT"
 			},{
-				"data" : "IDSTOCK"
+				"data" : "IDCOMPRA"
 			},{
-				"data" : "IDPRODUCTODETALLE"
+				"data" : "IDPRODUCTO"
 			},{
 				"data" : "PRODUCTO"
-			},{
-				"data" : "MARCA"
-			},{
-				"data" : "MODELO"
-			},{
-				"data" : "PRECIO"
 			},{
 				"data" : "STOCK_GENERAL"
 			},{
