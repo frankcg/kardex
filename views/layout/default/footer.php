@@ -1,4 +1,6 @@
- <footer class="px-footer px-footer-bottom p-t-0">
+<!--  
+ <div class="col-md-12"> -->
+ <footer class="px-footer p-t-0 px-footer-bottom">
     <!--- 
     <div class="box m-a-0 bg-transparent">
       <div class="box-cell col-md-3 p-t-3">
@@ -31,7 +33,7 @@
 
     <span class="text-muted">Copyright © 2020 Cristian Tauro All rights reserved.</span>
   </footer>
-
+  <!-- </div> -->
   <!-- ==============================================================================  |
   |  SCRIPTS  |
   =============================================================================== -->

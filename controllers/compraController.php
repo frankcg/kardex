@@ -1,18 +1,52 @@
 <?php 
 
 class compraController extends Controller{
-	
+
+	// $some_unique_prefix_foo = "ok";
+	// if (isset($GLOBALS["some_unique_prefix_foo"])) {
+	// 	echo "Foo is in global scope.\n";
+	// } else {
+	// 	echo "Foo is NOT in global scope.\n";
+	// }
+
+	protected $idLocalesclass;
+
+
 	public function __construct(){
 		parent::__construct();		
 		if (! isset ( $_SESSION ['user'] ))
 			$this->redireccionar ( 'index' );
+			$this->idLocalesclass = $_GET["idLocal"];
 	}
 
 	public function index(){		
 		$this->_view->setJs(array('index'));
+
+		$this->idLocalesclass = $_GET["idLocal"];
+		
+		$idLocales = $_GET["idLocal"];
+		$_SESSION["idLocal"] = $idLocales;
+		global $idLocales;
 		//$objModel=$this->loadModel('compra');
 		//$this->_view->productos=$objModel->getComboProductos();
 		$this->_view->renderizar('index');
+		
+	}
+
+	public function local(){
+		$idLocal = $this->idLocalesclass;
+ 
+		return $idLocal;
+	}
+
+
+	public function getTipopago(){
+		$objModel=$this->loadModel('compra');
+		$result = $objModel->getTipopago();
+		echo '<option selected disabled> SELECCIONE '."idLocal=".$idLocal.$_SESSION["idLocal"]."non".$this->local().'</option>';
+		while ($reg = $result->fetch_object()){
+			echo '<option value="'.$reg->IDTIPOPAGO.'" > '.$reg->DESCRIPCION. '  </option>';
+		}
 	}
 
 	public function getCompras(){
@@ -64,6 +98,16 @@ class compraController extends Controller{
 		echo json_encode($data);
 	}
 
+	public function autoproveedor(){
+		$search = $_POST['search'];
+		$objModel=$this->loadModel('compra');
+		$result=$objModel->autoproveedor($search);		
+		$data = array();
+		while($reg=$result->fetch_object()){
+			$data[] = array("value"=>$reg->nIDPROVEEDOR,"label"=>$reg->sLABEL);
+		}
+		echo json_encode($data);
+	}
 
 	public function addCompra(){
 
@@ -73,10 +117,321 @@ class compraController extends Controller{
 		$aliasCompra= $_POST['aliasCompra'];
 		$descripcion= strtoupper(trim($_POST['descripcion']));
 
+		
+
 		$objModel=$this->loadModel('compra');
 		$result = $objModel->addCompra($nombre, $cantidad, $precioCompra, $aliasCompra, $descripcion);
 		if($result) echo 'ok'; else echo 'error';	
 	}
+
+	public function clearCart(){
+		unset($_SESSION["cart"]["products"]);
+		unset($_SESSION["cart"]["payments"]);
+		$_SESSION['cart']['products'] = array();
+		$_SESSION['cart']['payments'] = array();
+	}
+
+	public function clearproductCart(){
+		$id= $_POST['id'];
+
+		print_r($_POST);
+		echo($id);
+		echo("entro al post");
+
+		unset($_SESSION["cart"]["products"][$id]);
+
+		if(!isset($_SESSION["cart"]["products"][$id])){
+			return 1;
+		}else {
+			return 0;
+		}
+
+	}
+
+	
+	public function clearpaymentCart(){
+		$id= $_POST['id'];
+
+		print_r($_POST);
+		echo($id);
+		echo("entro al post");
+
+		unset($_SESSION["cart"]["payments"][$id]);
+
+		if(!isset($_SESSION["cart"]["payments"][$id])){
+			return 1;
+		}else {
+			return 0;
+		}
+
+	}
+
+
+
+
+	public function showproductCart(){
+
+		$tableProducts = "";
+ 
+		if(!empty($_SESSION["cart"]["products"])){
+		foreach ($_SESSION["cart"]["products"] as $productos) {
+			foreach($productos as $items){
+				if($items["name"]!==""){
+					$tableProducts .= '<tr> 
+						<td class="p-a-2">
+							<div class="font-weight-semibold">'.$items["name"].'</div>
+							<div class="font-size-12 text-muted">'.$items["descripcion"].'</div>
+						</td>
+						<td class="p-a-2">
+							<strong>'.$items["precio"].'</strong>
+						</td>
+						<td class="p-a-2">
+							<strong>'.$items["cantidad"].'</strong>
+						</td>
+						<td class="p-a-2">
+							<strong class="total">'.$items["cantidad"]*$items["precio"].'</strong>
+						</td>
+						<td class="p-a-2">
+							 
+						<button type="button" class="btn btn-xs btn-warning btn-outline btn-rounded btn-outline-colorless btn-delete" id="'.$items["name"].'">x</button>
+
+						</td>
+					  </tr>'
+					  ;
+					// echo('<pre>');
+					// print_r($items);
+					// echo('</pre>');
+				}
+			}
+		  }
+		}else {
+			$tableProducts .= '<tr> 
+						<td class="p-a-2">
+							<div class="font-weight-semibold">-</div>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+					  </tr>'
+					  ;
+		}
+		  echo($tableProducts);
+	}
+
+
+	public function showpaymentCart(){
+
+		$tablePayments = "";	
+ 
+		if(!empty($_SESSION["cart"]["payments"])){
+		foreach ($_SESSION["cart"]["payments"] as $key => $value) {
+				if($value["formaPago"]!==""){
+
+					if($value["formaPago"]=="1"){
+						$forma = "EFECTIVO";
+					}else{
+						$forma = "DEPOSITO";
+					};
+
+					$tablePayments .= '<tr> 
+						<td class="p-a-2">
+							<div class="font-weight-semibold">'.$key.'</div>
+						</td>
+						<td class="p-a-2">
+							<div class="font-weight-semibold">'.$forma.'</div>
+						</td>
+						<td class="p-a-2">
+							<strong class="pagototal" >'.$value["montopago"].'</strong>
+						</td>
+						<td class="p-a-2">
+						<strong>'.$value["acuenta"].'</strong>
+						</td>
+						<td class="p-a-2">
+							 
+						<button type="button" class="btn btn-xs btn-warning btn-outline btn-rounded btn-outline-colorless btn-delete" id="'.$key.'">x</button>
+
+						</td>
+					  </tr>'
+					  ;
+			}
+		  }
+		}else {
+			$tablePayments .= '<tr> 
+						<td class="p-a-2">
+							<div class="font-weight-semibold">-</div>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+					  </tr>'
+					  ;
+		}
+		  echo($tablePayments);
+	}
+
+
+	public function addproductCart(){
+
+		$idProducto 	= $_POST['idProducto'];
+		$nombre			= strtoupper(trim($_POST['nombre']));		
+		$cantidad		= $_POST['cantidad'];
+		$precioCompra	= $_POST['precioCompra'];
+		$aliasCompra	= $_POST['aliasCompra'];
+		$descripcion	= strtoupper(trim($_POST['descripcion']));
+
+		$productsArray = array(
+			"idProducto"=>$idProducto
+			,"name"=>$nombre
+			,"cantidad"=>$cantidad
+			,"precio"=>$precioCompra
+			,"alias"=>$aliasCompra
+			,"descripcion"=>$descripcion
+		);
+
+			if(isset($_SESSION["cart"]["products"][$nombre])){
+				echo("if entra");
+				// echo('<pre>');
+				// print_r($productsArray);
+				// echo('</pre>');
+
+				array_splice($_SESSION["cart"]["products"][$nombre],0);
+				array_push($_SESSION["cart"]["products"][$nombre],$productsArray);
+
+				// echo('<pre>');
+				// print_r($_SESSION["cart"]["products"][$nombre]);
+				// echo('</pre>');
+
+			}else{
+				echo("else entra");
+				$_SESSION["cart"]["products"][$nombre] = array();
+				array_push($_SESSION["cart"]["products"][$nombre],$productsArray);
+			}	
+
+		// $objModel=$this->loadModel('compra');
+		// $result = $objModel->addCompra($nombre, $cantidad, $precioCompra, $aliasCompra, $descripcion);
+		// if($result) echo 'ok'; else echo 'error';	
+ 
+	}
+
+	public function addpaymentCart(){
+
+		$formaPago		= $_POST['formaPago']; 	
+		$cuenta			= $_POST['cuenta']; 		
+		$montopago		= $_POST['montopago']; 		
+		$acuenta		= $_POST['acuenta']; 	
+
+		if($acuenta == "on"){
+			$acuenta = "SI";
+		}else{
+			$acuenta = "NO";
+		}
+
+		$paymentArray = array(
+			"formaPago"		=>$formaPago
+			,"cuenta"		=>$cuenta
+			,"montopago"	=>$montopago
+			,"acuenta"		=>$acuenta
+		);
+ 
+		array_push($_SESSION["cart"]["payments"],$paymentArray);
+ 
+		// echo('<pre>');
+		// print_r($_SESSION["cart"]["payments"]);
+		// echo('</pre>');
+
+		// $objModel=$this->loadModel('compra');
+		// $result = $objModel->addCompra($nombre, $cantidad, $precioCompra, $aliasCompra, $descripcion);
+		// if($result) echo 'ok'; else echo 'error';	
+ 
+	}
+
+
+	public function finishpaymentCart(){
+
+		$proveedor		= $_POST['proveedor'];
+		$idProveedor	= $_POST['idProveedor'];
+
+		$objModel=$this->loadModel('compra');
+
+
+		try {
+
+			$existeProveedor =	$objModel->proveedorvalidate($idProveedor);
+				if($existeProveedor !== 1){
+					$idProveedorcompra =	$objModel->insertProveedor($proveedor);
+				}else{
+					$idProveedorcompra =	$idProveedor;
+				}
+
+			$idCompra = $objModel->insertcompra($idProveedorcompra);
+
+			try {
+
+
+				foreach ($_SESSION["cart"]["products"] as $productos) {
+					foreach($productos as $items){
+		
+						$idProducto = $items['idProducto'];
+						$nombre = $items['name'];
+						$cantidad = $items['cantidad'];
+						$precio = $items['precio'];
+		
+						// echo('<pre>');
+						// print_r($_SESSION["cart"]["products"][$nombre]);
+						// echo('</pre>');
+
+						$existeProducto=$objModel->productvalidate($idProducto);
+							if($existeProducto !== 1){
+								$idProductocompra =	$objModel->insertProducto($nombre);
+							}else{
+								$idProductocompra =	$idProducto;
+							}
+
+						$result =	$objModel->insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio); 	
+	
+					}
+				}
+
+			try {
+					foreach ($_SESSION["cart"]["payments"] as $payments) {
+		
+						$idtipopago = $payments['formaPago'];
+						$cuenta 	= $payments['cuenta'];
+						$montopago 	= $payments['montopago'];
+						$acuenta 	= $payments['acuenta'];
+
+						$result =	$objModel->insertCompraPagos($idCompra, $idtipopago,$montopago,$cuenta,$acuenta);
+
+					}
+				} catch (Exception $e) {
+					//Exception Pago Detalle
+				}
+			} catch (Exception $e) {
+				//Exception Producto
+			}
+		} catch (Exception $e) {
+			//Exception Proveedor / idCompra
+		}
+
+		if($result == 1 ){
+			$this->clearCart();
+		}
+		echo($result);
+	}
+
+
 
 	public function eliminarCompra(){
 		$idCompra = $_POST['idCompra'];

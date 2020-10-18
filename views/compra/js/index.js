@@ -1,88 +1,334 @@
 $(document).on('ready',function(){
 
-	//$( "#nombre" ).autocomplete( "option", "appendTo", ".eventInsForm" );
-	$( "#nombre" ).autocomplete({
-	 	source: function( request, response ) {
-	   	
-	  	$.ajax({
-			url: "compra/autocomplete",
-	    	type: 'post',
-	    	dataType: "json",
-	    	data: {
-	     		search: request.term
-	    	},
-	    	success: function( data ) {
-	    		response( data );
-			}
+
+	optionsToastr = {	closeButton: true,
+						progressBar: true,
+						preventDuplicates: true,
+						newestOnTop: true,};
+			
+						
+	$(function(){
+		$.post('compra/getTipopago',{},function(data){
+				$('#formaPago').html(data);
 		});
-		},select: function (event, ui) {		
-			$('#nombre').val(ui.item.label); // display the selected text
-	  		//$('#selectuser_id').val(ui.item.value); // save selected id to input
-	  		return false;
-	  	}
 	});
 
-	/* ********************************************************************************************************************************
-										MANTENIMIENTO COMPRA
-	******************************************************************************************************************************** */	
+	$('#formaPago').change(function(){
+		var idProducto = $(this).val();
+		if(idProducto=="2"){
+			$('#divCuenta').show();
+		}else{
+			$('#divCuenta').hide();
+			$('#cuenta').val('');
+		}
+	});	
 
-	function tablaCompras(){
-		$('#tablaCompra').dataTable().fnDestroy();		 	
-		$('#tablaCompra').DataTable({
 
-			//PARA EXPORTAR
-			/*
-			dom: "Bfrtip",
-			buttons: [{
-				extend: "copy",
-				className: "btn-sm"
-			}, {
-				extend: "csv",
-				className: "btn-sm"
-			}, {
-				extend: "excel",
-				className: "btn-sm"
-			}, {
-				extend: "pdf",
-				className: "btn-sm"
-			}, {
-				extend: "print",
-				className: "btn-sm"
-			}],
-			responsive: !0,*/
+
+	$(function() {
+
+		$('#nombre').typeahead({
+			displayText: function(item) {
+				 return item.label
+			},
+			afterSelect: function(item) {
+
+				this.$element[0].value = item.label
+				$('#idProducto').val(item.value);
+				console.log($('#idProducto').val())
+
+			},
+			source: function (query, process) {
+			  return $.getJSON('compra/autocomplete', { query: query }, function(data) {
+				process(data)
+			  })
+			}   
+		})
+
+
+		$("#nombre").keypress(function(){
+		$('#idProducto').val('');
+		console.log($('#idProducto').val())
+		});
+
+
+		$('#proveedor').typeahead({
+			displayText: function(item) {
+				 return item.label
+			},
+			afterSelect: function(item) {
+
+				this.$element[0].value = item.label
+				$('#idProveedor').val(item.value);
+				console.log($('#idProveedor').val())
+
+			},
+			source: function (query, process) {
+			  return $.getJSON('compra/autoproveedor', { query: query }, function(data) {
+				process(data)
+			  })
+			}   
+		})
+
+		$("#proveedor").keypress(function(){
+			$('#idProveedor').val('');
+			console.log($('#idProveedor').val())
+			});
+
+
+	  });
+
+	  function hideItems() {
+		$('#productos').hide();
+		$('#monto').hide();
+		$('#divCuenta').hide();
+		
+	  };
+
+	  hideItems();
+
+	  function showItems() {
+		$('#productos').show();
+		$('#monto').show();
+	  };
+	  
+	  
+
+	  $(function() {
+
+		$('#wizard-basic').pxWizard();
+		  $('#wizard-basic').on('stepchange.px.wizard', function(e, data) {
+			// Validate only if jump to the forward step
+			console.log(data);
+			// console.log(data.activeStepIndex);
+			// e.preventDefault();
+			obtenerCart();
+			calc_total()
+			obtenerPagos();
+			calc_totalPagos();
+
+			var stepIndex = $('#wizard-basic').pxWizard('getActivePane');
+			console.log(stepIndex);
+
+			// if (data.nextStepIndex < data.activeStepIndex) { return; }
+			// var $form = $('#wizard-basic').pxWizard('getActivePane');
+			// if (!$form.valid()) {
+			//   e.preventDefault();
+			// }
+
+		  });
+
+
+		
+
+
+
+	  });
+
+	  
+	  $('#wizard-basic').on('finish.px.wizard', function(e) {
+		//
+		// Collect and send data...
+		//
+
+		console.log("finishbutton");
+		console.log(items);
+		
+		var proveedor = $('#proveedor').val();
+
+		if(proveedor==''){
+			toastr['warning']('Ingrese un Proveedor', 'Paso 4', {optionsToastr});
+			e.preventDefault();
+		}else if(items = 0 ){
+			toastr['warning']('Ingrese un Producto', 'Paso 1', {optionsToastr});
+			e.preventDefault();
+		}else if(itemsPagos = 0){
+			toastr['warning']('Ingrese un Pago', 'Paso 3', {optionsToastr});
+			e.preventDefault();
+		}else {
+			console.log("paso finish");
+			var formData = new FormData($("#formProveedor")[0]);
+			$.ajax({
+				url: 'compra/finishpaymentCart',  
+				type: 'POST',
+				data: formData,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(data){
+					console.log(data)
+					if(data=="1"){
+						$('#formCompra')[0].reset();
+						$('#formProveedor')[0].reset();
+						$('#formPago')[0].reset();
+
+						$('#wizard-basic').pxWizard('reset');
+						
+						obtenerCart();
+						calc_total()
+						obtenerPagos();
+						calc_totalPagos();
+						hideItems();
+						console.log("finishpaymentCart");
+						
+					}else{
+						e.preventDefault();
+						console.log("error");
+					}
+							
+				}				
+			});
+
+			// e.preventDefault();
 			
-			//"order" : [ [ 0, "desc" ] ],
-			"ajax" : "compra/getCompras",
-			"columns" : [
-			{
-				"data" : "CONT"
-			},{
-				"data" : "FECHA_COMPRA"
-			},{
-				"data" : "IDCOMPRA"
-			},{
-				"data" : "IDPRODUCTO"
-			},{
-				"data" : "PRODUCTO"
-			},{
-				"data" : "ALIAS"
-			},{
-				"data" : "CANTIDAD"
-			},{
-				"data" : "PRECIO_UNIDAD"
-			},{
-				"data" : "PRECIO_TOTAL"
-			},{
-				"data" : "OPCIONES"
-			},		
-			],
-			"language": {
-				"url": "/kardex/public/cdn/datatable.spanish.lang"
-			} 
-		});	
+		}
+		
+
+
+		// $('#wizard-finish').find('button').remove();
+
+		
+	  });
+
+
+
+	  obtenerCart();
+	  calc_total()
+
+
+	/* ********************************************************************************************************************************
+										Funciones
+	******************************************************************************************************************************** */	
+	function obtenerCart(){
+		$.ajax({
+			url: 'compra/showproductCart',  
+			type: 'GET',
+			data: html,
+			success: function(data){
+				$("#comprasCart").html();
+				$("#comprasCart").html(data);
+				calc_total()
+				
+			}
+		})
+
 	}
+
+	function obtenerPagos(){
+		$.ajax({
+			url: 'compra/showpaymentCart',  
+			type: 'GET',
+			data: html,
+			success: function(data){
+				$("#pagosCart").html();
+				$("#pagosCart").html(data);
+				calc_total()
+				
+			}
+		})
+
+	}
+
+
+
+	$('#acuenta').click(function(){
+		if($(this).is(":checked")){
+			console.log("Checkbox is checked.");
+		}
+		else if($(this).is(":not(:checked)")){
+			console.log("Checkbox is unchecked.");
+		}
+	});
+
+
+
+	$("#mAddCompra").on("shown.bs.modal", function () { 
+		obtenerCart();
+		calc_total()
+	});
+
+	function calc_total(){
+		var sum = 0;
+		items =0;
+		$(".total").each(function(){
+		  sum += parseFloat($(this).text());
+		  items = items + 1;
+		});
+		$('#compraTotal').text(sum);
+		
+		if(sum>0){
+			showItems();
+			$('#monto').text(sum);
+			$('#productos').text(items);
+		}
+		
+	  }
+
+	  function calc_totalPagos(){
+		var sum = 0;
+		itemsPagos =0;
+		$(".pagototal").each(function(){
+		  sum += parseFloat($(this).text());
+		  items = items + 1;
+		});
+		// $('#compraTotal').text(sum);
+		console.log(sum);
+		if(sum>0){
+ 
+			// $('#monto').text(sum);
+			// $('#productos').text(items);
+		}
+		
+	  }
+
+
 	
-	tablaCompras();
+	  $("#comprasCart").on('click', '.btn-delete', function(){
+
+		console.log("click");
+		var myId = $(this).attr('id');
+		
+		datos = { 'id': myId};
+		console.log(datos)
+
+		$.ajax({
+			url: 'compra/clearproductCart',  
+			type: 'POST',
+			data: datos,
+			success: function(data){
+				console.log(data);
+				console.log("entrodelete");
+				obtenerCart();
+			}				
+		});
+
+
+	})
+
+	$("#pagosCart").on('click', '.btn-delete', function(){
+
+		console.log("click");
+		var myId = $(this).attr('id');
+		
+		datos = { 'id': myId};
+		console.log(datos)
+
+		$.ajax({
+			url: 'compra/clearpaymentCart',  
+			type: 'POST',
+			data: datos,
+			success: function(data){
+				console.log(data);
+				console.log("entrodelete");
+				obtenerPagos();
+			}				
+		});
+
+
+	})
+
+
+
 
 	$('#btn_add_compra').click(function(){
 
@@ -91,7 +337,21 @@ $(document).on('ready',function(){
 		var precioCompra = $('#precioCompra').val();
 		var aliasCompra = $('#aliasCompra').val();
 		
+		console.log(nombre);
+
 		var formData = new FormData($("#formCompra")[0]);
+
+		var outputLog = {}, iterator = formData.entries(), end = false;
+		while(end == false) {
+		   var item = iterator.next();
+		   if(item.value!=undefined) {
+		       outputLog[item.value[0]] = item.value[1];
+		   } else if(item.done==true) {
+		       end = true;
+		   }
+		    }
+		
+		console.log(outputLog);
 
 		if(nombre == ''){ $('#msj_compra').html('Ingrese Nombre del Producto');}
 		else if(cantidad == ''){ $('#msj_compra').html('Ingrese Cantidad');}
@@ -101,7 +361,7 @@ $(document).on('ready',function(){
 			$('#msj_compra').html('');
 
 			$.ajax({
-				url: 'compra/addCompra',  
+				url: 'compra/addproductCart',  
 				type: 'POST',
 				data: formData,
 				cache: false,
@@ -109,143 +369,77 @@ $(document).on('ready',function(){
 				processData: false,
 				success: function(data){
 					
-					$('#mAddCompra').modal('hide');
-					if(data=='ok'){
-						$('#formCompra')[0].reset();
-						toastr['success']('Se registro correctamente', 'Compra', {
-				          closeButton: true,
-				          progressBar: true,
-				          preventDuplicates: true,
-				          newestOnTop: true,
-				        });
-				        //toastr['success']('Se registro correctamente', 'Usuario');
-						tablaCompras();
+					obtenerCart();
+					calc_total()
+					console.log("despuescart");
+					console.log(data)
+					
+					// $('#mAddCompra').modal('hide');
+					// if(data=='ok'){
+					// 	$('#formCompra')[0].reset();
+					// 	toastr['success']('Se registro correctamente', 'Compra', {
+				    //       closeButton: true,
+				    //       progressBar: true,
+				    //       preventDuplicates: true,
+				    //       newestOnTop: true,
+				    //     });
+				    //     //toastr['success']('Se registro correctamente', 'Usuario');
+					// 	tablaCompras();
 						
-					}else if(data=='error'){
-						$('#msj_compra').html('Ha ocurrido un Error. Intente de Nuevo!!');
-					}else{
-						$('#msj_compra').html(data);
-					}		
+					// }else if(data=='error'){
+					// 	$('#msj_compra').html('Ha ocurrido un Error. Intente de Nuevo!!');
+					// }else{
+					// 	$('#msj_compra').html(data);
+					// }		
 				}				
 			});
 		}
 	});
-	
-	//BOTON NUEVO PRODUCTO
-	$('#btnNuevaCompra').click(function(){
-		$('#nombre').removeAttr("readonly");
-		$('#btn_add_compra').show();
-		$('#btn_update_compra').hide();
-		$('#formCompra')[0].reset();
-		$('#title_producto').html('Registrar Compra');		
-	});
 
+	$('#btn_add_pago').click(function(){
 
-	//TRAER EL USUARIO AL MODAL
-	//$("#tablausuarios tbody").on('click','button.editusuario',function(){
-	$("#tablaCompra tbody").on('dblclick','tr',function(){
-		$('#btn_add_compra').hide();
-		$('#btn_update_compra').show();
-		$('#title_producto').html('Editar Compra');
+		var formaPago 		= $('#formaPago').val();
+		var cuenta 			= $('#cuenta').val();
+		var montopago 		= $('#montopago').val();
+
+		var formData = new FormData($("#formPago")[0]);
+
+		// var outputLog = {}, iterator = formData.entries(), end = false;
+		// while(end == false) {
+		//    var item = iterator.next();
+		//    if(item.value!=undefined) {
+		//        outputLog[item.value[0]] = item.value[1];
+		//    } else if(item.done==true) {
+		//        end = true;
+		//    }
+		//     }
 		
-		var table = $('#tablaCompra').DataTable();	
-		var objeto = table.row(this).data();
+		// console.log(outputLog);
 
-		$('#nombre').attr("readonly",true);
-		$('#idCompra').val(objeto.IDCOMPRA);
-		$('#nombre').val(objeto.PRODUCTO);
-		$('#cantidad').val(objeto.CANTIDAD);
-		$('#precioCompra').val(objeto.PRECIO_UNIDAD);
-		$('#aliasCompra').val(objeto.ALIAS);
-		$('#descripcion').val(objeto.OBSERVACION);
-		$('#mAddCompra').modal('show');
-		if(objeto.VENTA>=1){
-			$('#btn_update_compra').hide();
-		}
-	});
-
-
-	//DESHABILITAR USUARIO
-	$("#tablaCompra tbody").on('click','button.eliminarCompra',function(){
-
-		var idCompra = $(this).attr("idCompra");		
-
-		$.confirm({
-			title: 'Eliminar Compra !!',
-			content: '¿ Desea Continuar ?',
-			closeIcon: true,
-			closeIconClass: 'fa fa-close' ,
-			confirmButton: 'Continuar',
-			confirmButtonClass: 'btn-primary',	
-			cancelButton:'Cancelar',
-			icon: 'fa fa-warning',
-			animation: 'zoom', 
-			confirm: function(){				
-				$.post('compra/eliminarCompra',{
-					idCompra : idCompra,
-					estado : 0
-				},function(data){		 	
-					if(data == 'ok'){
-						$.alert('Se Inactivo Correctamente !!');						
-						tablaCompras();
-					}else{
-						$.alert('Ha ocurrido un Error. Intente de Nuevo !!');							
-					}		 	
-				});
-
-			},cancel: function(){
-				$.alert('Cancelado');		        
-			}
-		});
-	});
-
-
-	$('#btn_update_compra').click(function(){
-
-		var nombre = $('#nombre').val();
-		var cantidad = $('#cantidad').val();
-		var precioCompra = $('#precioCompra').val();
-		var aliasCompra = $('#aliasCompra').val();
-		
-		var formData = new FormData($("#formCompra")[0]);
-
-		if(nombre == ''){ $('#msj_compra').html('Ingrese Nombre del Producto');}
-		else if(cantidad == ''){ $('#msj_compra').html('Ingrese Cantidad');}
-		else if(precioCompra == ''){ $('#msj_compra').html('Ingrese Compra');}
-		else if(aliasCompra == ''){ $('#msj_compra').html('Ingrese Alias');}
+		if(formaPago 	== ''){ $('#msj_compra_producto').html('Ingrese Nombre del Producto');}
+		else if(formaPago == 2 && cuenta 	== ''){ $('#msj_compra_producto').html('Ingrese Cantidad');}
+		else if(montopago 	== ''){ $('#msj_compra_producto').html('Ingrese Compra');}
 		else{
-			$('#msj_compra').html('');
+			console.log("ajax");
+			$('#msj_compra_producto').html('');
 
 			$.ajax({
-				url: 'compra/updateCompra',  
+				url: 'compra/addpaymentCart',  
 				type: 'POST',
 				data: formData,
 				cache: false,
 				contentType: false,
 				processData: false,
 				success: function(data){
-					
-					$('#mAddCompra').modal('hide');
-					if(data=='ok'){
-						$('#formCompra')[0].reset();
-						toastr['success']('Se actualizo correctamente', 'Compra', {
-				          closeButton: true,
-				          progressBar: true,
-				          preventDuplicates: true,
-				          newestOnTop: true,
-				        });
-				        //toastr['success']('Se registro correctamente', 'Usuario');
-						tablaCompras();
-						
-					}else if(data=='error'){
-						$('#msj_compra').html('Ha ocurrido un Error. Intente de Nuevo!!');
-					}else{
-						$('#msj_compra').html(data);
-					}		
+					console.log("despuescart");
+					console.log(data)
+					obtenerPagos();
 				}				
 			});
 		}
+
+
+
 	});	
-
-
+	
 });

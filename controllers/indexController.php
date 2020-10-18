@@ -29,19 +29,25 @@ class indexController extends Controller{
 				$_SESSION['nombre']=$objModel->getNombre($user);
 				$_SESSION['menu'] = $objModel->getMenu($user);
 				$_SESSION['idpersona'] = $objModel->getidpersona($user);
+				
+				$_SESSION['cart'] = array();
+				$_SESSION['cart']['products'] = array();
+				$_SESSION['cart']['ventasproducts'] = array();
+				$_SESSION['cart']['payments'] = array();
+				
 				/*$_SESSION['idperfil'] = $objModel->getIdperfil($user);
 				
 				$_SESSION['arrayempresa']=$objModel->getEmpresas($_SESSION['user']);
                 $_SESSION['foto']=$objModel->getFoto($_SESSION['idpersona']);*/
 				
 				$intentos=1;
-				setcookie('intentos',$intentos,time()+60);
+				//setcookie('intentos',$intentos,time()+60);
 				echo 1;
 			}else
 				echo 0;
 		}	
 		$intentos++;
-		setcookie('intentos',$intentos,time()+60);
+		//setcookie('intentos',$intentos,time()+60);
 	}	
 	
 	public function logout(){

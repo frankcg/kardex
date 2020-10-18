@@ -1,112 +1,255 @@
 <style type="text/css">
-.ui-autocomplete { z-index:2147483647; }
-
+  .ui-autocomplete {
+    z-index: 2147483647;
+  }
 </style>
-<div class="px-content">
+<div class="px-content" style="padding-bottom: 210px">
   <ol class="breadcrumb page-breadcrumb">
     <li><a href="<?php echo BASE_URL; ?>producto">Producto</a></li>
     <li class="active">Compra Producto</li>
   </ol>
+
   <div class="page-header">
     <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Registrar Compra</h1>
   </div>
 
+  <!-- <div class="panel-body">
+    <button type="button" id="btnNuevaCompra" class="btn btn-md btn-primary btn-outline btn-3d btn-block" data-toggle="modal" data-target="#mAddCompra">Registrar Compra</button>
+  </div> -->
 
-  <div class="panel-body">
-    <button type="button" id="btnNuevaCompra" class="btn btn-md btn-primary btn-outline btn-3d btn-block" data-toggle="modal" data-target="#mAddCompra">Registrar Compra</button>      
-  </div>
+  <div class="wizard wizard-bordered" id="wizard-basic">
+    <div class="wizard-wrapper">
+      <ul class="wizard-steps">
+        <li data-target="#wizard-productos">
+          <span class="wizard-step-number">1</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Paso 1
+            <span class="wizard-step-description">Agregar Productos:</span>
+          </span>
+        </li>
+        <li data-target="#wizard-example-step2">
+          <span class="wizard-step-number">2</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Paso 2
+            <span class="wizard-step-description">Productos: <span class="label label-pill label-success" id="productos"> </span> <span class="label label-tag label-info" id="monto"> </span></span>
+          </span>
+        </li>
 
-  <div class="row">    
-    <div class="col-md-12">
-      <div class="panel">
-        <div class="panel-heading">
-          <div class="panel-title">Historial de Compras</div>
+        <li data-target="#wizard-example-step3">
+          <span class="wizard-step-number">3</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Pago 3
+            <span class="wizard-step-description">Agregar Pagos:</span>
+          </span>
+        </li>
+        <li data-target="#wizard-example-step4">
+          <span class="wizard-step-number">4</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Finalizar
+          </span>
+        </li>
+
+      </ul>
+    </div>
+    <div class="wizard-content">
+      <div class="wizard-pane" id="wizard-productos">
+
+        <form class="smart-form" id="formCompra">
+          <div class="form-group col-sm-6 hide">
+            <label class="control-label" for="required-input">ID Compra</label>
+            <input type="text" class="form-control" id="idProducto" name="idProducto" autocomplete="off" readonly="readonly">
+          </div>
+          <p>
+
+            <div class="panel-body">
+              <div class="form-group col-sm-12">
+
+                <p>Nombre del Producto:</p>
+                <input id="nombre" name="nombre" class="form-control" type="text" data-provide="typeahead" autocomplete="off">
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label class="control-label required" for="required-input">Cantidad</label>
+                <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off">
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label class="control-label required" for="required-input">Precio Compra (x Unidad)</label>
+                <input type="text" class="form-control numerospunto" id="precioCompra" name="precioCompra" autocomplete="off">
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary m-r-1 pull-right " id="btn_add_compra">Agregar</button>
+        </form>
+
+        <div class="panel-body p-a-4 bg-white b-b-2">
+
         </div>
-        <div class="panel-body">
-          <table class="table table-hover" id="tablaCompra" width="100%">
+
+        <div class="form-group has-error">
+          <small class="form-message" id="msj_compra_producto"></small>
+        </div>
+
+        </p>
+        <div class="pull-right">
+          <button type="button" class="btn btn-primary" data-wizard-action="next">Siguiente</button>
+        </div>
+      </div>
+      <div class="wizard-pane" id="wizard-example-step2">
+
+        <p>
+          <div class="table-responsive">
+            <table class="table m-a-0">
+              <thead>
+                <tr class="bg-white darken">
+                  <th class="p-x-2">
+                    Decripcion
+                  </th>
+                  <th class="p-x-2">
+                    Cantidad
+                  </th>
+                  <th class="p-x-2">
+                    Precio
+                  </th>
+                  <th class="p-x-2">
+                    Total
+                  </th>
+                  <th class="p-x-2">
+                    Opciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="font-size-14" id="comprasCart">
+              </tbody>
+            </table>
+          </div>
+
+          <div class="box m-a-0 border-radius-0">
+            <div class="box-row valign-middle">
+
+              <div class="m-t-3 visible-xs visible-sm"></div>
+              <div class="box-cell col-md-12 bg-white darken p-x-3 p-y-2">
+                <div class="pull-xs-left m-y-1 font-size-12 text-muted"><strong>TOTAL:</strong></div>
+                <div class="pull-xs-right font-size-24"><strong>S/</strong><strong id="compraTotal"></strong></div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="page-wide-block">
+        </p>
+        <div class="pull-right">
+          <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
+          <button type="button" class="btn btn-primary" data-wizard-action="next">Siguiente</button>
+        </div>
+      </div>
+
+      <div class="wizard-pane" id="wizard-example-step3">
+      <p>
+        <form class="smart-form" id="formPago">
+          <div class="panel-body">
+            
+
+              <div class="form-group col-md-12">
+                <label for="formaPago" class="col-md-3 control-label">Forma de Pago</label>
+                <div class="col-md-12">
+                  <select class="form-control" id="formaPago" name="formaPago"></select>
+                </div>
+
+                <div class="col-md-12" id="divCuenta">
+                  <label class="control-label required" for="required-input">Cuenta</label>
+                  <input type="text" class="form-control" id="cuenta" name="cuenta" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="form-group col-md-12">
+                <div class="form-group col-md-12">
+                  <label class="control-label required" for="required-input">Monto</label>
+                  <input type="text" class="form-control" id="montopago" name="montopago" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="form-group has-error">
+                <small class="form-message" id="msj_compra_producto"></small>
+              </div>
+
+              <button type="button" class="btn btn-primary m-r-1 pull-right " id="btn_add_pago">Agregar</button>
+            
+          </div>
+        </form>
+
+        <hr class="page-wide-block">
+
+        <div class="table-responsive">
+          <table class="table m-a-0">
             <thead>
-              <tr>
-                <th>#</th>
-                <th>FECHA COMPRA</th>
-                <th>COD. COMPRA</th>
-                <th>COD. PRODUCTO</th>
-                <th>PRODUCTO</th>
-                <th>ALIAS</th>
-                <th>CANTIDAD</th>                
-                <th>PRECIO UNIDAD</th>
-                <th>PRECIO TOTAL</th>
-                <th>OPCIONES</th>
+              <tr class="bg-white darken">
+                <th class="p-x-2">
+                  id
+                </th>
+                <th class="p-x-2">
+                  Forma de pago
+                </th>
+                <th class="p-x-2">
+                  Monto
+                </th>
+                <th class="p-x-2">
+                  A Cuenta
+                </th>
+                <th class="p-x-2">
+                  Opciones
+                </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="font-size-14" id="pagosCart">
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
-  </div>
 
 
-</div>
+        </p>
 
-<div class="modal fade" id="mAddCompra" role="dialog" aria-hidden="true" aria-labelledby="mAddCompraLabel">
-  <div class="modal-dialog modal-md">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title" id="title_compra">Registrar Compra</h4>
-      </div>
-      <div class="modal-body">
-
-        <form class="smart-form" id="formCompra">
-
-          <div class="row">
-
-            <div class="form-group col-sm-6 hide">
-              <label class="control-label" for="required-input">ID Compra</label>
-              <input type="text" class="form-control" id="idCompra" name="idCompra" autocomplete="off" readonly="readonly">
-            </div>
-
-            <div class="form-group col-sm-6">
-              <label class="control-label required" for="required-input">Nombre del Producto</label>
-              <input type="text" class="form-control" id="nombre" name="nombre" autocomplete="off">
-            </div>            
-
-            <div class="form-group col-sm-6">
-              <label class="control-label required" for="required-input">Cantidad</label>
-              <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off">
-            </div>
-
-            <div class="form-group col-sm-6">
-              <label class="control-label required" for="required-input">Precio Compra (x Unidad)</label>
-              <input type="text" class="form-control numerospunto" id="precioCompra" name="precioCompra" autocomplete="off">
-            </div>
-
-            <div class="form-group col-sm-6">
-              <label class="control-label required" for="required-input">Alias de Compra</label>
-              <input type="text" class="form-control" id="aliasCompra" name="aliasCompra" autocomplete="off">
-            </div>
-
-            <div class="form-group col-sm-6">
-              <label class="control-label" for="required-input">Descripcion</label>
-              <textarea class="form-control" id="descripcion" name="descripcion" autocomplete="off" rows="4"></textarea>            
-            </div>
-
-          </div>
-
-        </form>
-
-        <div class="form-group has-error">              
-          <small class="form-message" id="msj_compra"></small>
+        <div class="pull-right">
+          <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
+          <button type="button" class="btn btn-primary" data-wizard-action="next">Siguiente</button>
         </div>
 
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>        
-        <button type="button" class="btn btn-primary m-r-1" id="btn_add_compra">Guardar</button>
-        <button type="button" class="btn btn-primary m-r-1" id="btn_update_compra">Actualizar</button>
+
+      <div class="wizard-pane" id="wizard-example-step4">
+      <p>
+      <form class="smart-form" id="formProveedor">
+          <div class="form-group col-md-12">
+            <div class="form-group col-md-12">
+              <label class="control-label required" for="required-input">Proveedor</label>
+              <input type="text" class="form-control" id="proveedor" name="proveedor" autocomplete="off">
+            </div>
+            <div class="form-group col-md-12 hide">
+              <label class="control-label required" for="required-input">idProveedor</label>
+              <input type="text" class="form-control" id="idProveedor" name="idProveedor" autocomplete="off">
+            </div>
+
+            <div class="form-group col-md-12">
+              <label class="control-label required" for="required-input">Observaciones</label>
+              <textarea class="form-control" rows="3" id="observaciones" name="observaciones" placeholder="Obsercaciones" ></textarea>
+
+            </div>
+
+
+
+          </div>
+      </form>
+
+
+      </p>
+      <div class="pull-right">
+          <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
+          <button type="button" class="btn btn-primary" data-wizard-action="finish">Finish</button>
+        </div>
       </div>
+
     </div>
   </div>
-</div>
 

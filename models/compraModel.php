@@ -5,6 +5,20 @@ Class compraModel extends Model{
 		parent::__construct();
 	}	
 
+	public function getTipopago(){
+
+		$sql="SELECT
+				IDTIPOPAGO,
+				DESCRIPCION
+			FROM sel_tipopago";
+				
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+
+		return $response;
+	}
+
+
+
 	public function getCompras(){
 		$sql = "SELECT b.NOMBRE AS PRODUCTO, DATE_FORMAT(a.FECHA_COMPRA,'%d/%m/%Y') AS FECHA_COMPRA, (a.CANTIDAD*a.PRECIO_UNIDAD) AS PRECIO_TOTAL,  a.IDCOMPRA, a.IDPRODUCTO, a.PRECIO_UNIDAD, a.CANTIDAD, a.ALIAS , a.OBSERVACION, (SELECT COUNT(*) FROM kar_venta z WHERE z.IDCOMPRA=a.IDCOMPRA) AS VENTA
 			FROM kar_compra a INNER JOIN kar_producto b ON a.IDPRODUCTO=b.IDPRODUCTO AND b.ESTADO=1
@@ -14,11 +28,137 @@ Class compraModel extends Model{
 	}
 
 	public function autocomplete($valor){		
-		$sql="SELECT * FROM kar_producto WHERE ESTADO=1 AND NOMBRE LIKE '%$valor%'";
+		$sql="SELECT * FROM kar_producto WHERE ESTADO=1 AND NOMBRE LIKE '%$valor'";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+	public function autoproveedor($valor){		
+		$sql="SELECT * FROM sel_proveedor WHERE nESTADO=1 AND sLABEL LIKE '%$valor'";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
 	
+
+
+	public function productvalidate($idProducto){		
+		$sql="SELECT IDPRODUCTO FROM   kar_producto WHERE IDPRODUCTO = '$idProducto' AND ESTADO=1 ";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		if($result->num_rows){
+			return 1;
+		}else{
+			return 0;
+			}
+	}
+
+	public function proveedorvalidate($idProveedor){		
+		$sql="SELECT nIDPROVEEDOR FROM sel_proveedor WHERE nIDPROVEEDOR='$idProveedor'";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		if($result->num_rows){
+			return 1;
+		}else{
+			return 0;
+			}
+	}
+
+	public function insertProveedor($proveedor){		
+		$sql=	"INSERT INTO sel_proveedor
+				(sLABEL)
+				VALUES 
+				('$proveedor');";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idProveedor=$this->_db->insert_id;
+		return $idProveedor;
+	}
+
+	public function insertcompra($idproveedor){	
+		
+		$user=$_SESSION['user'];
+		date_default_timezone_set('America/Lima');
+		$fechaHoraActual = date('Y-m-d H:m:s');
+
+		$sql=	"INSERT INTO kar_compra
+						(nIDLOCAL,
+						nIDPROVEEDOR,
+						dFECHACOMPRA,
+						sIDUSUARIOCREACION
+						)
+				VALUES ('1',
+						'$idproveedor',
+						'$fechaHoraActual',
+						'$user'
+				);";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idCompra=$this->_db->insert_id;
+		return $idCompra;
+	}
+
+	public function insertProducto($nombre){		
+		$user=$_SESSION['user'];
+		date_default_timezone_set('America/Lima');
+		$fechaHoraActual = date('Y-m-d H:m:s');
+		$sql=	"INSERT INTO kar_producto
+				(NOMBRE
+				,IDUSUARIOCREACION)
+				VALUES 
+				('$nombre'
+				,'$user');";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idProducto=$this->_db->insert_id;
+		return $idProducto;
+	}
+
+	public function insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio){		
+		$user=$_SESSION['user'];
+		$sql=	"INSERT INTO 	
+				(nIDCOMPRA
+				,nIDPRODUCTO
+				,nCANTIDAD
+				,fPRECIO
+				,sIDUSUARIOCREACION)
+				VALUES 
+				('$idCompra'
+				,'$idProductocompra'
+				,'$cantidad'
+				,'$precio'
+				,'$user');";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+	public function insertCompraPagos($idCompra,$idtipopago,$montopago,$cuenta,$acuenta){		
+		$user=$_SESSION['user'];
+		$sql=	"INSERT INTO kar_compra_pago
+				(nIDCOMPRA
+				,nIDTIPOPAGO
+				,fMONTO
+				,sCUENTA
+				,sACUENTA
+				,sIDUSUARIOCREACION)
+				VALUES 
+				('$idCompra'
+				,'$idtipopago'
+				,'$montopago'
+				,'$cuenta'
+				,'$acuenta'
+				,'$user');";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
+
+	public function addCompraid($idProducto){		
+		$sql="SELECT IDPRODUCTO FROM   kar_producto WHERE IDPRODUCTO = '$idProducto' AND ESTADO=1 ";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		if($result->num_rows){
+			return 1;
+		}else{
+			return 0;
+			}
+	}
+
+
 	public function addCompra($nombre, $cantidad, $precioCompra, $aliasCompra, $descripcion){
 		$user=$_SESSION['user'];
 		date_default_timezone_set('America/Lima');

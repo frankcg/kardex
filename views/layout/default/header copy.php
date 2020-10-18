@@ -204,20 +204,52 @@
               </li>
             <?php endif;?>
 
-
-            <?php if (isset($_SESSION['menu']['MENU_TIENDA_1'])):?>
+<!-- 
+            <?php if (isset($_SESSION['menu']['MENU_COM'])):?>
               <li class="px-nav-item px-nav-dropdown">
-              <a href=""><i class="px-nav-icon fa fa-shopping-cart"></i><span class="px-nav-label">Tienda 1</span></a>
+              <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Compra</span></a>
                 <ul class="px-nav-dropdown-menu">
-                  <?php foreach ($_SESSION['menu']['MENU_TIENDA_1'] as $submenu):?>
-                    <li class="px-nav-item"><a href="<?php  echo BASE_URL . $submenu['UBICACION']?>?idLocal=1"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
+                  <?php foreach ($_SESSION['menu']['MENU_COM'] as $submenu):?>
+                    <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
+                  <?php endforeach;?>
+                </ul>
+              </li>
+            <?php endif;?>           
+            
+
+            <?php if (isset($_SESSION['menu']['MENU_PRO'])):?>
+              <li class="px-nav-item px-nav-dropdown">
+                <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Producto</span></a>
+                <ul class="px-nav-dropdown-menu">
+                  <?php foreach ($_SESSION['menu']['MENU_PRO'] as $submenu):?>
+                    <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
                   <?php endforeach;?>
                 </ul>
               </li>
             <?php endif;?>
 
+            <?php if (isset($_SESSION['menu']['MENU_VEN'])):?>
+              <li class="px-nav-item px-nav-dropdown">
+                <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Venta</span></a>
+                <ul class="px-nav-dropdown-menu">
+                  <?php foreach ($_SESSION['menu']['MENU_VEN'] as $submenu):?>
+                    <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
+                  <?php endforeach;?>
+                </ul>
+              </li>
+            <?php endif;?>
 
-            <!-- No Mover -->
+            <?php if (isset($_SESSION['menu']['MENU_REP'])):?>
+              <li class="px-nav-item px-nav-dropdown">
+                <a href=""><i class="px-nav-icon ion-ios-pulse-strong"></i><span class="px-nav-label">Reportes</span></a>
+                <ul class="px-nav-dropdown-menu">
+                  <?php foreach ($_SESSION['menu']['MENU_REP'] as $submenu):?>
+                    <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
+                  <?php endforeach;?>
+                </ul>
+              </li>
+            <?php endif;?> -->
+
             <?php if (isset($_SESSION['menu']['MENU_SEG'])):?>
               <li class="px-nav-item px-nav-dropdown">
               <a href=""><i class="px-nav-icon ion-locked"></i><span class="px-nav-label">Seguridad</span></a>
@@ -228,6 +260,19 @@
                 </ul>
               </li>
             <?php endif;?>
+
+            <?php if (isset($_SESSION['menu']['MENU_TIENDA_1'])):?>
+              <li class="px-nav-item px-nav-dropdown">
+              <a href=""><i class="px-nav-icon ion-locked"></i><span class="px-nav-label">Tienda 1</span></a>
+                <ul class="px-nav-dropdown-menu">
+                  <?php foreach ($_SESSION['menu']['MENU_TIENDA_1'] as $submenu):?>
+                    <li class="px-nav-item"><a href="<?php echo BASE_URL . $submenu['UBICACION']?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
+                  <?php endforeach;?>
+                </ul>
+              </li>
+            <?php endif;?>
+
+
           </ul>
         </nav>
 

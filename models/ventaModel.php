@@ -6,22 +6,7 @@ Class ventaModel extends Model{
 	}
 
 	public function getComboProductos(){
-		
-		$sql="
-			SELECT DISTINCT a.IDPRODUCTO, a.NOMBRE FROM (
-			SELECT a.IDCOMPRA, a.IDPRODUCTO,(a.CANTIDAD-IF(SUM(b.CANTIDA_VENDIDA),SUM(b.CANTIDA_VENDIDA),0)) AS STOCK_ACTUAL,c.NOMBRE
-			FROM kar_compra a 
-			LEFT JOIN 
-			(
-			SELECT  a.IDPRODUCTO, a.IDCOMPRA, SUM(CANTIDAD) AS CANTIDA_VENDIDA
-			FROM kar_venta a 
-			WHERE a.ESTADO=1
-			GROUP BY a.IDPRODUCTO, a.IDCOMPRA
-			) AS b ON a.IDCOMPRA=b.IDCOMPRA
-			INNER JOIN `kar_producto` c ON a.IDPRODUCTO = c.IDPRODUCTO AND c.ESTADO=1 
-			WHERE a.`ESTADO`=1
-			GROUP BY a.IDCOMPRA, a.IDPRODUCTO
-			) AS a WHERE a.STOCK_ACTUAL > 0 ORDER BY NOMBRE";
+		$sql="SELECT * FROM vw_sel_productos_stock";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

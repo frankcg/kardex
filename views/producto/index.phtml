@@ -1,0 +1,222 @@
+<div class="px-content">
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>producto">Producto</a></li>
+    <li class="active">Registro de Stock</li>
+  </ol>
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Producto</h1>
+  </div>
+
+  <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
+    <li class="active"><a href="#tab_producto" data-toggle="tab">Producto</a></li>
+    <li><a href="#tab_stock" data-toggle="tab">Stock</a></li>
+  </ul>
+  
+  <div class="tab-content">
+
+   <div class="tab-pane active" id="tab_producto">
+
+    <div class="panel-body">
+      <button type="button" id="btn_nuevo_producto" class="btn btn-md btn-primary btn-outline btn-3d btn-block" data-toggle="modal" data-target="#m_addProducto">Registrar Producto</button>      
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Listado de Producto</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablaProductos" width="100%">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>COD. PRODUCTO</th>
+                  <th>PRODUCTO</th>
+                  <th>MARCA</th>
+                  <th>MODELO</th>
+                  <th>ESTADO</th>
+                  <th>FECHA CREACION</th>
+                  <th>OPCIONES</th>
+                </tr>
+              </thead>
+              <tbody id="">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane" id="tab_stock">
+
+    <div class="panel-body">
+      <button type="button" id="btn_nuevo_stock" class="btn btn-md btn-primary btn-outline btn-3d btn-block" data-toggle="modal" data-target="#addStock">Registrar Stock</button>      
+    </div>
+
+    <div class="row">    
+      <div class="col-md-12">
+        <div class="panel">
+          <div class="panel-heading">
+            <div class="panel-title">Historial de Registros</div>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover" id="tablaStock" width="100%">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>COD. KARDEX</th>
+                  <th>COD. PRODUCTO</th>
+                  <th>PRODUCTO</th>
+                  <th>MARCA</th>
+                  <th>MODELO</th>
+                  <th>CANTIDAD</th>
+                  <th>PRECIO VENTA</th>
+                  <th>INVERSION</th>
+                  <th>GANANCIA</th>
+                  <th>FECHA CREACION</th>
+                  <th>OPCIONES</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<div class="modal fade" id="m_addProducto" tabindex="-1">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title" id="title_producto">Agregar Producto</h4>
+      </div>
+      <div class="modal-body">
+
+        <form class="smart-form" id="formProducto">
+
+          <div class="row">
+
+            <div class="form-group col-sm-6 hide">
+              <label class="control-label" for="required-input">ID Producto</label>
+              <input type="text" class="form-control" id="idProducto" name="idProducto" autocomplete="off" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-6 hide">
+              <label class="control-label" for="required-input">ID Producto Detalle</label>
+              <input type="text" class="form-control" id="idProductoDetalle" name="idProductoDetalle" autocomplete="off" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Nombre del Producto</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" autocomplete="off">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Marca</label>
+              <input type="text" class="form-control" id="marca" name="marca" autocomplete="off">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Modelo</label>
+              <input type="text" class="form-control" id="modelo" name="modelo" autocomplete="off">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label" for="required-input">Descripcion</label>
+              <textarea class="form-control" id="descripcion" name="descripcion" autocomplete="off" rows="4"></textarea>            
+            </div>
+
+          </div>
+
+        </form>
+
+        <div class="form-group has-error">              
+          <small class="form-message" id="msj_producto"></small>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>        
+        <button type="button" class="btn btn-primary m-r-1" id="btn_add_producto">Guardar</button>
+        <button type="button" class="btn btn-primary m-r-1" id="btn_update_producto">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal_select2 modal fade" id="addStock" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title" id="title_stock"></h4>
+      </div>
+      <div class="modal-body">
+
+        <form class="smart-form" id="formStock">
+
+          <div class="row">
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Producto</label>
+              <select class="form-control" id="producto" name="producto" >
+                <option selected="selected" disabled="disabled">--SELECCIONE--</option>
+                <?php while($reg=$this->productos->fetch_object()): ?>
+                <option value="<?php echo $reg->IDPRODUCTO; ?>"><?php echo $reg->NOMBRE; ?></option>
+                <?php endwhile; ?>
+              </select>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Marca / Modelo</label>
+              <select class="form-control" id="marcaStock" name="marca" >
+              </select>            
+            </div> 
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Cantidad</label>
+              <input type="text" class="form-control" id="cantidad" name="cantidad" autocomplete="off">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Precio a Vender (Unidad)</label>
+              <input type="text" class="form-control" id="precio" name="precio" autocomplete="off">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Inversion</label>
+              <input type="text" class="form-control" id="inversion" name="inversion" autocomplete="off">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label" for="required-input">Observacion</label>
+              <textarea class="form-control" id="observacion" name="observacion" autocomplete="off" rows="4"></textarea>            
+            </div>
+
+          </div>                  
+
+        </form>
+
+        <div class="form-group has-error">              
+          <small class="form-message" id="msj_stock"></small>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>        
+        <button type="button" class="btn btn-primary m-r-1" id="btn_add_stock">Guardar</button>
+        <button type="button" class="btn btn-primary m-r-1" id="btn_update_stock">Actualizar</button>        
+      </div>
+    </div>
+  </div>
+</div>
