@@ -32,9 +32,9 @@ class indexController extends Controller{
 				
 				$_SESSION['cart'] = array();
 				$_SESSION['cart']['products'] = array();
-				$_SESSION['cart']['ventasproducts'] = array();
 				$_SESSION['cart']['payments'] = array();
-				
+				$_SESSION['cart']['ventasproducts'] = array();
+				$_SESSION['cart']['ventaspayments'] = array();
 				/*$_SESSION['idperfil'] = $objModel->getIdperfil($user);
 				
 				$_SESSION['arrayempresa']=$objModel->getEmpresas($_SESSION['user']);

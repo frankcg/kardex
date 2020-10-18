@@ -2,21 +2,10 @@
 
 class compraController extends Controller{
 
-	// $some_unique_prefix_foo = "ok";
-	// if (isset($GLOBALS["some_unique_prefix_foo"])) {
-	// 	echo "Foo is in global scope.\n";
-	// } else {
-	// 	echo "Foo is NOT in global scope.\n";
-	// }
-
-	protected $idLocalesclass;
-
-
-	public function __construct(){
+ 	public function __construct(){
 		parent::__construct();		
 		if (! isset ( $_SESSION ['user'] ))
 			$this->redireccionar ( 'index' );
-			$this->idLocalesclass = $_GET["idLocal"];
 	}
 
 	public function index(){		
@@ -24,26 +13,21 @@ class compraController extends Controller{
 
 		$this->idLocalesclass = $_GET["idLocal"];
 		
-		$idLocales = $_GET["idLocal"];
-		$_SESSION["idLocal"] = $idLocales;
-		global $idLocales;
+		// $idLocales = $_GET["idLocal"];
+		// $_SESSION["idLocal"] = $idLocales;
+		// global $idLocales;
 		//$objModel=$this->loadModel('compra');
 		//$this->_view->productos=$objModel->getComboProductos();
 		$this->_view->renderizar('index');
 		
 	}
 
-	public function local(){
-		$idLocal = $this->idLocalesclass;
  
-		return $idLocal;
-	}
-
 
 	public function getTipopago(){
 		$objModel=$this->loadModel('compra');
 		$result = $objModel->getTipopago();
-		echo '<option selected disabled> SELECCIONE '."idLocal=".$idLocal.$_SESSION["idLocal"]."non".$this->local().'</option>';
+		echo '<option selected disabled> SELECCIONE </option>';
 		while ($reg = $result->fetch_object()){
 			echo '<option value="'.$reg->IDTIPOPAGO.'" > '.$reg->DESCRIPCION. '  </option>';
 		}
@@ -99,9 +83,8 @@ class compraController extends Controller{
 	}
 
 	public function autoproveedor(){
-		$search = $_POST['search'];
 		$objModel=$this->loadModel('compra');
-		$result=$objModel->autoproveedor($search);		
+		$result=$objModel->autoproveedor();		
 		$data = array();
 		while($reg=$result->fetch_object()){
 			$data[] = array("value"=>$reg->nIDPROVEEDOR,"label"=>$reg->sLABEL);
