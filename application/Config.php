@@ -6,7 +6,7 @@
  * -------------------------------------
  */
 
-define('BASE_URL', 'http://'.$_SERVER['SERVER_NAME'].':9090/kardex/');
+define('BASE_URL', 'http://'.$_SERVER['SERVER_NAME'].'/kardexv2/');
 define('DEFAULT_CONTROLLER', 'index');
 define('DEFAULT_LAYOUT', 'default');
  
