@@ -82,7 +82,7 @@ $(document).on('ready',function(){
 		$('#productos').hide();
 		$('#monto').hide();
 		$('#divCuenta').hide();
-		
+		$('#montorestante').hide();
 	  };
 
 	  hideItems();
@@ -92,37 +92,31 @@ $(document).on('ready',function(){
 		$('#monto').show();
 	  };
 	  
-	  
+	  function showItemsPaso3() {
+		$('#montorestante').show();
+	  };
 
 	  $(function() {
 
 		$('#wizard-basic').pxWizard();
 		  $('#wizard-basic').on('stepchange.px.wizard', function(e, data) {
-			// Validate only if jump to the forward step
-			console.log(data);
-			// console.log(data.activeStepIndex);
-			// e.preventDefault();
-			obtenerCart();
-			calc_total()
-			obtenerPagos();
-			calc_totalPagos();
+			
+			if (data.nextStepIndex == 1 ) { 
+				obtenerCart();
+			}
 
 			var stepIndex = $('#wizard-basic').pxWizard('getActivePane');
 			console.log(stepIndex);
 
-			// if (data.nextStepIndex < data.activeStepIndex) { return; }
-			// var $form = $('#wizard-basic').pxWizard('getActivePane');
-			// if (!$form.valid()) {
-			//   e.preventDefault();
-			// }
+			if (data.nextStepIndex == 2 ) { 
+				obtenerPagos();
+				calc_totalPagos();
+				var montopagar = $('#monto').text();
+				$('#montopago').val(montopagar);
+			}
+
 
 		  });
-
-
-		
-
-
-
 	  });
 
 	  
@@ -165,7 +159,6 @@ $(document).on('ready',function(){
 						$('#wizard-basic').pxWizard('reset');
 						
 						obtenerCart();
-						calc_total()
 						obtenerPagos();
 						calc_totalPagos();
 						hideItems();
@@ -194,6 +187,8 @@ $(document).on('ready',function(){
 
 	  obtenerCart();
 	  calc_total()
+	  obtenerPagos();
+	  calc_totalPagos();
 
 
 	/* ********************************************************************************************************************************
@@ -222,7 +217,8 @@ $(document).on('ready',function(){
 			success: function(data){
 				$("#pagosCart").html();
 				$("#pagosCart").html(data);
-				calc_total()
+				calc_totalPagos	()
+				
 				
 			}
 		})
@@ -254,6 +250,8 @@ $(document).on('ready',function(){
 		  sum += parseFloat($(this).text());
 		  items = items + 1;
 		});
+
+		compraTotal = sum;
 		$('#compraTotal').text(sum);
 		
 		if(sum>0){
@@ -264,6 +262,7 @@ $(document).on('ready',function(){
 		
 	  }
 
+	  
 	  function calc_totalPagos(){
 		var sum = 0;
 		itemsPagos =0;
@@ -271,14 +270,25 @@ $(document).on('ready',function(){
 		  sum += parseFloat($(this).text());
 		  items = items + 1;
 		});
-		// $('#compraTotal').text(sum);
-		console.log(sum);
-		if(sum>0){
- 
-			// $('#monto').text(sum);
-			// $('#productos').text(items);
-		}
 		
+		pagoRestantetotal = compraTotal - sum;
+
+		if(pagoRestantetotal == 0 ){
+			$('#montorestante').removeClass('label-warning').addClass('label-success');
+		}else if (pagoRestantetotal>0){
+			$('#montorestante').removeClass('label-success').addClass('label-warning');
+		}
+		console.log(sum);
+
+		if(sum > 0){
+			console.log("Paso pago restante");
+			showItemsPaso3();
+			$('#montorestante').text(pagoRestantetotal);
+			$('#montopago').val(pagoRestantetotal);
+
+		}
+
+
 	  }
 
 
@@ -370,7 +380,6 @@ $(document).on('ready',function(){
 				success: function(data){
 					
 					obtenerCart();
-					calc_total()
 					console.log("despuescart");
 					console.log(data)
 					
@@ -404,21 +413,25 @@ $(document).on('ready',function(){
 
 		var formData = new FormData($("#formPago")[0]);
 
-		// var outputLog = {}, iterator = formData.entries(), end = false;
-		// while(end == false) {
-		//    var item = iterator.next();
-		//    if(item.value!=undefined) {
-		//        outputLog[item.value[0]] = item.value[1];
-		//    } else if(item.done==true) {
-		//        end = true;
-		//    }
-		//     }
-		
-		// console.log(outputLog);
+		console.log(formaPago); 
 
-		if(formaPago 	== ''){ $('#msj_compra_producto').html('Ingrese Nombre del Producto');}
-		else if(formaPago == 2 && cuenta 	== ''){ $('#msj_compra_producto').html('Ingrese Cantidad');}
-		else if(montopago 	== ''){ $('#msj_compra_producto').html('Ingrese Compra');}
+		formData.append("montoapagar", compraTotal);
+ 
+		var outputLog = {}, iterator = formData.entries(), end = false;
+		while(end == false) {
+		   var item = iterator.next();
+		   if(item.value!=undefined) {
+		       outputLog[item.value[0]] = item.value[1];
+		   } else if(item.done==true) {
+		       end = true;
+		   }
+		    }
+		
+		console.log(outputLog);
+
+		if(formaPago 	== '' || formaPago 	=== null ){ toastr['warning']('La Forma de pago no puede ser nula', 'Paso 3', {optionsToastr});}
+		else if(formaPago == 2 && cuenta 	== ''){ toastr['warning']('La cuenta no puede ser nula', 'Paso 3', {optionsToastr});}
+		else if(montopago 	== ''){ toastr['warning']('Por Favor Ingrese un Monto de Pago', 'Paso 3', {optionsToastr});}
 		else{
 			console.log("ajax");
 			$('#msj_compra_producto').html('');
@@ -431,9 +444,17 @@ $(document).on('ready',function(){
 				contentType: false,
 				processData: false,
 				success: function(data){
-					console.log("despuescart");
-					console.log(data)
-					obtenerPagos();
+
+					if(data==1){
+						console.log("paso Pago 1 ");
+						obtenerPagos();
+						
+					}else{
+						console.log("paso Pago 2");
+						console.log(data)
+						toastr['warning']('El monto Ingresado Supera la Compra', 'Paso 3', {optionsToastr});
+						obtenerPagos();
+					}
 				}				
 			});
 		}

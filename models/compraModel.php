@@ -71,7 +71,7 @@ Class compraModel extends Model{
 		return $idProveedor;
 	}
 
-	public function insertcompra($idproveedor){	
+	public function insertcompra($idproveedor,$observaciones){	
 		
 		$user=$_SESSION['user'];
 		date_default_timezone_set('America/Lima');
@@ -80,11 +80,13 @@ Class compraModel extends Model{
 		$sql=	"INSERT INTO kar_compra
 						(nIDLOCAL,
 						nIDPROVEEDOR,
+						sOBSERVACION,
 						dFECHACOMPRA,
 						sIDUSUARIOCREACION
 						)
 				VALUES ('1',
 						'$idproveedor',
+						'$observaciones',
 						'$fechaHoraActual',
 						'$user'
 				);";
@@ -110,7 +112,7 @@ Class compraModel extends Model{
 
 	public function insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio){		
 		$user=$_SESSION['user'];
-		$sql=	"INSERT INTO 	
+		$sql=	"INSERT INTO kar_compra_detalle	
 				(nIDCOMPRA
 				,nIDPRODUCTO
 				,nCANTIDAD
