@@ -398,9 +398,8 @@ class compraController extends Controller{
 						$idtipopago = $payments['formaPago'];
 						$cuenta 	= $payments['cuenta'];
 						$montopago 	= $payments['montopago'];
-						$acuenta 	= $payments['acuenta'];
 
-						$result =	$objModel->insertCompraPagos($idCompra, $idtipopago,$montopago,$cuenta,$acuenta);
+						$result =	$objModel->insertCompraPagos($idCompra, $idtipopago,$montopago,$cuenta);
 
 					}
 				} catch (Exception $e) {
