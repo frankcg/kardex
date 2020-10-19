@@ -163,7 +163,6 @@ class ventaController extends Controller{
 
 	
 public function addpaymentCart(){
-
 	$formaPago		= $_POST['formaPago']; 	
 	$cuenta			= $_POST['cuenta']; 		
 	$montopago		= $_POST['montopago']; 		
@@ -174,17 +173,8 @@ public function addpaymentCart(){
 		,"montopago"	=>$montopago
 
 	);
-
-
+	
 	array_push($_SESSION["cart"]["ventaspayments"],$paymentArray);
-
-	// echo('<pre>');
-	// print_r($_SESSION["cart"]["ventaspayments"]);
-	// echo('</pre>');
-
-	// $objModel=$this->loadModel('compra');
-	// $result = $objModel->addCompra($nombre, $cantidad, $precioCompra, $aliasCompra, $descripcion);
-	// if($result) echo 'ok'; else echo 'error';	
 
 }
 

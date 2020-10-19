@@ -1,7 +1,7 @@
 <?php 
 
 class compraController extends Controller{
-
+	
  	public function __construct(){
 		parent::__construct();		
 		if (! isset ( $_SESSION ['user'] ))
@@ -27,7 +27,7 @@ class compraController extends Controller{
 	public function getTipopago(){
 		$objModel=$this->loadModel('compra');
 		$result = $objModel->getTipopago();
-		echo '<option selected disabled> SELECCIONE </option>';
+		echo '<option selected value="" disabled> SELECCIONE </option>';
 		while ($reg = $result->fetch_object()){
 			echo '<option value="'.$reg->IDTIPOPAGO.'" > '.$reg->DESCRIPCION. '  </option>';
 		}
@@ -83,8 +83,9 @@ class compraController extends Controller{
 	}
 
 	public function autoproveedor(){
+		$search = $_POST['search'];
 		$objModel=$this->loadModel('compra');
-		$result=$objModel->autoproveedor();		
+		$result=$objModel->autoproveedor($search);		
 		$data = array();
 		while($reg=$result->fetch_object()){
 			$data[] = array("value"=>$reg->nIDPROVEEDOR,"label"=>$reg->sLABEL);
@@ -233,9 +234,6 @@ class compraController extends Controller{
 							<strong class="pagototal" >'.$value["montopago"].'</strong>
 						</td>
 						<td class="p-a-2">
-						<strong>'.$value["acuenta"].'</strong>
-						</td>
-						<td class="p-a-2">
 							 
 						<button type="button" class="btn btn-xs btn-warning btn-outline btn-rounded btn-outline-colorless btn-delete" id="'.$key.'">x</button>
 
@@ -313,22 +311,29 @@ class compraController extends Controller{
 		$formaPago		= $_POST['formaPago']; 	
 		$cuenta			= $_POST['cuenta']; 		
 		$montopago		= $_POST['montopago']; 		
-		$acuenta		= $_POST['acuenta']; 	
+		$montoapagar	= $_POST['montoapagar']; 	
 
-		if($acuenta == "on"){
-			$acuenta = "SI";
-		}else{
-			$acuenta = "NO";
+		$pagosTotal = 0;
+
+		foreach ($_SESSION["cart"]["payments"] as $payments) {
+			$pagosTotal 	= $pagosTotal + $payments['montopago'];
 		}
 
-		$paymentArray = array(
-			"formaPago"		=>$formaPago
-			,"cuenta"		=>$cuenta
-			,"montopago"	=>$montopago
-			,"acuenta"		=>$acuenta
-		);
+		if($pagosTotal + $montopago <= $montoapagar){
+			$paymentArray = array(
+				"formaPago"		=>$formaPago
+				,"cuenta"		=>$cuenta
+				,"montopago"	=>$montopago
+			);
+			array_push($_SESSION["cart"]["payments"],$paymentArray);
+			echo("1");
+		}else{
+			echo("0");
+		}
+
+
  
-		array_push($_SESSION["cart"]["payments"],$paymentArray);
+
  
 		// echo('<pre>');
 		// print_r($_SESSION["cart"]["payments"]);
@@ -345,10 +350,10 @@ class compraController extends Controller{
 
 		$proveedor		= $_POST['proveedor'];
 		$idProveedor	= $_POST['idProveedor'];
+		$observaciones	= $_POST['observaciones'];
+
 
 		$objModel=$this->loadModel('compra');
-
-
 		try {
 
 			$existeProveedor =	$objModel->proveedorvalidate($idProveedor);
@@ -358,7 +363,7 @@ class compraController extends Controller{
 					$idProveedorcompra =	$idProveedor;
 				}
 
-			$idCompra = $objModel->insertcompra($idProveedorcompra);
+			$idCompra = $objModel->insertcompra($idProveedorcompra,$observaciones);
 
 			try {
 

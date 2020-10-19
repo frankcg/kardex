@@ -9,12 +9,15 @@ $(document).on('ready',function(){
 	function showItems() {
 		$('#productos').show();
 		$('#monto').show();
+		$('#montorestante').show();
 	};
 		
 	function hideItems() {
 		$('#productos').hide();
 		$('#monto').hide();
 		$('#divCuenta').hide();
+		$('#montorestante').hide();
+		
 		
 	  };
 
@@ -151,6 +154,9 @@ $(document).on('ready',function(){
 		  sum += parseFloat($(this).text());
 		  items = items + 1;
 		});
+
+		compraTotal = sum;
+
 		$('#compraTotal').text(sum);
 		
 		if(sum>0){
@@ -160,6 +166,29 @@ $(document).on('ready',function(){
 		}
 		
 	  }
+
+	  
+	function calc_totalPagos(){
+		var sum = 0;
+		itemsPagos =0;
+		$(".pagototal").each(function(){
+		  sum += parseFloat($(this).text());
+		  items = items + 1;
+		});
+		
+		pagototal = compraTotal - sum;
+
+		console.log(pagototal);
+		console.log(compraTotal);
+		
+		if(sum>0){
+			showItems();
+			$('#montorestante').text(sum);
+		}
+
+
+	  }
+
 
 
 	
@@ -189,15 +218,7 @@ $(document).on('ready',function(){
 				$('#montopago').val(montopagar);
 			}
 
-
-
 		  });
-
-
-		
-
-
-
 	  });
 
 
@@ -206,8 +227,10 @@ $(document).on('ready',function(){
 		var formaPago 		= $('#formaPago').val();
 		var cuenta 			= $('#cuenta').val();
 		var montopago 		= parseFloat($('#montopago').val());
-		var montoapagar		= $('#monto').val();
+		
 		var formData = new FormData($("#formPago")[0]);
+
+		formData.append("montoapagar", compraTotal);
 
 		var outputLog = {}, iterator = formData.entries(), end = false;
 		while(end == false) {
@@ -221,19 +244,9 @@ $(document).on('ready',function(){
 		
 		console.log(outputLog);
 
-		var debugpago = montopago - pagototal; 
-
-		console.log(debugpago);
-		console.log(montopago);
-		console.log(montoapagar);
-		console.log("----------");
-		console.log(pagototal);
-		console.log(pagototal - montopago);
-
 		if(formaPago 	== ''){ $('#msj_compra_producto').html('Ingrese Nombre del Producto');}
 		else if(formaPago == 2 && cuenta 	== ''){ $('#msj_compra_producto').html('Ingrese Cantidad');}
 		else if(montopago 	== ''){ $('#msj_compra_producto').html('Ingrese Compra');}
-		else if(montoapagar - pagototal >= 0  ){ $('#msj_compra_producto').html('Ingrese Compra');}
 		else{
 			console.log("ajax");
 			$('#msj_compra_producto').html('');
@@ -246,34 +259,24 @@ $(document).on('ready',function(){
 				contentType: false,
 				processData: false,
 				success: function(data){
-					console.log("despuescart");
-					console.log(data)
-					obtenerPagos();
-					calc_totalPagos();
+					
+					if(data==1){
+						console.log("paso Pago 1 ");
+						obtenerPagos();
+						calc_totalPagos();
+					}else{
+						console.log("paso Pago 2");
+						console.log(data)
+						toastr['warning']('El monto Ingresado Supera la Compra', 'Paso 3', {optionsToastr});
+
+ 
+					}
+
 				}				
 			});
 		}
 	});	
 
-
-	function calc_totalPagos(){
-		var sum = 0;
-		itemsPagos =0;
-		$(".pagototal").each(function(){
-		  sum += parseFloat($(this).text());
-		  items = items + 1;
-		});
-		
-		pagototal = sum;
-
-		console.log(itemsPagos);
-
-		console.log(sum);
-		if(sum>0){
-
-		}
-		
-	  }
 
 
 	  
