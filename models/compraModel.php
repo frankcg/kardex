@@ -28,7 +28,7 @@ Class compraModel extends Model{
 	}
 
 	public function autocomplete($valor){		
-		$sql="SELECT * FROM kar_producto WHERE ESTADO=1 AND NOMBRE LIKE '%$valor'";
+		$sql="SELECT * FROM kar_producto WHERE ESTADO=1 AND NOMBRE LIKE '$valor%' ";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
@@ -110,7 +110,7 @@ Class compraModel extends Model{
 
 	public function insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio){		
 		$user=$_SESSION['user'];
-		$sql=	"INSERT INTO 	
+		$sql=	"INSERT INTO kar_compra_detalle
 				(nIDCOMPRA
 				,nIDPRODUCTO
 				,nCANTIDAD

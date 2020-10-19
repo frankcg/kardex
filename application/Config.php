@@ -6,14 +6,14 @@
  * -------------------------------------
  */
 
-define('BASE_URL', 'http://'.$_SERVER['SERVER_NAME'].'/kardexv2/');
+define('BASE_URL', 'http://'.$_SERVER['SERVER_NAME'].':9090/kardex/');
 define('DEFAULT_CONTROLLER', 'index');
 define('DEFAULT_LAYOUT', 'default');
-
-define('DB_HOST', 'localhost');
-define('DB_USER', 'kardex');
-define('DB_PASS', 'Mitico004.');
-define('DB_NAME', 'kardex');
+ 
+define('DB_HOST', '50.31.177.134');
+define('DB_USER', 'fzbsokgg_flaura');
+define('DB_PASS', 'qZxPORVS6gdp');
+define('DB_NAME', 'fzbsokgg_tauro_kardex_v2');
 
 define('LIMIT_REGXPAG',5);
 define('LIMIT_PAGEVIEW',10);

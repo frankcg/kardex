@@ -1,0 +1,84 @@
+<!-- jQuery UI -->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<div class="px-content">
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>anulacion">Tienda</a></li>
+    <li class="active">Anulacion</li>
+  </ol>
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Anulacion de Compra</h1>
+  </div>
+
+  <div class="row">    
+    <div class="col-md-12">
+      <div class="panel">
+        <div class="panel-heading">
+          <div class="panel-title">Busqueda</div>
+        </div>
+        <div class="panel-body">
+
+          <form class="smart-form" id="formAnulacion">                   
+
+              <div class="form-group col-sm-4">
+                <label class="control-label required" for="required-input">Cod. Compra</label>
+                <input type="text" class="form-control numeros" id="codCompra" name="codCompra">
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label class="control-label required" for="required-input">Fecha Inicio Compra</label>
+                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label class="control-label required" for="required-input">Fecha Fin Compra</label>
+                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+              </div>
+
+              <div class="form-group col-sm-12">
+                <div class="form-group has-error">              
+                  <small class="form-message" id="msj_anulacion"></small>
+                </div>
+              </div>
+
+          </form>          
+          
+        </div>
+
+        <div class="panel-footer text-right">
+          <button type="button" id="btnBuscar" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
+        </div>
+
+      </div>
+      
+        <div class="row">    
+          <div class="col-md-12">
+            <div class="panel">
+              <div class="panel-heading">
+                <div class="panel-title">Compras Filtradas</div>
+              </div>
+              <div class="panel-body">
+                <table class="table table-hover" id="tablaCompra" width="100%">
+                  <thead>
+                    <tr>
+                      <th>FECHA COMPRA</th>
+                      <th>COD. COMPRA</th>                      
+                      <th>PROVEEDOR</th>
+                      <th>CANTIDAD COMPRA</th>                
+                      <th>COSTO COMPRA</th>
+                      <th>OPCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+</div>

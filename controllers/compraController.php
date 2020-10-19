@@ -72,7 +72,7 @@ class compraController extends Controller{
 	}
 
 	public function autocomplete(){
-		$search = $_POST['search'];
+		$search = $_GET['query'];
 		$objModel=$this->loadModel('compra');
 		$result=$objModel->autocomplete($search);		
 		$data = array();
