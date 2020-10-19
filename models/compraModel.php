@@ -128,21 +128,19 @@ Class compraModel extends Model{
 		return $result;
 	}
 
-	public function insertCompraPagos($idCompra,$idtipopago,$montopago,$cuenta,$acuenta){		
+	public function insertCompraPagos($idCompra,$idtipopago,$montopago,$cuenta){		
 		$user=$_SESSION['user'];
 		$sql=	"INSERT INTO kar_compra_pago
 				(nIDCOMPRA
 				,nIDTIPOPAGO
 				,fMONTO
 				,sCUENTA
-				,sACUENTA
 				,sIDUSUARIOCREACION)
 				VALUES 
 				('$idCompra'
 				,'$idtipopago'
 				,'$montopago'
 				,'$cuenta'
-				,'$acuenta'
 				,'$user');";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
