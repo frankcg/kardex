@@ -210,12 +210,11 @@
               <a href=""><i class="px-nav-icon fa fa-shopping-cart"></i><span class="px-nav-label">Tienda 1</span></a>
                 <ul class="px-nav-dropdown-menu">
                   <?php foreach ($_SESSION['menu']['MENU_TIENDA_1'] as $submenu):?>
-                    <li class="px-nav-item"><a href="<?php  echo BASE_URL . $submenu['UBICACION']?>?idLocal=1"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
+                    <li class="px-nav-item"><a href="<?php  echo BASE_URL . $submenu['UBICACION'] . "?idLocal=". $submenu['NIDLOCAL'] ?>"><span class="px-nav-label"><?php echo $submenu['DESCRIPCION']?></span></a></li>
                   <?php endforeach;?>
                 </ul>
               </li>
             <?php endif;?>
-
 
             <!-- No Mover -->
             <?php if (isset($_SESSION['menu']['MENU_SEG'])):?>

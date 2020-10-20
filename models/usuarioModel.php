@@ -59,13 +59,13 @@ Class usuarioModel extends Model{
 
 	public function getMenu($user){
 		$data=array();
-		$sql="SELECT c.IDMODULO, c.NOMBRE_MODULO, c.DESCRIPCION, c.TIPO, c.UBICACION  
+		$sql="SELECT c.IDMODULO, c.NOMBRE_MODULO, c.DESCRIPCION, c.TIPO, c.UBICACION, c.nIDLOCAL 
 			FROM kar_usuario a INNER JOIN `seguridad_modulo_perfil` b ON a.IDPERFIL=b.IDPERFIL
 			INNER JOIN `seguridad_modulo` c ON b.IDMODULO=c.IDMODULO
 			WHERE c.flag=1 and a.IDUSUARIO = '$user'";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		while ($reg= $result->fetch_object()){
-			$data["$reg->TIPO"]["$reg->NOMBRE_MODULO"]= array('DESCRIPCION'=>$reg->DESCRIPCION,'UBICACION'=>$reg->UBICACION);
+			$data["$reg->TIPO"]["$reg->NOMBRE_MODULO"]= array('DESCRIPCION'=>$reg->DESCRIPCION,'UBICACION'=>$reg->UBICACION,'NIDLOCAL'=>$reg->nIDLOCAL);
 		}		
 		return $data;
 	}
