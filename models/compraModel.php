@@ -34,7 +34,7 @@ Class compraModel extends Model{
 	}
 
 	public function autoproveedor($valor){		
-		$sql="SELECT * FROM sel_proveedor WHERE nESTADO=1 AND sDESCRIPCION LIKE '%$valor'";
+		$sql="SELECT * FROM sel_proveedor WHERE nESTADO=1 AND sDESCRIPCION LIKE '$valor%'";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

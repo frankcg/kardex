@@ -101,7 +101,7 @@ class compraController extends Controller{
 	}
 
 	public function autoproveedor(){
-		$search = $_POST['search'];
+		$search = $_GET['query'];
 		$objModel=$this->loadModel('compra');
 		$result=$objModel->autoproveedor($search);		
 		$data = array();

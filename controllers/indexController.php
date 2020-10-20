@@ -24,7 +24,8 @@ class indexController extends Controller{
 		}else if($objModel->validactivo($user)){
 			echo 'Usuario Inactivo. Comuniquese con el Administrador';
 		}else{				
-			if ($objModel->validUser($user,$pass)){				
+			if ($objModel->validUser($user,$pass)){
+				
 				$_SESSION['user']=$user;
 				$_SESSION['nombre']=$objModel->getNombre($user);
 				$_SESSION['menu'] = $objModel->getMenu($user);
