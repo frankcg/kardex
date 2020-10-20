@@ -27,6 +27,9 @@ class ventaController extends Controller{
 	public function clearCartventas(){
 		unset($_SESSION["cart"]["ventasproducts"]);
 		$_SESSION['cart']['ventasproducts'] = array();
+
+		unset($_SESSION["cart"]["ventaspayments"]);
+		$_SESSION['cart']['ventaspayments'] = array();
 	}
 
 
@@ -124,113 +127,126 @@ class ventaController extends Controller{
 		  echo($tableProducts);
 	}
 
-	public function getCompras(){
-		$idProducto = $_POST['idProducto'];
-		$objModel=$this->loadModel('venta');
-		$result = $objModel->getCompras($idProducto);
-		echo '<option selected disabled> SELECCIONE </option>';
-		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->IDCOMPRA.'" > '.$reg->ALIAS. ' </option>';
+
+	public function clearproductCart(){
+		$id= $_POST['id'];
+
+		print_r($_POST);
+		echo($id);
+		echo("entro al post");
+
+		unset($_SESSION["cart"]["ventasproducts"][$id]);
+
+		if(!isset($_SESSION["cart"]["ventasproducts"][$id])){
+			return 1;
+		}else {
+			return 0;
 		}
+
+	}
+	
+
+	public function clearpaymentCart(){
+		$id= $_POST['id'];
+
+		print_r($_POST);
+		echo($id);
+		echo("entro al post");
+
+		unset($_SESSION["cart"]["ventaspayments"][$id]);
+
+		if(!isset($_SESSION["cart"]["ventaspayments"][$id])){
+			return 1;
+		}else {
+			return 0;
+		}
+
 	}
 
-	public function getStockActual(){
-		$idCompra = $_POST['idCompra'];
-		$objModel=$this->loadModel('venta');
-		$result = $objModel->getStockActual($idCompra);
-		echo json_encode($result->fetch_object());
-	}
 
-	public function getDetalleProducto(){
-		$idProductoDetalle = $_POST['idProductoDetalle'];
-		$objModel=$this->loadModel('venta');
-		$result = $objModel->getDetalleProducto($idProductoDetalle);
-		echo json_encode($result->fetch_object());
-	}
-
-	public function addVenta(){
-
-		$idProducto = $_POST['idProducto'];
-		$idCompra = $_POST['idCompra'];
-		$cantidad = $_POST['cantidad'];		
-		$precioVenta = $_POST['precioVenta'];		
-		$observacion= strtoupper(trim($_POST['observacion']));		
-
-		$objModel=$this->loadModel('venta');
-		$result = $objModel->addVenta($idProducto,$idCompra,$cantidad,$precioVenta,$observacion);
-		if($result) echo 'ok'; else echo 'error';
-	}
 
 	
-public function addpaymentCart(){
-	$formaPago		= $_POST['formaPago']; 	
-	$cuenta			= $_POST['cuenta']; 		
-	$montopago		= $_POST['montopago']; 		
- 
-	$paymentArray = array(
-		"formaPago"		=>$formaPago
-		,"cuenta"		=>$cuenta
-		,"montopago"	=>$montopago
+	public function addpaymentCart(){
 
-	);
-	
-	array_push($_SESSION["cart"]["ventaspayments"],$paymentArray);
+		$formaPago		= $_POST['formaPago']; 	
+		$cuenta			= $_POST['cuenta']; 		
+		$montopago		= $_POST['montopago']; 		
+		$montoapagar	= $_POST['montoapagar']; 	
 
-}
+		$pagosTotal = 0;
 
-public function showpaymentCart(){
-
-	$tablePayments = "";	
-
-	if(!empty($_SESSION["cart"]["ventaspayments"])){
-	foreach ($_SESSION["cart"]["ventaspayments"] as $key => $value) {
-			if($value["formaPago"]!==""){
-
-				if($value["formaPago"]=="1"){
-					$forma = "EFECTIVO";
-				}else{
-					$forma = "DEPOSITO";
-				};
-
-				$tablePayments .= '<tr> 
-					<td class="p-a-2">
-						<div class="font-weight-semibold">'.$key.'</div>
-					</td>
-					<td class="p-a-2">
-						<div class="font-weight-semibold">'.$forma.'</div>
-					</td>
-					<td class="p-a-2">
-						<strong class="pagototal" >'.$value["montopago"].'</strong>
-					</td>
- 
-					<td class="p-a-2">
-						 
-					<button type="button" class="btn btn-xs btn-warning btn-outline btn-rounded btn-outline-colorless btn-delete" id="'.$key.'">x</button>
-
-					</td>
-				  </tr>'
-				  ;
+		foreach ($_SESSION["cart"]["ventaspayments"] as $payments) {
+			$pagosTotal 	= $pagosTotal + $payments['montopago'];
 		}
-	  }
-	}else {
-		$tablePayments .= '<tr> 
-					<td class="p-a-2">
-						<div class="font-weight-semibold">-</div>
-					</td>
-					<td class="p-a-2">
-						<strong>-</strong>
-					</td>
-					<td class="p-a-2">
-						<strong>-</strong>
-					</td>
-					<td class="p-a-2">
-						<strong>-</strong>
-					</td>
-				  </tr>'
-				  ;
+
+		if($pagosTotal + $montopago <= $montoapagar){
+			$paymentArray = array(
+				"formaPago"		=>$formaPago
+				,"cuenta"		=>$cuenta
+				,"montopago"	=>$montopago
+			);
+			array_push($_SESSION["cart"]["ventaspayments"],$paymentArray);
+			echo("1");
+		}else{
+			echo("0");
+		}
+
+
 	}
-	  echo($tablePayments);
-}
+
+	public function showpaymentCart(){
+
+		$tablePayments = "";	
+
+		if(!empty($_SESSION["cart"]["ventaspayments"])){
+		foreach ($_SESSION["cart"]["ventaspayments"] as $key => $value) {
+				if($value["formaPago"]!==""){
+
+					if($value["formaPago"]=="1"){
+						$forma = "EFECTIVO";
+					}else{
+						$forma = "DEPOSITO";
+					};
+
+					$tablePayments .= '<tr> 
+						<td class="p-a-2">
+							<div class="font-weight-semibold">'.$key.'</div>
+						</td>
+						<td class="p-a-2">
+							<div class="font-weight-semibold">'.$forma.'</div>
+						</td>
+						<td class="p-a-2">
+							<strong class="pagototal" >'.$value["montopago"].'</strong>
+						</td>
+	
+						<td class="p-a-2">
+							
+						<button type="button" class="btn btn-xs btn-warning btn-outline btn-rounded btn-outline-colorless btn-delete" id="'.$key.'">x</button>
+
+						</td>
+					</tr>'
+					;
+			}
+		}
+		}else {
+			$tablePayments .= '<tr> 
+						<td class="p-a-2">
+							<div class="font-weight-semibold">-</div>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+						<td class="p-a-2">
+							<strong>-</strong>
+						</td>
+					</tr>'
+					;
+		}
+		echo($tablePayments);
+	}
 
 
 }

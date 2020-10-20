@@ -37,6 +37,25 @@ $(document).on('ready',function(){
 				$('#idProducto').val(item.value);
 				console.log($('#idProducto').val())
 
+				datos = {'id': item.value};
+
+				console.log($('#idProducto').val())
+
+				$.ajax({
+					url: 'compra/promCompraProductos',  
+					type: 'POST',
+					data: datos,
+					success: function(data){
+						$("#divPreciosAnt").show();
+						$("#htmlPrecios").html('');
+						$("#htmlPrecios").html(data);
+						if(data == ''){
+							$("#htmlPrecios").html('<div class="widget-notifications-description">Sin Data de Compra</div>');
+						}				
+					}
+				})
+
+
 			},
 			source: function (query, process) {
 			  return $.getJSON('compra/autocomplete', { query: query }, function(data) {
@@ -83,6 +102,8 @@ $(document).on('ready',function(){
 		$('#monto').hide();
 		$('#divCuenta').hide();
 		$('#montorestante').hide();
+		$('#divPreciosAnt').hide();
+		
 	  };
 
 	  hideItems();
@@ -290,6 +311,11 @@ $(document).on('ready',function(){
 
 
 	  }
+
+	  $("#divPreciosAnt").on('click', '.etPrecio', function(){
+		var valor = $(this).text();
+		$('#precioCompra').val(valor);
+		})
 
 
 	

@@ -8,8 +8,8 @@ Class compraModel extends Model{
 	public function getTipopago(){
 
 		$sql="SELECT
-				IDTIPOPAGO,
-				DESCRIPCION
+				nIDTIPOPAGO,
+				sDESCRIPCION
 			FROM sel_tipopago";
 				
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
@@ -28,13 +28,13 @@ Class compraModel extends Model{
 	}
 
 	public function autocomplete($valor){		
-		$sql="SELECT * FROM kar_producto WHERE ESTADO=1 AND NOMBRE LIKE '$valor%' ";
+		$sql="SELECT * FROM kar_producto WHERE nESTADO=1 AND sNOMBRE LIKE '$valor%' ";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
 
 	public function autoproveedor($valor){		
-		$sql="SELECT * FROM sel_proveedor WHERE nESTADO=1 AND sLABEL LIKE '%$valor'";
+		$sql="SELECT * FROM sel_proveedor WHERE nESTADO=1 AND sDESCRIPCION LIKE '%$valor'";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
@@ -142,6 +142,18 @@ Class compraModel extends Model{
 				,'$montopago'
 				,'$cuenta'
 				,'$user');";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
+	public function promCompraProductos($idProducto){		
+		$sql=	"	SELECT  a.fPRECIO, DATE(b.dFECHACOMPRA) AS FECHA , DATEDIFF(CURRENT_TIMESTAMP,b.dFECHACOMPRA) DIFERENCIA
+					FROM 	kar_compra_detalle AS a
+					INNER JOIN kar_compra AS b ON a.nIDCOMPRA = b.nIDCOMPRA
+					WHERE 	a.nIDPRODUCTO = $idProducto
+					ORDER BY b.dFECHACOMPRA DESC
+					LIMIT 	5 ";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

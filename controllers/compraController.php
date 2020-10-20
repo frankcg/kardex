@@ -10,28 +10,46 @@ class compraController extends Controller{
 
 	public function index(){		
 		$this->_view->setJs(array('index'));
-
 		$this->idLocalesclass = $_GET["idLocal"];
-		
-		// $idLocales = $_GET["idLocal"];
-		// $_SESSION["idLocal"] = $idLocales;
-		// global $idLocales;
-		//$objModel=$this->loadModel('compra');
-		//$this->_view->productos=$objModel->getComboProductos();
 		$this->_view->renderizar('index');
-		
 	}
 
- 
 
 	public function getTipopago(){
 		$objModel=$this->loadModel('compra');
 		$result = $objModel->getTipopago();
 		echo '<option selected value="" disabled> SELECCIONE </option>';
 		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->IDTIPOPAGO.'" > '.$reg->DESCRIPCION. '  </option>';
+			echo '<option value="'.$reg->nIDTIPOPAGO.'" > '.$reg->sDESCRIPCION. '  </option>';
 		}
 	}
+
+	public function promCompraProductos(){
+		$objModel=$this->loadModel('compra');
+		date_default_timezone_set('America/Lima');
+		$tableProducts = "";
+		$result = $objModel->promCompraProductos($_POST['id']);
+		while ($reg = $result->fetch_object()){
+			$date = date_create($reg->FECHA);
+			$date = date_format($date, 'd-m-Y');
+			if($reg->DIFERENCIA == 0 ){
+				$diffDias = "Hoy";
+			}else{
+				if($reg->DIFERENCIA == 1){
+					$diffDias = "Hace: ".$reg->DIFERENCIA." Dia";
+				}else{
+					$diffDias = "Hace: ".$reg->DIFERENCIA." Dias";
+				}
+			}
+			$tableProducts .= 	'
+									<div class="widget-notifications-description"><strong>S/</strong><a class="etPrecio">'.$reg->fPRECIO.'</a>	</div>
+									<div class="widget-notifications-date">'.$date.' - '.$diffDias.' </div>
+								';
+			
+		}
+		echo($tableProducts);
+	}
+
 
 	public function getCompras(){
 
@@ -77,7 +95,7 @@ class compraController extends Controller{
 		$result=$objModel->autocomplete($search);		
 		$data = array();
 		while($reg=$result->fetch_object()){
-			$data[] = array("value"=>$reg->IDPRODUCTO,"label"=>$reg->NOMBRE);
+			$data[] = array("value"=>$reg->nIDPRODUCTO,"label"=>$reg->sNOMBRE);
 		}
 		echo json_encode($data);
 	}
@@ -88,7 +106,7 @@ class compraController extends Controller{
 		$result=$objModel->autoproveedor($search);		
 		$data = array();
 		while($reg=$result->fetch_object()){
-			$data[] = array("value"=>$reg->nIDPROVEEDOR,"label"=>$reg->sLABEL);
+			$data[] = array("value"=>$reg->nIDPROVEEDOR,"label"=>$reg->sDESCRIPCION);
 		}
 		echo json_encode($data);
 	}
@@ -132,7 +150,7 @@ class compraController extends Controller{
 
 	}
 
-	
+
 	public function clearpaymentCart(){
 		$id= $_POST['id'];
 
@@ -150,9 +168,6 @@ class compraController extends Controller{
 
 	}
 
-
-
-
 	public function showproductCart(){
 
 		$tableProducts = "";
@@ -167,10 +182,10 @@ class compraController extends Controller{
 							<div class="font-size-12 text-muted">'.$items["descripcion"].'</div>
 						</td>
 						<td class="p-a-2">
-							<strong>'.$items["precio"].'</strong>
+							<strong>'.$items["cantidad"].'</strong>
 						</td>
 						<td class="p-a-2">
-							<strong>'.$items["cantidad"].'</strong>
+						<strong>'.$items["precio"].'</strong>
 						</td>
 						<td class="p-a-2">
 							<strong class="total">'.$items["cantidad"]*$items["precio"].'</strong>
@@ -312,7 +327,6 @@ class compraController extends Controller{
 		$cuenta			= $_POST['cuenta']; 		
 		$montopago		= $_POST['montopago']; 		
 		$montoapagar	= $_POST['montoapagar']; 	
-
 		$pagosTotal = 0;
 
 		foreach ($_SESSION["cart"]["payments"] as $payments) {
@@ -331,10 +345,6 @@ class compraController extends Controller{
 			echo("0");
 		}
 
-
- 
-
- 
 		// echo('<pre>');
 		// print_r($_SESSION["cart"]["payments"]);
 		// echo('</pre>');

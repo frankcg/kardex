@@ -17,8 +17,6 @@ $(document).on('ready',function(){
 		$('#monto').hide();
 		$('#divCuenta').hide();
 		$('#montorestante').hide();
-		
-		
 	  };
 
 	hideItems();
@@ -138,7 +136,7 @@ $(document).on('ready',function(){
 			success: function(data){
 				$("#pagosCart").html();
 				$("#pagosCart").html(data);
-				calc_total()
+				calc_totalPagos()
 				
 			}
 		})
@@ -155,9 +153,12 @@ $(document).on('ready',function(){
 		  items = items + 1;
 		});
 
-		compraTotal = sum;
+		ventaTotal = sum;
+		console.log(ventaTotal);
 
-		$('#compraTotal').text(sum);
+		$('#ventaTotal').text(sum);
+		
+
 		
 		if(sum>0){
 			showItems();
@@ -175,15 +176,20 @@ $(document).on('ready',function(){
 		  sum += parseFloat($(this).text());
 		  items = items + 1;
 		});
-		
-		pagototal = compraTotal - sum;
+		console.log(ventaTotal);
 
-		console.log(pagototal);
-		console.log(compraTotal);
+		pagototal = ventaTotal - sum;
+		
+		$('#montopago').val(pagototal);
+
+		if(pagototal == ventaTotal){
+			$('#montorestante').hide();
+		}
 		
 		if(sum>0){
 			showItems();
-			$('#montorestante').text(sum);
+			$('#montorestante').text(pagototal);
+			$('#montopago').val(pagototal);
 		}
 
 
@@ -230,7 +236,7 @@ $(document).on('ready',function(){
 		
 		var formData = new FormData($("#formPago")[0]);
 
-		formData.append("montoapagar", compraTotal);
+		formData.append("montoapagar", ventaTotal);
 
 		var outputLog = {}, iterator = formData.entries(), end = false;
 		while(end == false) {
@@ -263,12 +269,11 @@ $(document).on('ready',function(){
 					if(data==1){
 						console.log("paso Pago 1 ");
 						obtenerPagos();
-						calc_totalPagos();
 					}else{
 						console.log("paso Pago 2");
 						console.log(data)
 						toastr['warning']('El monto Ingresado Supera la Compra', 'Paso 3', {optionsToastr});
-
+						obtenerPagos();
  
 					}
 
@@ -356,6 +361,50 @@ $(document).on('ready',function(){
 		}
 	});	
 
+
+	$("#ventasCart").on('click', '.btn-delete', function(){
+
+		console.log("click");
+		var myId = $(this).attr('id');
+		
+		datos = { 'id': myId};
+		console.log(datos)
+
+		$.ajax({
+			url: 'venta/clearproductCart',  
+			type: 'POST',
+			data: datos,
+			success: function(data){
+				console.log(data);
+				console.log("entrodelete");
+				obtenerCart();
+			}				
+		});
+
+
+	});
+
+	$("#pagosCart").on('click', '.btn-delete', function(){
+
+		console.log("click");
+		var myId = $(this).attr('id');
+		
+		datos = { 'id': myId};
+		console.log(datos)
+
+		$.ajax({
+			url: 'venta/clearpaymentCart',  
+			type: 'POST',
+			data: datos,
+			success: function(data){
+				console.log(data);
+				console.log("entrodelete");
+				obtenerPagos();
+			}				
+		});
+
+
+	})
 
 
 	

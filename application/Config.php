@@ -20,4 +20,9 @@ define('LIMIT_PAGEVIEW',10);
 define('DB_ENGINE','mysql');
 define('DB_CHAR', 'utf8');
 
+
+
+
+
+
 ?>
