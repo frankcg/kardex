@@ -34,11 +34,22 @@ $(document).on('ready',function(){
 	});
 
 	$(function(){
-		$.post('controls/getTipopago',{},function(data){
+		$.post('venta/getTipopago',{},function(data){
 				$('#formaPago').html(data);
 		});
 	});
 
+	
+	$('#formaPago').change(function(){
+		var idProducto = $(this).val();
+		console.log("change");
+		if(idProducto=="02"){
+			$('#divCuenta').show();
+		}else{
+			$('#divCuenta').hide();
+			$('#cuenta').val('');
+		}
+	});	
 
 	$('#idProducto').change(function(){
 		var nombrecart = $('#idProducto').find(':selected').attr('id2');

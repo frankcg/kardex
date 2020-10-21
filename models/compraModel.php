@@ -39,10 +39,14 @@ Class compraModel extends Model{
 		return $result;
 	}
 	
-
+	public function autocuenta($valor){		
+		$sql="SELECT * FROM sel_cuenta WHERE nESTADO=1 AND sDESCRIPCION LIKE '$valor%'";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
 
 	public function productvalidate($idProducto){		
-		$sql="SELECT IDPRODUCTO FROM   kar_producto WHERE IDPRODUCTO = '$idProducto' AND ESTADO=1 ";
+		$sql="SELECT nIDPRODUCTO FROM   kar_producto WHERE nIDPRODUCTO = '$idProducto' AND nESTADO=1 ";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		if($result->num_rows){
 			return 1;
@@ -61,9 +65,30 @@ Class compraModel extends Model{
 			}
 	}
 
+	public function cuentavalidate($idCuenta){		
+		$sql="SELECT * FROM  sel_cuenta WHERE nIDCUENTA = '$idCuenta' ";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		if($result->num_rows){
+			return 1;
+		}else{
+			return 0;
+			}
+	}
+
+	public function insertCuenta($cuenta){		
+		$sql=	"INSERT INTO sel_cuenta
+				(sDESCRIPCION)
+				VALUES 
+				('$cuenta');";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idCuenta=$this->_db->insert_id;
+		return $idCuenta;
+	}
+
+
 	public function insertProveedor($proveedor){		
 		$sql=	"INSERT INTO sel_proveedor
-				(sLABEL)
+				(sDESCRIPCION)
 				VALUES 
 				('$proveedor');";
 		$this->_db->query($sql)or die ('Error en '.$sql);
@@ -71,7 +96,7 @@ Class compraModel extends Model{
 		return $idProveedor;
 	}
 
-	public function insertcompra($idproveedor,$observaciones){	
+	public function insertcompra($codLocal,$idproveedor,$observaciones){	
 		
 		$user=$_SESSION['user'];
 		date_default_timezone_set('America/Lima');
@@ -84,7 +109,7 @@ Class compraModel extends Model{
 						dFECHACOMPRA,
 						sIDUSUARIOCREACION
 						)
-				VALUES ('1',
+				VALUES ('$codLocal',
 						'$idproveedor',
 						'$observaciones',
 						'$fechaHoraActual',
@@ -100,8 +125,8 @@ Class compraModel extends Model{
 		date_default_timezone_set('America/Lima');
 		$fechaHoraActual = date('Y-m-d H:m:s');
 		$sql=	"INSERT INTO kar_producto
-				(NOMBRE
-				,IDUSUARIOCREACION)
+				(sNOMBRE
+				,dIDUSUARIOCREACION)
 				VALUES 
 				('$nombre'
 				,'$user');";
@@ -161,7 +186,7 @@ Class compraModel extends Model{
 
 
 	public function addCompraid($idProducto){		
-		$sql="SELECT IDPRODUCTO FROM   kar_producto WHERE IDPRODUCTO = '$idProducto' AND ESTADO=1 ";
+		$sql="SELECT nIDPRODUCTO FROM   kar_producto WHERE nIDPRODUCTO = '$idProducto' AND nESTADO=1 ";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		if($result->num_rows){
 			return 1;
@@ -176,7 +201,7 @@ Class compraModel extends Model{
 		date_default_timezone_set('America/Lima');
 		$fechaHoraActual = date('Y-m-d H:m:s');
 
-		$sql="SELECT * FROM kar_producto WHERE NOMBRE='$nombre' AND ESTADO=1";
+		$sql="SELECT * FROM kar_producto WHERE sNOMBRE='$nombre' AND nESTADO=1";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 
 		if($result->num_rows){
@@ -187,7 +212,7 @@ Class compraModel extends Model{
 			$this->_db->query($sql) or die ('Error en '.$sql);
 
 		}else{
-			$sql="INSERT INTO kar_producto SET NOMBRE='$nombre', IDUSUARIOCREACION='$user'";
+			$sql="INSERT INTO kar_producto SET sNOMBRE='$nombre', dIDUSUARIOCREACION='$user'";
 			$this->_db->query($sql) or die ('Error en '.$sql);
 
 			$idProducto=$this->_db->insert_id;

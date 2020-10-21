@@ -10,6 +10,20 @@ Class ventaModel extends Model{
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
+
+	
+	public function getTipopago(){
+
+		$sql="SELECT
+				nIDTIPOPAGO,
+				sDESCRIPCION
+			FROM sel_tipopago";
+				
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+
+		return $response;
+	}
+	
 	
 	public function getCompras($idProducto){
 

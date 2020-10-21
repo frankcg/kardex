@@ -19,9 +19,20 @@ class ventaController extends Controller{
 		$result = $objModel->getComboProductos();
 		echo '<option selected disabled> SELECCIONE </option>';
 		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->IDPRODUCTO.'"  id2="'.$reg->NOMBRE.'" id3="'.$reg->CANTIDAD.'"> '.$reg->NOMBRE. ' - '.$reg->CANTIDAD. '</option>';
+			echo '<option value="'.$reg->nIDPRODUCTO.'"  id2="'.$reg->sNOMBRE.'" id3="'.$reg->nCANTIDAD.'"> '.$reg->sNOMBRE. ' - '.$reg->nCANTIDAD. '</option>';
 		}
 	}
+
+	
+	public function getTipopago(){
+		$objModel=$this->loadModel('venta');
+		$result = $objModel->getTipopago();
+		echo '<option selected value="" disabled> SELECCIONE </option>';
+		while ($reg = $result->fetch_object()){
+			echo '<option value="'.$reg->nIDTIPOPAGO.'" > '.$reg->sDESCRIPCION. '  </option>';
+		}
+	}
+
 
 
 	public function clearCartventas(){

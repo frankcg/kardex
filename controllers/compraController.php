@@ -9,8 +9,9 @@ class compraController extends Controller{
 	}
 
 	public function index(){		
+		$idLocal = $_GET['idLocal'];
+		$this->_view->idLocal=$idLocal;
 		$this->_view->setJs(array('index'));
-		$this->idLocalesclass = $_GET["idLocal"];
 		$this->_view->renderizar('index');
 	}
 
@@ -110,6 +111,18 @@ class compraController extends Controller{
 		}
 		echo json_encode($data);
 	}
+	
+	public function autocuenta(){
+		$search = $_GET['query'];
+		$objModel=$this->loadModel('compra');
+		$result=$objModel->autocuenta($search);		
+		$data = array();
+		while($reg=$result->fetch_object()){
+			$data[] = array("value"=>$reg->nIDCUENTA,"label"=>$reg->sDESCRIPCION);
+		}
+		echo json_encode($data);
+	}
+
 
 	public function addCompra(){
 
@@ -226,6 +239,10 @@ class compraController extends Controller{
 
 	public function showpaymentCart(){
 
+		// echo('<pre>');
+		// print_r($_SESSION);
+		// echo('</pre>');
+
 		$tablePayments = "";	
  
 		if(!empty($_SESSION["cart"]["payments"])){
@@ -327,6 +344,8 @@ class compraController extends Controller{
 		$cuenta			= $_POST['cuenta']; 		
 		$montopago		= $_POST['montopago']; 		
 		$montoapagar	= $_POST['montoapagar']; 	
+		$idCuenta		= $_POST['idCuenta']; 
+
 		$pagosTotal = 0;
 
 		foreach ($_SESSION["cart"]["payments"] as $payments) {
@@ -338,6 +357,7 @@ class compraController extends Controller{
 				"formaPago"		=>$formaPago
 				,"cuenta"		=>$cuenta
 				,"montopago"	=>$montopago
+				,"idCuenta"		=>$idCuenta
 			);
 			array_push($_SESSION["cart"]["payments"],$paymentArray);
 			echo("1");
@@ -358,6 +378,7 @@ class compraController extends Controller{
 
 	public function finishpaymentCart(){
 
+		$codLocal		= $_POST['codLocal'];
 		$proveedor		= $_POST['proveedor'];
 		$idProveedor	= $_POST['idProveedor'];
 		$observaciones	= $_POST['observaciones'];
@@ -373,7 +394,7 @@ class compraController extends Controller{
 					$idProveedorcompra =	$idProveedor;
 				}
 
-			$idCompra = $objModel->insertcompra($idProveedorcompra,$observaciones);
+			$idCompra = $objModel->insertcompra($codLocal,$idProveedorcompra,$observaciones);
 
 			try {
 
@@ -408,8 +429,16 @@ class compraController extends Controller{
 						$idtipopago = $payments['formaPago'];
 						$cuenta 	= $payments['cuenta'];
 						$montopago 	= $payments['montopago'];
+						$idCuenta 	= $payments['idCuenta'];
 
-						$result =	$objModel->insertCompraPagos($idCompra, $idtipopago,$montopago,$cuenta);
+						$existeCuenta=$objModel->cuentavalidate($idCuenta);
+							if($existeCuenta !== 1){
+								$idCuentacompra =	$objModel->insertCuenta($cuenta);
+							}else{
+								$idCuentacompra =	$idCuenta;
+							}
+
+						$result =	$objModel->insertCompraPagos($idCompra, $idtipopago,$montopago,$idCuentacompra);
 
 					}
 				} catch (Exception $e) {
@@ -425,7 +454,14 @@ class compraController extends Controller{
 		if($result == 1 ){
 			$this->clearCart();
 		}
-		echo($result);
+
+
+		$data[] = array(
+			'idCompra'	=> $idCompra,
+			'result'	=> $result,
+		);
+	
+		echo json_encode($data);
 	}
 
 

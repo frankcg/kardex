@@ -15,7 +15,8 @@ $(document).on('ready',function(){
 
 	$('#formaPago').change(function(){
 		var idProducto = $(this).val();
-		if(idProducto=="2"){
+		console.log("change");
+		if(idProducto=="02"){
 			$('#divCuenta').show();
 		}else{
 			$('#divCuenta').hide();
@@ -71,6 +72,31 @@ $(document).on('ready',function(){
 		});
 
 
+
+		$('#cuenta').typeahead({
+			displayText: function(item) {
+				 return item.label
+			},
+			afterSelect: function(item) {
+
+				this.$element[0].value = item.label
+				$('#idCuenta').val(item.value);
+				console.log($('#idCuenta').val())
+
+			},
+			source: function (query, process) {
+			  return $.getJSON('compra/autocuenta', { query: query }, function(data) {
+				process(data)
+			  })
+			}   
+		})
+
+		$("#cuenta").keypress(function(){
+			$('#idCuenta').val('');
+			console.log($('#idCuenta').val())
+			});
+
+
 		$('#proveedor').typeahead({
 			displayText: function(item) {
 				 return item.label
@@ -93,6 +119,8 @@ $(document).on('ready',function(){
 			$('#idProveedor').val('');
 			console.log($('#idProveedor').val())
 			});
+
+
 
 
 	  });
@@ -148,7 +176,8 @@ $(document).on('ready',function(){
 
 		console.log("finishbutton");
 		console.log(items);
-		
+
+		var codLocal = $('#codLocal').val();
 		var proveedor = $('#proveedor').val();
 
 		if(proveedor==''){
@@ -163,6 +192,8 @@ $(document).on('ready',function(){
 		}else {
 			console.log("paso finish");
 			var formData = new FormData($("#formProveedor")[0]);
+			formData.append("codLocal",codLocal);
+
 			$.ajax({
 				url: 'compra/finishpaymentCart',  
 				type: 'POST',
@@ -171,8 +202,16 @@ $(document).on('ready',function(){
 				contentType: false,
 				processData: false,
 				success: function(data){
-					console.log(data)
-					if(data=="1"){
+
+					console.log(data);
+
+					var parsed = $.parseJSON(data);
+					console.log(parsed[0]);
+					console.log(parsed[0].result);
+					console.log(parsed[0].idCompra);
+
+					if(parsed[0].result === true){
+
 						$('#formCompra')[0].reset();
 						$('#formProveedor')[0].reset();
 						$('#formPago')[0].reset();
@@ -184,7 +223,8 @@ $(document).on('ready',function(){
 						calc_totalPagos();
 						hideItems();
 						console.log("finishpaymentCart");
-						
+						toastr['success']('Se Ingreso la compra con exito <br> Cod. Compra:'+parsed[0].idCompra, {optionsToastr});
+
 					}else{
 						e.preventDefault();
 						console.log("error");
