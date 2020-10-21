@@ -21,7 +21,7 @@ $(document).on('ready',function(){
 
 	hideItems();
 
-
+	function getComboProductos() {
 	$(function(){
 		$.post('venta/getComboProductos',{},function(data){
 			console.log("entroal select");
@@ -32,12 +32,65 @@ $(document).on('ready',function(){
 				  });
 		});
 	});
+	}
+
+	getComboProductos();
 
 	$(function(){
 		$.post('venta/getTipopago',{},function(data){
 				$('#formaPago').html(data);
 		});
 	});
+
+
+	$('#cuenta').typeahead({
+		displayText: function(item) {
+			 return item.label
+		},
+		afterSelect: function(item) {
+
+			this.$element[0].value = item.label
+			$('#idCuenta').val(item.value);
+			console.log($('#idCuenta').val())
+
+		},
+		source: function (query, process) {
+		  return $.getJSON('venta/autocuenta', { query: query }, function(data) {
+			process(data)
+		  })
+		}   
+	})
+
+	$("#cuenta").keypress(function(){
+		$('#idCuenta').val('');
+		console.log($('#idCuenta').val())
+		});
+
+		
+		$('#cliente').typeahead({
+			displayText: function(item) {
+				 return item.label
+			},
+			afterSelect: function(item) {
+
+				this.$element[0].value = item.label
+				$('#idCliente').val(item.value);
+				console.log($('#idCliente').val())
+
+			},
+			source: function (query, process) {
+			  return $.getJSON('venta/autocliente', { query: query }, function(data) {
+				process(data)
+			  })
+			}   
+		})
+
+		$("#cliente").keypress(function(){
+			$('#idCliente').val('');
+			console.log($('#idCliente').val())
+			});
+
+
 
 	
 	$('#formaPago').change(function(){
@@ -318,6 +371,9 @@ $(document).on('ready',function(){
 		}else {
 			console.log("paso finish");
 			var formData = new FormData($("#formProveedor")[0]);
+			formData.append("codLocal",$('#codLocal').val());
+			// e.preventDefault();
+
 			$.ajax({
 				url: 'venta/finishpaymentCart',  
 				type: 'POST',
@@ -326,20 +382,29 @@ $(document).on('ready',function(){
 				contentType: false,
 				processData: false,
 				success: function(data){
-					console.log(data)
-					if(data=="1"){
-						$('#formCompra')[0].reset();
+					console.log(data);
+
+					var parsed = $.parseJSON(data);
+					console.log(parsed[0]);
+					console.log(parsed[0].result);
+					console.log(parsed[0].idventa);
+
+					if(parsed[0].result === true){
+
+						$('#formVenta')[0].reset();
 						$('#formProveedor')[0].reset();
 						$('#formPago')[0].reset();
 
 						$('#wizard-basic').pxWizard('reset');
-						
+						getComboProductos();
 						obtenerCart();
 						calc_total()
 						obtenerPagos();
 						calc_totalPagos();
 						hideItems();
 						console.log("finishpaymentCart");
+						toastr['success']('Se Ingreso la Venta con exito <br> Cod. Venta:'+parsed[0].idventa, {optionsToastr});
+
 						
 					}else{
 						e.preventDefault();
@@ -364,7 +429,7 @@ $(document).on('ready',function(){
 	  
 	$('#formaPago').change(function(){
 		var idProducto = $(this).val();
-		if(idProducto=="2"){
+		if(idProducto=="02"){
 			$('#divCuenta').show();
 		}else{
 			$('#divCuenta').hide();

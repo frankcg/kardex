@@ -11,6 +11,138 @@ Class ventaModel extends Model{
 		return $result;
 	}
 
+	public function autocuenta($valor){		
+		$sql="SELECT * FROM sel_cuenta WHERE nESTADO=1 AND sDESCRIPCION LIKE '$valor%'";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+	public function cuentavalidate($idCuenta){		
+		$sql="SELECT * FROM  sel_cuenta WHERE nIDCUENTA = '$idCuenta' ";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		if($result->num_rows){
+			return 1;
+		}else{
+			return 0;
+			}
+	}
+
+	
+	public function autocliente($valor){		
+		$sql="SELECT * FROM sel_cliente WHERE nESTADO=1 AND sDESCRIPCION LIKE '$valor%'";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
+	public function clientevalidate($idCLiente){		
+		$sql="SELECT nIDCLIENTE FROM sel_cliente WHERE nIDCLIENTE='$idCLiente'";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		if($result->num_rows){
+			return 1;
+		}else{
+			return 0;
+			}
+	}
+
+	public function insertCliente($cliente){	
+		$user=$_SESSION['user'];
+		date_default_timezone_set('America/Lima');
+		$fechaHoraActual = date('Y-m-d H:m:s');
+
+		$sql=	"INSERT INTO sel_cliente
+				(
+				sDESCRIPCION
+				,sIDUSUARIOCREACION
+				,dFECHACREACION
+				)
+				VALUES 
+				(
+				'$cliente'
+				,'$user'
+				,'$fechaHoraActual'
+				);";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idCLiente=$this->_db->insert_id;
+		return $idCLiente;
+	}
+
+	public function insertCuenta($cuenta){		
+		$sql=	"INSERT INTO sel_cuenta
+				(sDESCRIPCION)
+				VALUES 
+				('$cuenta');";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idCuenta=$this->_db->insert_id;
+		return $idCuenta;
+	}
+	
+
+	public function insertVenta($codLocal,$idClientecompra,$observaciones){	
+		
+		$user=$_SESSION['user'];
+		date_default_timezone_set('America/Lima');
+		$fechaHoraActual = date('Y-m-d H:m:s');
+
+		$sql=	"INSERT INTO kar_venta
+						(nIDLOCAL,
+						nIDCLIENTE,
+						dFECHAVENTA,
+						sOBSERVACION,
+						sIDUSUARIOCREACION,
+						dFECHACREACION
+						)
+				VALUES ('$codLocal',
+						'$idClientecompra',
+						'$fechaHoraActual',
+						'$observaciones',
+						'$user',
+						'$fechaHoraActual'
+				);";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idCompra=$this->_db->insert_id;
+		return $idCompra;
+	}
+
+	public function insertVentaDetalle($idCompra,$idProductocompra,$cantidad,$precio){		
+		$user=$_SESSION['user'];
+		$sql=	"INSERT INTO kar_venta_detalle
+				(nIDVENTA
+				,nIDPRODUCTO
+				,nCANTIDAD
+				,fPRECIO
+				,sIDUSUARIOCREACION)
+				VALUES 
+				('$idCompra'
+				,'$idProductocompra'
+				,'$cantidad'
+				,'$precio'
+				,'$user');";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+	public function insertVentaPagos($idventa,$idtipopago,$montopago,$idCuentaventa){		
+		$user=$_SESSION['user'];
+		date_default_timezone_set('America/Lima');
+		$fechaHoraActual = date('Y-m-d H:m:s');
+		$sql=	"INSERT INTO kar_venta_pago
+				(nIDVENTA
+				,nIDTIPOPAGO
+				,fMONTO
+				,sCUENTA
+				,sIDUSUARIOCREACION
+				,dFECHACREACION)
+				VALUES 
+				('$idventa'
+				,'$idtipopago'
+				,'$montopago'
+				,'$idCuentaventa'
+				,'$user'
+				,'$fechaHoraActual');";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
 	
 	public function getTipopago(){
 
@@ -23,6 +155,7 @@ Class ventaModel extends Model{
 
 		return $response;
 	}
+
 	
 	
 	public function getCompras($idProducto){

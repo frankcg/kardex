@@ -9,8 +9,9 @@ class ventaController extends Controller{
 	}
 
 	public function index(){		
+		$idLocal = $_GET['idLocal'];
+		$this->_view->idLocal=$idLocal;
 		$this->_view->setJs(array('index'));
-		$objModel=$this->loadModel('venta');
 		$this->_view->renderizar('index');
 	}
 
@@ -32,6 +33,31 @@ class ventaController extends Controller{
 			echo '<option value="'.$reg->nIDTIPOPAGO.'" > '.$reg->sDESCRIPCION. '  </option>';
 		}
 	}
+
+	public function autocuenta(){
+		$search = $_GET['query'];
+		$objModel=$this->loadModel('venta');
+		$result=$objModel->autocuenta($search);		
+		$data = array();
+		while($reg=$result->fetch_object()){
+			$data[] = array("value"=>$reg->nIDCUENTA,"label"=>$reg->sDESCRIPCION);
+		}
+		echo json_encode($data);
+	}
+
+	public function autocliente(){
+		$search = $_GET['query'];
+		$objModel=$this->loadModel('venta');
+		$result=$objModel->autocliente($search);		
+		$data = array();
+		while($reg=$result->fetch_object()){
+			$data[] = array("value"=>$reg->nIDCLIENTE,"label"=>$reg->sDESCRIPCION);
+		}
+		echo json_encode($data);
+	}
+	
+
+
 
 
 
@@ -90,7 +116,7 @@ class ventaController extends Controller{
 		if(!empty($_SESSION["cart"]["ventasproducts"])){
 		foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
 			foreach($productos as $items){
-				if($items["name"]!==""){
+				if($items["cartNombre"]!==""){
 					$tableProducts .= '<tr> 
 						<td class="p-a-2">
 							<div class="font-weight-semibold">'.$items["cartNombre"].'</div>
@@ -174,8 +200,6 @@ class ventaController extends Controller{
 
 	}
 
-
-
 	
 	public function addpaymentCart(){
 
@@ -183,6 +207,7 @@ class ventaController extends Controller{
 		$cuenta			= $_POST['cuenta']; 		
 		$montopago		= $_POST['montopago']; 		
 		$montoapagar	= $_POST['montoapagar']; 	
+		$idCuenta		= $_POST['idCuenta']; 
 
 		$pagosTotal = 0;
 
@@ -195,15 +220,21 @@ class ventaController extends Controller{
 				"formaPago"		=>$formaPago
 				,"cuenta"		=>$cuenta
 				,"montopago"	=>$montopago
+				,"idCuenta"				=>$idCuenta
 			);
 			array_push($_SESSION["cart"]["ventaspayments"],$paymentArray);
 			echo("1");
+			// echo('<pre>');
+			// print_r($_SESSION);
+			// echo('</pre>');
 		}else{
 			echo("0");
 		}
 
 
 	}
+
+
 
 	public function showpaymentCart(){
 
@@ -258,6 +289,95 @@ class ventaController extends Controller{
 		}
 		echo($tablePayments);
 	}
+
+
+	
+
+	public function finishpaymentCart(){
+
+		$codLocal		= $_POST['codLocal'];
+		$cliente		= $_POST['proveedor'];
+		$idCLiente		= $_POST['idProveedor'];
+		$observaciones	= $_POST['observaciones'];
+
+		$objModel=$this->loadModel('venta');
+
+		// echo('<pre>');
+		// print_r($_SESSION["cart"]["ventaspayments"] );
+		// echo('</pre>');
+		// exit();
+
+		try {
+
+			$existeProveedor =	$objModel->clientevalidate($idCLiente);
+				if($existeProveedor !== 1){
+					$idClientecompra =	$objModel->insertCliente($cliente);
+				}else{
+					$idClientecompra =	$idCLiente;
+				}
+
+				
+			$idventa = $objModel->insertVenta($codLocal,$idClientecompra,$observaciones);
+
+
+			try {
+
+
+				foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
+					foreach($productos as $items){
+		
+						$idProducto = $items['idProducto'];
+						// $nombre = $items['cartNombre'];
+						$cantidad = $items['cantidad'];
+						$precio = $items['precio'];
+
+						$result =	$objModel->insertVentaDetalle($idventa,$idProducto,$cantidad,$precio); 	
+
+					}
+				}
+
+			try {
+					foreach ($_SESSION["cart"]["ventaspayments"] as $payments) {
+		
+						$idtipopago = $payments['formaPago'];
+						$cuenta 	= $payments['cuenta'];
+						$montopago 	= $payments['montopago'];
+						$idCuenta 	= $payments['idCuenta'];
+
+						$existeCuenta=$objModel->cuentavalidate($idCuenta);
+							if($existeCuenta !== 1){
+								$idCuentaventa =	$objModel->insertCuenta($cuenta);
+							}else{
+								$idCuentaventa =	$idCuenta;
+							}
+
+						$result =	$objModel->insertVentaPagos($idventa, $idtipopago,$montopago,$idCuentaventa);
+
+					}
+				} catch (Exception $e) {
+					//Exception Pago Detalle
+				}
+			} catch (Exception $e) {
+				//Exception Producto
+			}
+		} catch (Exception $e) {
+			//Exception Proveedor / idCompra
+		}
+
+		if($result == 1 ){
+			$this->clearCartventas();
+		}
+
+
+		$data[] = array(
+			'idventa'	=> $idventa,
+			'result'	=> $result,
+		);
+	
+		echo json_encode($data);
+	}
+
+
 
 
 }
