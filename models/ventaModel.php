@@ -27,7 +27,7 @@ Class ventaModel extends Model{
 			}
 	}
 
-	
+
 	public function autocliente($valor){		
 		$sql="SELECT * FROM sel_cliente WHERE nESTADO=1 AND sDESCRIPCION LIKE '$valor%'";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
@@ -44,6 +44,29 @@ Class ventaModel extends Model{
 			return 0;
 			}
 	}
+
+
+	public function promVentaProductos($idProducto){		
+		$sql=	"
+
+		SELECT
+			nIDPRODUCTO
+			,(SELECT fprecio FROM kar_compra_detalle WHERE nIDPRODUCTO = '$idProducto' ORDER BY dFECHACREACION LIMIT 1)  LAST
+			,MAX(fPrecio) MAX
+			,MIN(fPRECIO) MIN
+			,TRUNCATE(AVG(fPRECIO),2) AVG
+		FROM 	kar_compra_detalle
+		WHERE	 nIDPRODUCTO = '$idProducto'
+			AND nESTADO= '1'
+		ORDER 	BY dFECHACREACION DESC
+		LIMIT 3;";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
+
+
 
 	public function insertCliente($cliente){	
 		$user=$_SESSION['user'];

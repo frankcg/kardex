@@ -17,6 +17,9 @@ $(document).on('ready',function(){
 		$('#monto').hide();
 		$('#divCuenta').hide();
 		$('#montorestante').hide();
+		$('#divPreciosAnt').hide();
+
+		
 	  };
 
 	hideItems();
@@ -104,13 +107,81 @@ $(document).on('ready',function(){
 		}
 	});	
 
+
+	
+
 	$('#idProducto').change(function(){
 		var nombrecart = $('#idProducto').find(':selected').attr('id2');
 		$('#cartNombre').val(nombrecart);
 		console.log(nombrecart);
+		$('#divPreciosAnt').show();
+		var idProducto = $(this).val();
+		promVentaProductos(idProducto);
 	});
 
+	function promVentaProductos(idProducto){
+		datos = {"idProducto" : idProducto };
+	$.ajax({
+		url: 'venta/promVentaProductos',  
+		type: 'POST',
+		data:  datos, 
+		cache: false,
+		dataType:'json',				
+		success: function(data){
+			 console.log(data);
+			var tableProducts='';
+			$.each(data, function( i, v ) {
+				precioVentaPromedio = v.AVG;
+				tableProducts += '<div class="widget-notifications-description"><strong>Promedio  : S/ </strong><a class="etPrecio">'+v.AVG+'</a></div>'
+								+'<div class="widget-notifications-description"><strong>Ultimo  : S/ </strong><a class="etPrecio">'+v.LAST+'</a></div>'
+								+'<div class="widget-notifications-description"><strong>Minimo  : S/ </strong><a class="etPrecio">'+v.MIN+'</a></div>'
+								+'<div class="widget-notifications-description"><strong>Maximo  : S/ </strong><a class="etPrecio">'+v.MAX+'</a></div>';
+			});
+			$('#htmlPrecios').html(tableProducts);
+		}				
+	});
+	}
 
+	$("#divPreciosAnt").on('click', '.etPrecio', function(){
+		var valor = $(this).text();
+		$('#precioCompra').val(valor);
+		})
+
+	function addProduct(){
+		var formData = new FormData($("#formVenta")[0]);
+		$.ajax({
+			url: 'venta/addproductCart',  
+			type: 'POST',
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data){
+				console.log("despuescart");
+				console.log(data);
+				obtenerCart();
+				calc_total();
+				// $('#mAddCompra').modal('hide');
+				// if(data=='ok'){
+				// 	$('#formCompra')[0].reset();
+				// 	toastr['success']('Se registro correctamente', 'venta', {
+				//       closeButton: true,
+				//       progressBar: true,
+				//       preventDuplicates: true,
+				//       newestOnTop: true,
+				//     });
+				//     //toastr['success']('Se registro correctamente', 'Usuario');
+				// 	tablaCompras();
+					
+				// }else if(data=='error'){
+				// 	$('#msj_compra').html('Ha ocurrido un Error. Intente de Nuevo!!');
+				// }else{
+				// 	$('#msj_compra').html(data);
+				// }		
+			}				
+		});		
+
+	}
 	$('#btn_add_compra').click(function(){
 		
 		var nombre 			= $('#cartNombre').val();
@@ -142,37 +213,31 @@ $(document).on('ready',function(){
 		else{
 			$('#msj_compra').html('');
 
-			$.ajax({
-				url: 'venta/addproductCart',  
-				type: 'POST',
-				data: formData,
-				cache: false,
-				contentType: false,
-				processData: false,
-				success: function(data){
-					console.log("despuescart");
-					console.log(data);
-					obtenerCart();
-					calc_total();
-					// $('#mAddCompra').modal('hide');
-					// if(data=='ok'){
-					// 	$('#formCompra')[0].reset();
-					// 	toastr['success']('Se registro correctamente', 'venta', {
-				    //       closeButton: true,
-				    //       progressBar: true,
-				    //       preventDuplicates: true,
-				    //       newestOnTop: true,
-				    //     });
-				    //     //toastr['success']('Se registro correctamente', 'Usuario');
-					// 	tablaCompras();
-						
-					// }else if(data=='error'){
-					// 	$('#msj_compra').html('Ha ocurrido un Error. Intente de Nuevo!!');
-					// }else{
-					// 	$('#msj_compra').html(data);
-					// }		
-				}				
+		if(precioCompra < precioVentaPromedio){
+			$.confirm({
+				title: 'Precio menor al Promedio de Compra!!',
+				content: '¿ Desea Continuar ?',
+				closeIcon: true,
+				closeIconClass: 'fa fa-close' ,
+				confirmButton: 'Continuar',
+				confirmButtonClass: 'btn-primary',
+				cancelButton:'Cancelar',
+				icon: 'fa fa-alert',
+				animation: 'zoom', 
+				confirm: function(){
+					addProduct();
+				},cancel: function(){
+					$.alert('Anulacion Cancelada');		        
+				}
 			});
+		}else{
+			addProduct();
+		}
+			
+
+
+			
+			
 		}
 	});
 

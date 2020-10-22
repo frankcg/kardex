@@ -45,6 +45,23 @@ class ventaController extends Controller{
 		echo json_encode($data);
 	}
 
+	public function promVentaProductos(){
+		$idProducto = $_POST['idProducto'];
+		$objModel=$this->loadModel('venta');
+		$result=$objModel->promVentaProductos($idProducto);
+		$data = array();
+		while($reg=$result->fetch_object()){
+			$data[] = array(
+				'nIDPRODUCTO'	=> $reg->nIDPRODUCTO,
+				'LAST'			=> $reg->LAST,
+				'MAX'		=> $reg->MAX,
+				'MIN'		=> $reg->MIN,
+				'AVG'		=> $reg->AVG,
+			);
+		}
+		echo json_encode($data);
+	}
+
 	public function autocliente(){
 		$search = $_GET['query'];
 		$objModel=$this->loadModel('venta');
