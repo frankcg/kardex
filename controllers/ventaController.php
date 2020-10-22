@@ -313,8 +313,8 @@ class ventaController extends Controller{
 	public function finishpaymentCart(){
 
 		$codLocal		= $_POST['codLocal'];
-		$cliente		= $_POST['proveedor'];
-		$idCLiente		= $_POST['idProveedor'];
+		$cliente		= $_POST['cliente'];
+		$idCLiente		= $_POST['idCliente'];
 		$observaciones	= $_POST['observaciones'];
 
 		$objModel=$this->loadModel('venta');
