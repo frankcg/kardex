@@ -65,6 +65,25 @@ Class ventaModel extends Model{
 	}
 
 
+	
+	public function getStockVenta($idProducto){		
+		$sql=	"
+					SELECT 
+					a.nIDCOMPRADETALLE
+					,a.nCANTIDAD - (SELECT IFNULL(SUM(b.nCANTIDAD),0) FROM kar_venta_detalle AS b  WHERE a.nIDCOMPRADETALLE = b.nIDCOMPRADETALLE AND b.nIDPRODUCTO = a.nIDPRODUCTO) AS nSTOCK
+				FROM
+					kar_compra_detalle a
+				WHERE a.bSTOCK = 1 
+					AND a.nESTADO = 1 
+					AND a.nIDPRODUCTO = '$idProducto' 
+				ORDER BY a.nIDCOMPRADETALLE ASC  
+					";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
+
 
 
 
@@ -127,18 +146,20 @@ Class ventaModel extends Model{
 		return $idCompra;
 	}
 
-	public function insertVentaDetalle($idCompra,$idProductocompra,$cantidad,$precio){		
+	public function insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio){		
 		$user=$_SESSION['user'];
 		$sql=	"INSERT INTO kar_venta_detalle
 				(nIDVENTA
+				,nIDCOMPRADETALLE
 				,nIDPRODUCTO
 				,nCANTIDAD
 				,fPRECIO
 				,sIDUSUARIOCREACION)
 				VALUES 
-				('$idCompra'
-				,'$idProductocompra'
-				,'$cantidad'
+				('$idventa'
+				,'$idCompraDetalle'
+				,'$idProducto'
+				,'$cantidadVendida'
 				,'$precio'
 				,'$user');";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
@@ -167,6 +188,16 @@ Class ventaModel extends Model{
 		return $result;
 	}
 	
+
+	public function updateCompraStockzer0($idCompraDetalle){		
+		$sql=		"UPDATE kar_compra_detalle a 
+					SET bSTOCK=0 
+					WHERE nESTADO = 1 AND nIDCOMPRADETALLE='$idCompraDetalle'";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
 	public function getTipopago(){
 
 		$sql="SELECT

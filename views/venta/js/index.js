@@ -227,7 +227,7 @@ $(document).on('ready',function(){
 				confirm: function(){
 					addProduct();
 				},cancel: function(){
-					$.alert('Anulacion Cancelada');		        
+					$.alert('Producto NO agregado.');		        
 				}
 			});
 		}else{

@@ -217,6 +217,76 @@ class ventaController extends Controller{
 
 	}
 
+
+	public function paymentsstock(){
+		
+		
+		echo('<pre>');
+		print_r($_SESSION["cart"]["ventasproducts"]);
+		echo('</pre>');
+
+		$objModel=$this->loadModel('venta');
+
+		foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
+			foreach($productos as $items){
+	
+				$idProducto = $items['idProducto'];
+				$cantidad = $items['cantidad'];
+				$precio = $items['precio'];
+
+				
+				$cantidadrestante = $cantidad ; 
+				$vendido = 0;
+				$vendidoFinal = 0;
+
+				$result=$objModel->getStockVenta($idProducto);
+				$data = array();
+
+				while($reg=$result->fetch_object()){
+
+					$cantidadrestante = $cantidadrestante - $reg->nSTOCK;
+
+					if($cantidadrestante>0){
+						$vendido = $reg->nSTOCK;
+					}else{
+						$vendido = 	$cantidad - $vendidoFinal;				 
+					}
+
+					//Esta cantidad es igual a la cantidad inicial test
+
+					$vendidoFinal += $vendido;
+
+					$data[] = array(
+						'nIDCOMPRADETALLE'	=> $reg->nIDCOMPRADETALLE,
+						'nSTOCK'			=> $reg->nSTOCK,
+						'nVENDIDO'			=> $vendido,
+					);
+
+					if($cantidadrestante > 0 ){
+					}else{
+						break;
+					}
+ 
+				}
+
+				foreach ($data as $key => $value) {
+
+					$cantidadVendida = $value['nVENDIDO'];
+					$idCompraDetalle = $value['nIDCOMPRADETALLE'];
+					
+					// $result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle, $idProducto,$$cantidadVendida,$precio); 
+
+				}
+
+				echo(json_encode($data));
+
+			}
+		}
+
+	}
+
+
+
 	
 	public function addpaymentCart(){
 
@@ -318,7 +388,7 @@ class ventaController extends Controller{
 		$observaciones	= $_POST['observaciones'];
 
 		$objModel=$this->loadModel('venta');
-
+ 
 		// echo('<pre>');
 		// print_r($_SESSION["cart"]["ventaspayments"] );
 		// echo('</pre>');
@@ -332,24 +402,60 @@ class ventaController extends Controller{
 				}else{
 					$idClientecompra =	$idCLiente;
 				}
-
-				
+	
 			$idventa = $objModel->insertVenta($codLocal,$idClientecompra,$observaciones);
-
-
 			try {
-
-
 				foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
 					foreach($productos as $items){
-		
+			
 						$idProducto = $items['idProducto'];
-						// $nombre = $items['cartNombre'];
 						$cantidad = $items['cantidad'];
 						$precio = $items['precio'];
+		
+						$cantidadrestante = $cantidad ; 
+						$vendido = 0;
+						$vendidoFinal = 0;
+		
+						$result=$objModel->getStockVenta($idProducto);
+						$dataVenta = array();
+		
+						while($reg=$result->fetch_object()){
+							$cantidadrestante = $cantidadrestante - $reg->nSTOCK;
+							if($cantidadrestante>0){
+								$vendido = $reg->nSTOCK;
+							}else{
+								$vendido = 	$cantidad - $vendidoFinal;				 
+							}
+							//Esta cantidad es igual a la cantidad inicial test
+							$vendidoFinal += $vendido;
+							$dataVenta[] = array(
+								'nIDCOMPRADETALLE'	=> $reg->nIDCOMPRADETALLE,
+								'nSTOCK'			=> $reg->nSTOCK,
+								'nVENDIDO'			=> $vendido,
+							);
+							if($cantidadrestante > 0 ){
+							}else{
+								break;
+							}
+		 
+						}
+		
+						foreach ($dataVenta as $key => $value) {
+		
+							$idCompraDetalle 	= $value['nIDCOMPRADETALLE'];
+							$nStock 			= $value['nSTOCK'];
+							$cantidadVendida 	= $value['nVENDIDO'];
 
-						$result =	$objModel->insertVentaDetalle($idventa,$idProducto,$cantidad,$precio); 	
+							if($cantidadVendida == $nStock){
+								$objModel->updateCompraStockzer0($idCompraDetalle);
+							}
 
+							$result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio); 
+		
+
+
+						}
+		
 					}
 				}
 
@@ -393,6 +499,9 @@ class ventaController extends Controller{
 	
 		echo json_encode($data);
 	}
+
+
+	
 
 
 
