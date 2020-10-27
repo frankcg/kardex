@@ -80,6 +80,8 @@ $(document).on('ready',function(){
 		$('#cantidadTotalCompra').html(objeto.CANTIDAD_TOTAL_COMPRA);
 		$('#precioTotalCompra').html(objeto.COSTO_TOTAL_COMPRA);
 
+		$('#motivo').val('');
+
 		$.ajax({
 			url: 'anulacion/getDetalleCompra',  
 			type: 'POST',
@@ -129,10 +131,13 @@ $(document).on('ready',function(){
 						cache: false,
 						dataType:'json',				
 						success: function(data){
-							if(data){
+							if(data.idAnulacion){
 								$('#mDetalleCompra').modal('hide');
 								toastr['success']('Compra Anulada Correctamente <br> Cod. Anulacion: '+data.idAnulacion, 'Anulacion', {optionsToastr});
 								$('#tablaCompra').dataTable().fnClearTable();
+							}else{
+								$('#mDetalleCompra').modal('hide');
+								toastr['warning']('La compra no puede ser anulada, porque existe ventas', 'Anulacion', {optionsToastr});
 							}
 						}
 					});					

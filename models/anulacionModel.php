@@ -40,6 +40,30 @@ Class anulacionModel extends Model{
 		return $result;
 	}
 
+	public function validarAnulacion($idCompra){
+		$user=$_SESSION['user'];
+		$data = array();
+
+		$sql = "SELECT `nIDCOMPRADETALLE` FROM kar_compra_detalle WHERE nidcompra = $idCompra";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+
+		if($result->num_rows){
+
+			while($reg=$result->fetch_object()){
+				$data[] = $reg->nIDCOMPRADETALLE;
+			}
+			$arrayIdCompraDetalle = join($data,',');
+
+			$sql2 = "SELECT * FROM kar_venta_detalle WHERE `nESTADO` = 1 AND `nIDCOMPRADETALLE` IN ($arrayIdCompraDetalle)";
+			$result2 = $this->_db->query($sql2)or die ('Error en '.$sql2);
+
+			if($result2->num_rows)
+				return true;
+			return false;
+		}
+		return false;
+	}
+
 	public function anularCompra($idCompra, $motivo){
 		$user=$_SESSION['user'];
 		date_default_timezone_set('America/Lima');
@@ -51,7 +75,7 @@ Class anulacionModel extends Model{
 		$sql2 = "UPDATE kar_compra_detalle SET nESTADO=3, sIDUSUARIOMOD='$user' WHERE nIDCOMPRA=$idCompra";
 		$this->_db->query($sql2)or die ('Error en '.$sql2);
 
-		$sql3 = "INSERT INTO kar_compra_anulacion SET nIDCOMPRA=$idCompra, sMOTIVO='$motivo', dFECHA_ANUACION='$fechaHoraActual', sIDUSUARIOCREACION='$user'";
+		$sql3 = "INSERT INTO kar_compra_anulacion SET nIDCOMPRA=$idCompra, sMOTIVO='$motivo', dFECHA_ANULACION='$fechaHoraActual', sIDUSUARIOCREACION='$user'";
 		$this->_db->query($sql3)or die ('Error en '.$sql3);
 
 		return $this->_db->insert_id;
