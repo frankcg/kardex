@@ -303,7 +303,7 @@ $(document).on('ready',function(){
 		itemsPagos =0;
 		$(".pagototal").each(function(){
 		  sum += parseFloat($(this).text());
-		  items = items + 1;
+		  itemsPagos = itemsPagos + 1;
 		});
 		console.log(ventaTotal);
 
@@ -427,10 +427,10 @@ $(document).on('ready',function(){
 		if(proveedor==''){
 			toastr['warning']('Ingrese un Proveedor', 'Paso 4', {optionsToastr});
 			e.preventDefault();
-		}else if(items = 0 ){
+		}else if(items == 0 ){
 			toastr['warning']('Ingrese un Producto', 'Paso 1', {optionsToastr});
 			e.preventDefault();
-		}else if(itemsPagos = 0){
+		}else if(itemsPagos == 0){
 			toastr['warning']('Ingrese un Pago', 'Paso 3', {optionsToastr});
 			e.preventDefault();
 		}else {
