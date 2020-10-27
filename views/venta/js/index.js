@@ -468,6 +468,10 @@ $(document).on('ready',function(){
 						calc_totalPagos();
 						hideItems();
 						tblReporteventas();
+
+						$("#pdf_viewer").html('<iframe src = "venta/creacionFacturaurl/'+parsed[0].idventa+'" width="100%"" height="600px" allowfullscreen webkitallowfullscreen></iframe>')
+						$('#mDetallefactura').modal('toggle');
+
 						console.log("finishpaymentCart");
 						toastr['success']('Se Ingreso la Venta con exito <br> Cod. Venta:'+parsed[0].idventa, {optionsToastr});
 
