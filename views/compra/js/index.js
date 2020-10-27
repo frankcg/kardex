@@ -180,6 +180,8 @@ $(document).on('ready',function(){
 		var codLocal = $('#codLocal').val();
 		var proveedor = $('#proveedor').val();
 
+		calc_totalPagos();
+
 		if(proveedor==''){
 			toastr['warning']('Ingrese un Proveedor', 'Paso 4', {optionsToastr});
 			e.preventDefault();
@@ -329,7 +331,7 @@ $(document).on('ready',function(){
 		itemsPagos =0;
 		$(".pagototal").each(function(){
 		  sum += parseFloat($(this).text());
-		  items = items + 1;
+		  itemsPagos = itemsPagos + 1;
 		});
 		
 		pagoRestantetotal = compraTotal - sum;
