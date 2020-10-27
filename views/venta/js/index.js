@@ -467,6 +467,11 @@ $(document).on('ready',function(){
 						obtenerPagos();
 						calc_totalPagos();
 						hideItems();
+						tblReporteventas();
+
+						$("#pdf_viewer").html('<iframe src = "venta/creacionFacturaurl/'+parsed[0].idventa+'" width="100%"" height="600px" allowfullscreen webkitallowfullscreen></iframe>')
+						$('#mDetallefactura').modal('toggle');
+
 						console.log("finishpaymentCart");
 						toastr['success']('Se Ingreso la Venta con exito <br> Cod. Venta:'+parsed[0].idventa, {optionsToastr});
 
@@ -547,6 +552,49 @@ $(document).on('ready',function(){
 
 	})
 
+
+	function tblReporteventas(){
+		$('#tblReporteventas').dataTable().fnDestroy();		 	
+		$('#tblReporteventas').DataTable({
+			"order": [[ 0, "desc" ]],
+			"ajax" : "venta/getVentas",
+			"columns" : [	
+				{"data" : "nIDVENTA"},
+				{"data" : "nIDLOCAL"},
+				{"data" : "nLOCAL"},
+				{"data" : "dFECHAVENTA"},
+				{"data" : "total"},
+				{"data" : "OPCIONES"},
+			]
+		});	
+	}
+	
+	tblReporteventas();
+
+
+	$("#tblReporteventas").on('click', '.viewPdf', function(){
+
+		console.log("click");
+		var myId = $(this).attr('id');
+		datos = { 'id': myId};
+		console.log(datos)
+ 
+		// $.ajax({
+		// 	url: 'venta/creacionFactura',  
+		// 	type: 'POST',
+		// 	data: datos,
+		// 	success: function(data){
+			
+		// 	}				
+		// });
+
+		$("#pdf_viewer").html('<iframe src = "venta/creacionFacturaurl/'+myId+'" width="100%"" height="600px" allowfullscreen webkitallowfullscreen></iframe>')
+
+		$('#mDetallefactura').modal('toggle');
+
+
+
+	})
 
 	
 });

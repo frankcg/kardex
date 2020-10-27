@@ -501,7 +501,244 @@ class ventaController extends Controller{
 	}
 
 
+	public function creacionFactura(){
+
+		$objModel=$this->loadModel('venta');
+		$this->getLibrary('FPDF/fpdf');
+
+		// $idFactura = '0000000022';
+		$idFactura	= $_POST['id'];
+		
+		$simbolo = 'S/ ';
+
+		$result=$objModel->getVentaFactura($idFactura);
+		$resultProducts=$objModel->getVentaFactura($idFactura);
+		$resultpagos=$objModel->getVentaPagos($idFactura);
+
+		$pdf = new FPDF('P','mm',array(80,300));
+		$pdf->AddPage();
+		
+		// CABECERA
+		$pdf->SetFont('Helvetica','',12);
+		$pdf->Cell(0,4,'Local 1 ',0,1,'C');
+		$pdf->SetFont('Helvetica','',8);
+		$pdf->Cell(0,4,'RUC.: 000000000000',0,1,'C');
+		$pdf->Cell(0,4,'Distrito',0,1,'C');
+		$pdf->Cell(0,4,'Lima-Peru',0,1,'C');
+		
+		$pdf->Cell(0,4,'Telf: 0000 0000 0000',0,1,'C');
+		// DATOS FACTURA 
+		
+		while($reg=$result->fetch_object()){
+			$cliente = $reg->sDESCRIPCION;
+			$idFactura = $reg->nIDVENTA;
+			$fVenta = $reg->dFECHAVENTA;
+		}
+
+		$pdf->Ln(5);
+		$pdf->Cell(25,4,'Cliente: '.$cliente ,0,1,'|');
+		$pdf->Cell(25,4,'Factura Simpl.: F2020-'.$idFactura ,0,1,'');
+		$pdf->Cell(25,4,'Fecha: '.$fVenta,0,1,'');
+		$pdf->Cell(25,4,'Metodos de pago: ',0,1,'');
+		$pdf->Ln(0);
+
+		while($reg=$resultpagos->fetch_object()){
+			$Metodo = $reg->sdescripcion;
+			$Monto = $reg->fmonto;
+			$pdf->Cell(25,4,$Metodo.'-'.$simbolo.$Monto,0,1,'');
+		}
+
+		
+		
+		// COLUMNAS
+		$pdf->SetFont('Helvetica', 'B', 7);
+		$pdf->Cell(30, 10, 'Articulo', 0);
+		$pdf->Cell(5, 10, 'Ud',0,0,'R');
+		$pdf->Cell(10, 10, 'Precio',0,0,'R');
+		$pdf->Cell(15, 10, 'Total',0,0,'R');
+		$pdf->Ln(8);
+		$pdf->Cell(60,0,'','T');
+		$pdf->Ln(1);
+
+		
+
+		// PRODUCTOS
+		$pdf->SetFont('Helvetica', '', 7);
+
+
+		$total = 0;
+		$data = array();
+
+		while($reg=$resultProducts->fetch_object()){
+
+			$sNOMBRE = $reg->sNOMBRE;
+			$CANTIDAD = $reg->CANTIDAD;
+			$fPRECIO = $reg->fPRECIO;
+			$total	+= $CANTIDAD*$fPRECIO;
+
+			$pdf->MultiCell(30,4,$sNOMBRE,0,'L'); 
+			$pdf->Cell(35, -5, $CANTIDAD,0,0,'R');
+			$pdf->Cell(10, -5, number_format(round($fPRECIO,2), 2, ',', ' '),0,0,'R');
+			$pdf->Cell(15, -5, number_format(round($CANTIDAD*$fPRECIO,2), 2, ',', ' '),0,0,'R');
+			$pdf->Ln(1);
+
+		}
+
+
+		// SUMATORIO DE LOS PRODUCTOS Y EL IVA
+		$pdf->Ln(1);
+		$pdf->Cell(60,0,'','T');
+		$pdf->Ln(2);    
+		$pdf->Cell(25, 10, 'TOTAL:', 0);    
+		$pdf->Cell(20, 10, '', 0);
+		$pdf->Cell(15, 10, $simbolo.$total,0,0,'R');
+		$pdf->Ln(3);    
+		// PIE DE PAGINA
+		$pdf->Ln(10);
+		$pdf->Cell(60,0,'EL PERIODO DE DEVOLUCIONES',0,1,'C');
+		$pdf->Ln(3);
+		$pdf->Cell(60,0,'HASTA QUE EL RETIRO DE LA TIENDA',0,1,'C');
+		
+		$pdf->Output('ticket.pdf','i');
+ 
+ 	}
+
+
+	 public function creacionFacturaurl($idFactura){
+
+		$objModel=$this->loadModel('venta');
+		$this->getLibrary('FPDF/fpdf');
+
+		// $idFactura = '0000000022';
+		$idFactura	= $idFactura;
+		
+		$simbolo = 'S/ ';
+
+		$result=$objModel->getVentaFactura($idFactura);
+		$resultProducts=$objModel->getVentaFactura($idFactura);
+		$resultpagos=$objModel->getVentaPagos($idFactura);
+
+		$pdf = new FPDF('P','mm',array(80,300));
+		$pdf->AddPage();
+		
+		// CABECERA
+		$pdf->SetFont('Helvetica','',12);
+		$pdf->Cell(0,4,'Local 1 ',0,1,'C');
+		$pdf->SetFont('Helvetica','',8);
+		$pdf->Cell(0,4,'RUC.: 000000000000',0,1,'C');
+		$pdf->Cell(0,4,'Distrito',0,1,'C');
+		$pdf->Cell(0,4,'Lima-Peru',0,1,'C');
+		
+		$pdf->Cell(0,4,'Telf: 0000 0000 0000',0,1,'C');
+		// DATOS FACTURA 
+		
+		while($reg=$result->fetch_object()){
+			$cliente = $reg->sDESCRIPCION;
+			$idFactura = $reg->nIDVENTA;
+			$fVenta = $reg->dFECHAVENTA;
+		}
+
+		$pdf->Ln(5);
+		$pdf->Cell(25,4,'Cliente: '.$cliente ,0,1,'|');
+		$pdf->Cell(25,4,'Factura Simpl.: F2020-'.$idFactura ,0,1,'');
+		$pdf->Cell(25,4,'Fecha: '.$fVenta,0,1,'');
+		$pdf->Cell(25,4,'Metodos de pago: ',0,1,'');
+		$pdf->Ln(0);
+
+		while($reg=$resultpagos->fetch_object()){
+			$Metodo = $reg->sdescripcion;
+			$Monto = $reg->fmonto;
+			$pdf->Cell(25,4,$Metodo.'-'.$simbolo.$Monto,0,1,'');
+		}
+
+		
+		
+		// COLUMNAS
+		$pdf->SetFont('Helvetica', 'B', 7);
+		$pdf->Cell(30, 10, 'Articulo', 0);
+		$pdf->Cell(5, 10, 'Ud',0,0,'R');
+		$pdf->Cell(10, 10, 'Precio',0,0,'R');
+		$pdf->Cell(15, 10, 'Total',0,0,'R');
+		$pdf->Ln(8);
+		$pdf->Cell(60,0,'','T');
+		$pdf->Ln(1);
+
+		
+
+		// PRODUCTOS
+		$pdf->SetFont('Helvetica', '', 7);
+
+
+		$total = 0;
+		$data = array();
+
+		while($reg=$resultProducts->fetch_object()){
+
+			$sNOMBRE = $reg->sNOMBRE;
+			$CANTIDAD = $reg->CANTIDAD;
+			$fPRECIO = $reg->fPRECIO;
+			$total	+= $CANTIDAD*$fPRECIO;
+
+			$pdf->MultiCell(30,4,$sNOMBRE,0,'L'); 
+			$pdf->Cell(35, -5, $CANTIDAD,0,0,'R');
+			$pdf->Cell(10, -5, number_format(round($fPRECIO,2), 2, ',', ' '),0,0,'R');
+			$pdf->Cell(15, -5, number_format(round($CANTIDAD*$fPRECIO,2), 2, ',', ' '),0,0,'R');
+			$pdf->Ln(1);
+
+		}
+
+
+		// SUMATORIO DE LOS PRODUCTOS Y EL IVA
+		$pdf->Ln(1);
+		$pdf->Cell(60,0,'','T');
+		$pdf->Ln(2);    
+		$pdf->Cell(25, 10, 'TOTAL:', 0);    
+		$pdf->Cell(20, 10, '', 0);
+		$pdf->Cell(15, 10, $simbolo.$total,0,0,'R');
+		$pdf->Ln(3);    
+		// PIE DE PAGINA
+		$pdf->Ln(10);
+		$pdf->Cell(60,0,'EL PERIODO DE DEVOLUCIONES',0,1,'C');
+		$pdf->Ln(3);
+		$pdf->Cell(60,0,'HASTA QUE EL RETIRO DE LA TIENDA',0,1,'C');
+		
+		$pdf->Output('ticket.pdf','i');
+ 
+	 }
+	 
+
+	 public function getVentas(){
 	
+		$idLocal 	= '0002';
+		// $codLocal	= $_POST['codLocal'];
+
+		$objModel=$this->loadModel('venta');
+		$result=$objModel->getVentas($idLocal);
+		$cont=0;
+
+		$btn='btn-info';
+		$icon='fa-file';
+		$title='Habilitar';
+		$class='viewPdf';
+
+		while($reg=$result->fetch_object()){
+			$cont++;
+
+			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+
+			$data ['data'] [] = array (
+				'nIDVENTA' 		=> $reg->nIDVENTA,
+				'nIDLOCAL' 		=> $reg->nIDLOCAL,
+				'nLOCAL' 		=> $reg->nLOCAL,
+				'dFECHAVENTA' 	=> $reg->dFECHAVENTA,
+				'total' 		=> $reg->total,
+				'OPCIONES' 		=> $boton,
+				);
+		}
+		echo json_encode ( $data );
+	}
+
+
 
 
 

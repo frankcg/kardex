@@ -210,7 +210,71 @@ Class ventaModel extends Model{
 		return $response;
 	}
 
-	
+	public function getVentaFactura($idFactura){
+		$sql="SELECT 
+					  	d.nIDLOCAL,
+						d.sDESCRIPCION,
+						b.nIDVENTA,
+						b.dFECHAVENTA,
+						a.nIDPRODUCTO,
+						c.sNOMBRE,
+						SUM(a.nCANTIDAD) CANTIDAD,
+						a.fPRECIO 
+					FROM
+					kar_venta_detalle AS a 
+					INNER JOIN kar_venta AS b 
+					ON a.nIDVENTA = b.nIDVENTA
+					INNER JOIN kar_producto AS c
+					ON a.nIDPRODUCTO = c.nIDPRODUCTO
+					INNER JOIN sel_local AS d
+					ON b.nIDLOCAL = d.nIDLOCAL
+					WHERE a.nIDVENTA = '$idFactura'
+					GROUP BY a.nIDPRODUCTO";
+				
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $response;
+	}
+
+	public function getVentas($idLocal){
+		$sql="SELECT 
+					b.nIDVENTA
+					,d.nIDLOCAL
+					, d.sDESCRIPCION nLOCAL
+					, b.dFECHAVENTA 
+					,e.sDESCRIPCION nCLIENTE
+					,(SELECT TRUNCATE(SUM(z.FPRECIO*z.NCANTIDAD),3) AS TOTAL  FROM  kar_venta_detalle AS z WHERE  z.NIDVENTA=b.nIDVENTA) total
+				FROM
+					kar_venta AS b 
+					INNER JOIN sel_local AS d 
+					ON b.nIDLOCAL = d.nIDLOCAL 
+					INNER JOIN sel_cliente AS e 
+					ON e.nIDCLIENTE = b.nIDCLIENTE 
+				WHERE 	d.nIDLOCAL='$idLocal'
+				 ";
+				
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $response;
+	}
+
+	public function getVentaPagos($idFactura){
+		$sql="  SELECT 
+					b.fmonto,
+					b.scuenta,
+					c.sdescripcion 
+				FROM
+					kar_venta AS a 
+					INNER JOIN kar_venta_pago b 
+					ON a.nIDVENTA = b.nIDVENTA 
+					INNER JOIN sel_tipopago c 
+					ON b.nidtipopago = c.nidtipopago 
+					INNER JOIN sel_cuenta d 
+					ON d.nidcuenta = b.sCUENTA 
+				WHERE a.nIDVENTA = '$idFactura' ";
+							
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $response;
+	}
+
 	
 	public function getCompras($idProducto){
 
