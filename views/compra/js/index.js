@@ -183,16 +183,16 @@ $(document).on('ready',function(){
 		if(proveedor==''){
 			toastr['warning']('Ingrese un Proveedor', 'Paso 4', {optionsToastr});
 			e.preventDefault();
-		}else if(items = 0 ){
+		}else if(items == 0 ){
 			toastr['warning']('Ingrese un Producto', 'Paso 1', {optionsToastr});
 			e.preventDefault();
-		}else if(itemsPagos = 0){
+		}else if(itemsPagos == 0){
 			toastr['warning']('Ingrese un Pago', 'Paso 3', {optionsToastr});
 			e.preventDefault();
 		}else {
 			console.log("paso finish");
 			var formData = new FormData($("#formProveedor")[0]);
-			formData.append("codLocal",codLocal);
+			formData.append("codLocal",codLocal); 
 
 			$.ajax({
 				url: 'compra/finishpaymentCart',  
