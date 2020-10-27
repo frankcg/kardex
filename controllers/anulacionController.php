@@ -11,6 +11,11 @@ class anulacionController extends Controller{
 	public function index(){
 		$idLocal = $_GET['idLocal'];
 		$this->_view->idLocal=$idLocal;
+		
+		$objModel=$this->loadModel('general');
+		$nombreLocal = $objModel->getNombreLocal($idLocal);		
+		$this->_view->nombreLocal=$nombreLocal;
+
 		$this->_view->setJs(array('index'));
 		$this->_view->renderizar('index');
 	}
@@ -58,7 +63,12 @@ class anulacionController extends Controller{
 		$idCompra = $_POST['idcompra'];
 		$motivo = $_POST['motivo'];
 		$objModel=$this->loadModel('anulacion');
-		$result=$objModel->anularCompra($idCompra, $motivo);
+		$response=$objModel->validarAnulacion($idCompra);
+		if(!$response)
+			$result=$objModel->anularCompra($idCompra, $motivo);
+		else
+			$result=false;
+
 		echo json_encode(array('idAnulacion'=>$result));
 	}
 

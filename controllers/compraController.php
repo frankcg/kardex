@@ -413,7 +413,7 @@ class compraController extends Controller{
 
 						$existeProducto=$objModel->productvalidate($idProducto);
 							if($existeProducto !== 1){
-								$idProductocompra =	$objModel->insertProducto($nombre);
+								$idProductocompra =	$objModel->insertProducto($nombre, $codLocal);
 							}else{
 								$idProductocompra =	$idProducto;
 							}

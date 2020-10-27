@@ -4,11 +4,11 @@
 
 <div class="px-content">
   <ol class="breadcrumb page-breadcrumb">
-    <li><a href="<?php echo BASE_URL; ?>anulacion?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
-    <li class="active">Anulacion</li>
+    <li><a href="<?php echo BASE_URL; ?>extorno?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
+    <li class="active">Extorno</li>
   </ol>
   <div class="page-header">
-    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Anulacion de Compra</h1>
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Extornar Venta</h1>
   </div>
 
   <div class="row">    
@@ -19,7 +19,7 @@
         </div>
         <div class="panel-body">
 
-          <form class="smart-form" id="formAnulacion">
+          <form class="smart-form" id="formExtorno">
 
               <div class="form-group col-sm-4 hide">
                 <label class="control-label required" for="required-input">Cod. Local</label>
@@ -27,24 +27,18 @@
               </div>
 
               <div class="form-group col-sm-4">
-                <label class="control-label required" for="required-input">Cod. Compra</label>
-                <input type="text" class="form-control numeros" id="codCompra" name="codCompra">
+                <label class="control-label required" for="required-input">Cod. Venta</label>
+                <input type="text" class="form-control numeros" id="codVenta" name="codVenta">
               </div>
 
               <div class="form-group col-sm-4">
-                <label class="control-label required" for="required-input">Fecha Inicio Compra</label>
+                <label class="control-label required" for="required-input">Fecha Inicio Venta</label>
                 <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
               </div>
 
               <div class="form-group col-sm-4">
-                <label class="control-label required" for="required-input">Fecha Fin Compra</label>
+                <label class="control-label required" for="required-input">Fecha Fin Venta</label>
                 <input type="date" class="form-control" id="fechaFin" name="fechaFin">
-              </div>
-
-              <div class="form-group col-sm-12">
-                <div class="form-group has-error">              
-                  <small class="form-message" id="msj_anulacion"></small>
-                </div>
               </div>
 
           </form>          
@@ -61,17 +55,17 @@
           <div class="col-md-12">
             <div class="panel">
               <div class="panel-heading">
-                <div class="panel-title">Compras Filtradas</div>
+                <div class="panel-title">Ventas Filtradas</div>
               </div>
               <div class="panel-body">
-                <table class="table table-hover" id="tablaCompra" width="100%">
+                <table class="table table-hover" id="tablaVenta" width="100%">
                   <thead>
                     <tr>
-                      <th>FECHA COMPRA</th>
-                      <th>COD. COMPRA</th>
-                      <th>PROVEEDOR</th>
-                      <th>CANTIDAD COMPRA</th>
-                      <th>COSTO COMPRA</th>
+                      <th>FECHA VENTA</th>
+                      <th>COD. VENTA</th>
+                      <th>CLIENTE</th>
+                      <th>CANTIDAD VENTA</th>
+                      <th>COSTO VENTA</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -87,7 +81,7 @@
 
 </div>
 
-<div class="modal fade" id="mDetalleCompra" tabindex="-1">
+<div class="modal fade" id="mDetalleVenta" tabindex="-1">
 
   <div class="modal-dialog modal-lg">
 
@@ -95,26 +89,26 @@
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title">Anular Compra</h4>
+        <h4 class="modal-title">Extornar Venta</h4>
       </div>
 
       <div class="modal-body">
 
-        <form class="" id="form_compra_detalle">
+        <form class="" id="form_venta_detalle">
           <div class="row">
             <div class="form-group col-sm-4">
-              <label class="control-label required" for="required-input">Cod. Compra</label>
-              <input type="text" class="form-control" id="idcompra" name="idcompra" autocomplete="off" maxlength="15" readonly="readonly">
+              <label class="control-label required" for="required-input">Cod. Venta</label>
+              <input type="text" class="form-control" id="idVenta" name="idVenta" autocomplete="off" maxlength="15" readonly="readonly">
             </div>
 
             <div class="form-group col-sm-4">
-              <label class="control-label required" for="required-input">Fecha Compra</label>
-              <input type="text" class="form-control" id="fechaCompra" name="fechaCompra" autocomplete="off" readonly="readonly">
+              <label class="control-label required" for="required-input">Fecha Venta</label>
+              <input type="text" class="form-control" id="fechaVenta" name="fechaVenta" autocomplete="off" readonly="readonly">
             </div>
 
             <div class="form-group col-sm-4">
-              <label class="control-label required" for="required-input">Proveedor</label>
-              <input type="text" class="form-control" id="sProveedor" name="sProveedor" autocomplete="off" maxlength="100" readonly="readonly">
+              <label class="control-label required" for="required-input">Cliente</label>
+              <input type="text" class="form-control" id="sCliente" name="sCliente" autocomplete="off" maxlength="100" readonly="readonly">
             </div>
 
             <div class="form-group col-sm-6">
@@ -124,7 +118,7 @@
 
             <div class="form-group col-sm-6">
               <label class="control-label required" for="required-input">Motivo</label>
-              <textarea class="form-control" id="motivo" name="motivo" autocomplete="off"></textarea>
+              <textarea class="form-control" id="sMotivo" name="sMotivo" autocomplete="off"></textarea>
             </div>
 
           </div>
@@ -140,19 +134,21 @@
                     <th class="p-x-2">Total</th>
                   </tr>
                 </thead>
-                <tbody class="font-size-14" id="tBodyDetalleCompra">
+                <tbody class="font-size-14" id="tBodyDetalleVenta">
                 </tbody>
                 <tfoot>
                   <tr class="info">
                     <td>Cant. Total</td>
-                    <td> <strong><span id="cantidadTotalCompra"></span></strong> </td>
+                    <td> <strong><span id="cantidadTotalVenta"></span></strong> </td>
                     <td>Precio Total</td>
-                    <td> <strong><span id="precioTotalCompra"></span></strong> </td>
+                    <td> <strong><span id="precioTotalVenta"></span></strong> </td>
                   </tr>
                 </tfoot>
               </table>
             </div>
-            
+
+
+
           </div>
 
         </form>
@@ -161,7 +157,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-danger" id="btnAnular">Anular</button>
+        <button type="button" class="btn btn-danger" id="btnExtornar">Extornar</button>
       </div>
 
     </div>

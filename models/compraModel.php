@@ -120,15 +120,17 @@ Class compraModel extends Model{
 		return $idCompra;
 	}
 
-	public function insertProducto($nombre){		
+	public function insertProducto($nombre, $codLocal){		
 		$user=$_SESSION['user'];
 		date_default_timezone_set('America/Lima');
 		$fechaHoraActual = date('Y-m-d H:m:s');
 		$sql=	"INSERT INTO kar_producto
-				(sNOMBRE
-				,dIDUSUARIOCREACION)
+				(sNOMBRE,
+				nIDLOCAL,
+				sIDUSUARIOCREACION)
 				VALUES 
 				('$nombre'
+				,$codLocal
 				,'$user');";
 		$this->_db->query($sql)or die ('Error en '.$sql);
 		$idProducto=$this->_db->insert_id;
