@@ -11,6 +11,11 @@ class ventaController extends Controller{
 	public function index(){		
 		$idLocal = $_GET['idLocal'];
 		$this->_view->idLocal=$idLocal;
+
+		$objModel=$this->loadModel('general');
+		$nombreLocal = $objModel->getNombreLocal($idLocal);		
+		$this->_view->nombreLocal=$nombreLocal;
+		
 		$this->_view->setJs(array('index'));
 		$this->_view->renderizar('index');
 	}
