@@ -20,12 +20,13 @@ class ventaController extends Controller{
 		$this->_view->renderizar('index');
 	}
 
-	public function getComboProductos(){
+	public function getComboProductos($codLocal){
+		$codLocal = $codLocal;
 		$objModel=$this->loadModel('venta');
-		$result = $objModel->getComboProductos();
+		$result = $objModel->getComboProductos($codLocal);
 		echo '<option selected disabled> SELECCIONE </option>';
 		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->nIDPRODUCTO.'"  id2="'.$reg->sNOMBRE.'" id3="'.$reg->nCANTIDAD.'"> '.$reg->sNOMBRE. ' - '.$reg->nCANTIDAD. '</option>';
+			echo '<option value="'.$reg->nIDPRODUCTO.'"  id2="'.$reg->sNOMBRE.'" id3="'.$reg->nCANTIDAD.'"> '.$reg->sLOCAL. ' - '.$reg->sNOMBRE. ' - '.$reg->nCANTIDAD. '</option>';
 		}
 	}
 
@@ -99,13 +100,14 @@ class ventaController extends Controller{
 		$cantidad		= $_POST['cantidad'];
 		$cartNombre		= $_POST['cartNombre'];
 		$precioCompra	= $_POST['precioCompra'];
- 
+		$perdida		= $_POST['perdida'];
 
 		$productsArray = array(
 			"idProducto"=>$idProducto
 			,"cartNombre"=>$cartNombre
 			,"cantidad"=>$cantidad
 			,"precio"=>$precioCompra
+			,"perdida"=>$perdida
 		);
 
 		// $this->clearCartventas();
@@ -134,12 +136,20 @@ class ventaController extends Controller{
 	public function showproductCart(){
 
 		$tableProducts = "";
- 
+
+
 		if(!empty($_SESSION["cart"]["ventasproducts"])){
 		foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
 			foreach($productos as $items){
 				if($items["cartNombre"]!==""){
-					$tableProducts .= '<tr> 
+
+					if($items["perdida"]==0){
+						$trClass = ''; 
+					}else{
+						$trClass = 'danger'; 
+					}
+
+					$tableProducts .= '<tr class='.$trClass.'> 
 						<td class="p-a-2">
 							<div class="font-weight-semibold">'.$items["cartNombre"].'</div>
 							<div class="font-size-12 text-muted"><strong>ITEM ID : </strong>'.$items["idProducto"].'</div>
@@ -343,9 +353,6 @@ class ventaController extends Controller{
 					};
 
 					$tablePayments .= '<tr> 
-						<td class="p-a-2">
-							<div class="font-weight-semibold">'.$key.'</div>
-						</td>
 						<td class="p-a-2">
 							<div class="font-weight-semibold">'.$forma.'</div>
 						</td>

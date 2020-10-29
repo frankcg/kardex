@@ -14,8 +14,8 @@
   </div>
 
   <div class="form-group col-sm-4 hide">
-  <label class="control-label required" for="required-input">Cod. Local</label>
-  <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
+    <label class="control-label required" for="required-input">Cod. Local</label>
+    <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
   </div>
 
   <div class="wizard wizard-bordered" id="wizard-basic">
@@ -64,34 +64,57 @@
             <label class="control-label" for="required-input">ID Compra</label>
             <input type="text" class="form-control" id="cartNombre" name="cartNombre" autocomplete="off" readonly="readonly">
           </div>
- 
 
-            <div class="panel-body">
-              <div class="col-md-12">
+
+          <div class="panel-body">
+            <div class="col-md-12" id="dividProducto">
               <select class="form-control" id="idProducto" name="idProducto" style="width: 100%" data-allow-clear="true">
               </select>
+            </div>
+            <div class="col-md-12" id="divProductoloading">
+            <div type="btn" class="btn-loading"  > </div>
+            </div>
+
+
+            <br><br>
+             <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Cantidad</label>
+              <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off">
+            
+              <div class="form-group ">
+                <br>
+ 
+
+                <div class=" ">
+                <label for="radVentacompartida" class="switcher switcher-rounded">
+                <input type="checkbox" id="radVentacompartida"  name="radVentacompartida"  unchecked="">
+                <div class="switcher-indicator">
+                  <div class="switcher-yes">SI</div>
+                  <div class="switcher-no">NO</div>
+                </div>
+                Venta Compartida ? 
+              </label>
               </div>
-              <hr class="page-wide-block">
-              <div class="form-group col-sm-6">
-                <label class="control-label required" for="required-input">Cantidad</label>
-                <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off">
+               
               </div>
 
-              <div class="form-group col-sm-6">
-                <label class="control-label required" for="required-input">Precio Venta (x Unidad)</label>
-                <input type="text" class="form-control numerospunto" id="precioCompra" name="precioCompra" autocomplete="off">
-             
-                <div class="widget-notifications-item" style="padding: unset;" class="hide" id="divPreciosAnt">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Precio Venta (x Unidad)</label>
+              <input type="text" class="form-control numerospunto" id="precioCompra" name="precioCompra" autocomplete="off">
+
+              <div class="widget-notifications-item" style="padding: unset;" class="hide" id="divPreciosAnt">
                 <br>
                 <div class="widget-notifications-title text-danger">PRECIOS ANTERIORES</div>
-                <div id="htmlPrecios" >
+                <div id="htmlPrecios">
 
+                </div>
               </div>
-              </div>
-             
-              </div>
+
             </div>
-            <button type="button" class="btn btn-primary m-r-1 pull-right " id="btn_add_compra">Agregar</button>
+          </div>
+          <button type="button" class="btn btn-primary m-r-1 pull-right " id="btn_add_compra">Agregar</button>
         </form>
 
         <div class="panel-body p-a-4 bg-white b-b-2">
@@ -136,7 +159,7 @@
             </table>
           </div>
 
-          <div class="box m-a-0 border-radius-0">
+          <div class="box m-a-0 border-radius-0 divTotalMobile">
             <div class="box-row valign-middle">
 
               <div class="m-t-3 visible-xs visible-sm"></div>
@@ -156,10 +179,10 @@
       </div>
 
       <div class="wizard-pane" id="wizard-example-step3">
-      <p>
-        <form class="smart-form" id="formPago">
-          <div class="panel-body">
-            
+        <p>
+          <form class="smart-form" id="formPago">
+            <div class="panel-body">
+
 
               <div class="form-group col-md-12">
                 <label for="formaPago" class="col-md-3 control-label">Forma de Pago</label>
@@ -186,34 +209,31 @@
               </div>
 
               <button type="button" class="btn btn-primary m-r-1 pull-right " id="btn_add_pago">Agregar</button>
-            
+
+            </div>
+          </form>
+
+          <hr class="page-wide-block">
+
+          <div class="table-responsive">
+            <table class="table m-a-0">
+              <thead>
+                <tr class="bg-white darken">
+                  <th class="p-x-2">
+                    Forma de pago
+                  </th>
+                  <th class="p-x-2">
+                    Monto
+                  </th>
+                  <th class="p-x-2">
+                    Opciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="font-size-14" id="pagosCart">
+              </tbody>
+            </table>
           </div>
-        </form>
-
-        <hr class="page-wide-block">
-
-        <div class="table-responsive">
-          <table class="table m-a-0">
-            <thead>
-              <tr class="bg-white darken">
-                <th class="p-x-2">
-                  id
-                </th>
-                <th class="p-x-2">
-                  Forma de pago
-                </th>
-                <th class="p-x-2">
-                  Monto
-                </th>
-                <th class="p-x-2">
-                  Opciones
-                </th>
-              </tr>
-            </thead>
-            <tbody class="font-size-14" id="pagosCart">
-            </tbody>
-          </table>
-        </div>
 
 
         </p>
@@ -226,32 +246,32 @@
       </div>
 
       <div class="wizard-pane" id="wizard-example-step4">
-      <p>
-      <form class="smart-form" id="formProveedor">
-          <div class="form-group col-md-12">
+        <p>
+          <form class="smart-form" id="formProveedor">
             <div class="form-group col-md-12">
-              <label class="control-label required" for="required-input">Cliente</label>
-              <input type="text" class="form-control" id="cliente" name="cliente" autocomplete="off">
+              <div class="form-group col-md-12">
+                <label class="control-label required" for="required-input">Cliente</label>
+                <input type="text" class="form-control" id="cliente" name="cliente" autocomplete="off">
+              </div>
+              <div class="form-group col-md-12 hide">
+                <label class="control-label required" for="required-input">idCliente</label>
+                <input type="text" class="form-control" id="idCliente" name="idCliente" autocomplete="off">
+              </div>
+
+              <div class="form-group col-md-12">
+                <label class="control-label required" for="required-input">Observaciones</label>
+                <textarea class="form-control" rows="3" id="observaciones" name="observaciones" placeholder="Obsercaciones"></textarea>
+
+              </div>
+
+
+
             </div>
-            <div class="form-group col-md-12 hide">
-              <label class="control-label required" for="required-input">idCliente</label>
-              <input type="text" class="form-control" id="idCliente" name="idCliente" autocomplete="off">
-            </div>
-
-            <div class="form-group col-md-12">
-              <label class="control-label required" for="required-input">Observaciones</label>
-              <textarea class="form-control" rows="3" id="observaciones" name="observaciones" placeholder="Obsercaciones" ></textarea>
-
-            </div>
+          </form>
 
 
-
-          </div>
-      </form>
-
-
-      </p>
-      <div class="pull-right">
+        </p>
+        <div class="pull-right">
           <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
           <button type="button" class="btn btn-primary" data-wizard-action="finish">Finish</button>
         </div>
@@ -261,47 +281,59 @@
   </div>
 
   <div class="px-content">
- 
-  <div class="page-header">
-    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Ultimas Ventas</h1>
-  </div>
 
-  <div class="row">    
-    <div class="col-md-12">
-     
-      <div class="row">
-            <div class="col-md-12">
-              <div class="panel">
-                <div class="panel-heading">
-                  <div class="panel-title">Listado de Producto</div>
-                </div>
-                <div class="panel-body table-responsive">
-                  <table class="table table-hover" id="tblReporteventas" width="100%">
-                    <thead>
-                      <tr>
-                        <th>nIDVENTA</th>
-                        <th>nIDLOCAL</th>
-                        <th>nLOCAL</th>
-                        <th>dFECHAVENTA</th>
-                        <th>total</th>
-                        <th>OPCIONES</th>
-                      </tr>
-                    </thead>
-                    <tbody id="">
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
+    <div class="page-header">
+      <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Ultimas Ventas</h1>
+    </div>
 
-                  </table>
-                </div>
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel">
+              <div class="panel-heading">
+                <div class="panel-title">Listado de Producto</div>
+              </div>
+              <div class="panel-body table-responsive">
+                <table class="table table-hover" id="tblReporteventas" width="100%">
+                  <thead>
+                    <tr>
+                      <th>nIDVENTA</th>
+                      <th>nIDLOCAL</th>
+                      <th>nLOCAL</th>
+                      <th>dFECHAVENTA</th>
+                      <th>total</th>
+                      <th>OPCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody id="">
+                  </tbody>
+                  <tfoot>
+                  </tfoot>
+
+                </table>
               </div>
             </div>
           </div>
+        </div>
+      </div>
     </div>
+
+
+
+  </div>
+
+  <div class='footerTotal'>
+
+    <div class="box-cell col-md-12 bg-white darken p-x-3 p-y-2">
+      <div class="pull-xs-left m-y-1 font-size-12 text-muted"><strong>TOTAL:</strong></div>
+      <div class="pull-xs-right font-size-24"><strong>S/</strong><strong id="ventaTotal2"></strong></div>
+    </div>
+
   </div>
 
 </div>
-
 
 
 <div class="modal fade" id="mDetallefactura" tabindex="-1">
@@ -317,21 +349,19 @@
 
       <div class="modal-body">
 
-      <div  id="pdf_viewer">
+        <div id="pdf_viewer">
 
-      </div>
+        </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+        </div>
+
       </div>
 
     </div>
 
   </div>
 
+
 </div>
-</div>
-
-
-
-

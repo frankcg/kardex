@@ -72,7 +72,8 @@ $(document).on('ready',function(){
 		});
 
 
-
+		
+ 
 		$('#cuenta').typeahead({
 			displayText: function(item) {
 				 return item.label
@@ -96,6 +97,10 @@ $(document).on('ready',function(){
 			console.log($('#idCuenta').val())
 			});
 
+
+
+		$("#idProveedor").val("0001");
+		$("#proveedor").val("PROVEEDOR GENERAL");
 
 		$('#proveedor').typeahead({
 			displayText: function(item) {

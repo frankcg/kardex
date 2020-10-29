@@ -5,8 +5,13 @@ Class ventaModel extends Model{
 		parent::__construct();
 	}
 
-	public function getComboProductos(){
-		$sql="SELECT * FROM vw_sel_productos_stock";
+	public function getComboProductos($codLocal){
+		if($codLocal > '0'){
+			$select = " WHERE nLOCAL IN ('".$codLocal."')";
+		}else{
+			$select = "";
+		}
+		$sql="SELECT * FROM vw_sel_productos_stock".$select;
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

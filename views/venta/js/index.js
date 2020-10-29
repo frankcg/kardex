@@ -24,10 +24,15 @@ $(document).on('ready',function(){
 
 	hideItems();
 
-	function getComboProductos() {
+ 
+	
+	function getComboProductos(codLocal) {
+ 
 	$(function(){
-		$.post('venta/getComboProductos',{},function(data){
+		$.post('venta/getComboProductos/'+codLocal,{},function(data){
 			console.log("entroal select");
+			$('#dividProducto').show();
+			$('#divProductoloading').hide();
 				$('#idProducto').html(data);
 				$('#idProducto').select2({
 					placeholder: 'Seleccione un Producto',
@@ -37,7 +42,20 @@ $(document).on('ready',function(){
 	});
 	}
 
-	getComboProductos();
+	$('#radVentacompartida').change(function(){
+		var radioValue = $("input[name='radVentacompartida']:checked").val();
+
+		$('#dividProducto').hide();
+		$('#divProductoloading').show();
+
+		if(radioValue == "on"){
+			getComboProductos(0);
+		}else{
+			getComboProductos($('#codLocal').val());
+		}
+	})
+
+	getComboProductos($('#codLocal').val());
 
 	$(function(){
 		$.post('venta/getTipopago',{},function(data){
@@ -63,6 +81,9 @@ $(document).on('ready',function(){
 		  })
 		}   
 	})
+
+			
+
 
 	$("#cuenta").keypress(function(){
 		$('#idCuenta').val('');
@@ -108,6 +129,7 @@ $(document).on('ready',function(){
 	});	
 
 
+	$('#idProductoloading').show();
 	
 
 	$('#idProducto').change(function(){
@@ -147,8 +169,9 @@ $(document).on('ready',function(){
 		$('#precioCompra').val(valor);
 		})
 
-	function addProduct(){
+	function addProduct(perdida){
 		var formData = new FormData($("#formVenta")[0]);
+		formData.append("perdida",perdida);
 		$.ajax({
 			url: 'venta/addproductCart',  
 			type: 'POST',
@@ -225,13 +248,13 @@ $(document).on('ready',function(){
 				icon: 'fa fa-alert',
 				animation: 'zoom', 
 				confirm: function(){
-					addProduct();
+					addProduct('1');
 				},cancel: function(){
 					$.alert('Producto NO agregado.');		        
 				}
 			});
 		}else{
-			addProduct();
+			addProduct('0');
 		}
 			
 
@@ -286,7 +309,7 @@ $(document).on('ready',function(){
 		console.log(ventaTotal);
 
 		$('#ventaTotal').text(sum);
-		
+		$('#ventaTotal2').text(sum);
 
 		
 		if(sum>0){
@@ -357,6 +380,7 @@ $(document).on('ready',function(){
 	  });
 
 
+
 	  $('#btn_add_pago').click(function(){
 
 		var formaPago 		= $('#formaPago').val();
@@ -379,7 +403,8 @@ $(document).on('ready',function(){
 		
 		console.log(outputLog);
 
-		if(formaPago 	== ''){ $('#msj_compra_producto').html('Ingrese Nombre del Producto');}
+		if(formaPago == ""){ $('#msj_compra_producto').html('Ingrese Nombre del Producto');}
+		else if(formaPago === null ){ $('#msj_compra_producto').html('Ingrese Nombre del Producto');}
 		else if(formaPago == 2 && cuenta 	== ''){ $('#msj_compra_producto').html('Ingrese Cantidad');}
 		else if(montopago 	== ''){ $('#msj_compra_producto').html('Ingrese Compra');}
 		else{
@@ -461,7 +486,7 @@ $(document).on('ready',function(){
 						$('#formPago')[0].reset();
 
 						$('#wizard-basic').pxWizard('reset');
-						getComboProductos();
+						getComboProductos($('#codLocal').val());
 						obtenerCart();
 						calc_total()
 						obtenerPagos();
