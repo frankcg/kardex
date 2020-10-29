@@ -548,17 +548,7 @@ class ventaController extends Controller{
 		}
 
 		$pdf->Ln(5);
-		$pdf->Cell(25,4,'Cliente: '.$cliente ,0,1,'|');
-		$pdf->Cell(25,4,'Factura Simpl.: F2020-'.$idFactura ,0,1,'');
-		$pdf->Cell(25,4,'Fecha: '.$fVenta,0,1,'');
-		$pdf->Cell(25,4,'Metodos de pago: ',0,1,'');
-		$pdf->Ln(0);
 
-		while($reg=$resultpagos->fetch_object()){
-			$Metodo = $reg->sdescripcion;
-			$Monto = $reg->fmonto;
-			$pdf->Cell(25,4,$Metodo.'-'.$simbolo.$Monto,0,1,'');
-		}
 
 		
 		
@@ -604,10 +594,25 @@ class ventaController extends Controller{
 		$pdf->Cell(25, 10, 'TOTAL:', 0);    
 		$pdf->Cell(20, 10, '', 0);
 		$pdf->Cell(15, 10, $simbolo.$total,0,0,'R');
-		$pdf->Ln(3);    
+		$pdf->Ln(3);   
+		
+		$pdf->Ln(5);
+		$pdf->Cell(25,4,'Cliente: '.$cliente ,0,1,'|');
+		$pdf->Cell(25,4,'Proforma: F2020-'.$idFactura ,0,1,'');
+		$pdf->Cell(25,4,'Fecha: '.$fVenta,0,1,'');
+		$pdf->Cell(25,4,'Metodos de pago: ',0,1,'');
+		$pdf->Ln(0);
+
+		while($reg=$resultpagos->fetch_object()){
+			$Metodo = $reg->sdescripcion;
+			$Monto = $reg->fmonto;
+			$pdf->Cell(25,4,$Metodo.'-'.$simbolo.$Monto,0,1,'');
+		}
+
+ 
 		// PIE DE PAGINA
 		$pdf->Ln(10);
-		$pdf->Cell(60,0,'EL PERIODO DE DEVOLUCIONES',0,1,'C');
+		$pdf->Cell(60,0,'***ESTE COMPROBANTE***',0,1,'C');
 		$pdf->Ln(3);
 		$pdf->Cell(60,0,'HASTA QUE EL RETIRO DE LA TIENDA',0,1,'C');
 		
@@ -633,38 +638,33 @@ class ventaController extends Controller{
 		$pdf = new FPDF('P','mm',array(80,300));
 		$pdf->AddPage();
 		
-		// CABECERA
-		$pdf->SetFont('Helvetica','',12);
-		$pdf->Cell(0,4,'Local 1 ',0,1,'C');
-		$pdf->SetFont('Helvetica','',8);
-		$pdf->Cell(0,4,'RUC.: 000000000000',0,1,'C');
-		$pdf->Cell(0,4,'Distrito',0,1,'C');
-		$pdf->Cell(0,4,'Lima-Peru',0,1,'C');
-		
-		$pdf->Cell(0,4,'Telf: 0000 0000 0000',0,1,'C');
-		// DATOS FACTURA 
-		
 		while($reg=$result->fetch_object()){
-			$cliente = $reg->sDESCRIPCION;
+			$tienda = $reg->TIENDA;
+			$cliente = $reg->CLIENTE;
 			$idFactura = $reg->nIDVENTA;
 			$fVenta = $reg->dFECHAVENTA;
+			$sRUC = $reg->sRUC;
+			$sDIRECCION = $reg->sDIRECCION;
+			$nTELEFONO = $reg->nTELEFONO;
 		}
 
+		// CABECERA
+		$pdf->SetFont('Helvetica','',12);
+		$pdf->Cell(0,4,$tienda,0,1,'C');
+		$pdf->SetFont('Helvetica','',7);
+		$pdf->Cell(0,4,'RUC.:'.$sRUC,0,1,'C');
+		$pdf->Cell(0,4,$sDIRECCION,0,1,'C');
+		$pdf->Cell(0,4,'Lima-Peru',0,1,'C');
+		
+		$pdf->Cell(0,4,'Telf:'.$nTELEFONO ,0,1,'C');
+		// DATOS FACTURA 
+		$pdf->SetFont('Helvetica','',7);
 		$pdf->Ln(5);
 		$pdf->Cell(25,4,'Cliente: '.$cliente ,0,1,'|');
-		$pdf->Cell(25,4,'Factura Simpl.: F2020-'.$idFactura ,0,1,'');
+		$pdf->Cell(25,4,'Proforma: F2020-'.$idFactura ,0,1,'');
 		$pdf->Cell(25,4,'Fecha: '.$fVenta,0,1,'');
-		$pdf->Cell(25,4,'Metodos de pago: ',0,1,'');
-		$pdf->Ln(0);
-
-		while($reg=$resultpagos->fetch_object()){
-			$Metodo = $reg->sdescripcion;
-			$Monto = $reg->fmonto;
-			$pdf->Cell(25,4,$Metodo.'-'.$simbolo.$Monto,0,1,'');
-		}
-
-		
-		
+		 
+	
 		// COLUMNAS
 		$pdf->SetFont('Helvetica', 'B', 7);
 		$pdf->Cell(30, 10, 'Articulo', 0);
@@ -709,11 +709,34 @@ class ventaController extends Controller{
 		$pdf->Cell(15, 10, $simbolo.$total,0,0,'R');
 		$pdf->Ln(3);    
 		// PIE DE PAGINA
+
+		// PAGOS
+		$pdf->Ln(5);
+		$pdf->Cell(60,0,'','T');
+		$pdf->Ln(1);
+		$pdf->Cell(25,3,'Metodos de pago: ',0,1,'');
+		$pdf->Ln(1);
+
+		while($reg=$resultpagos->fetch_object()){
+			$Metodo = $reg->sdescripcion;
+			$Monto = $reg->fmonto;
+			$pdf->Cell(25, 3, $Metodo.':', 0);    
+			$pdf->Cell(20, 3, '', 0);
+			$pdf->Cell(15, 3, $simbolo.$Monto,0,0,'R');
+			$pdf->Ln(3);    
+
+			
+		}
+
+
+
 		$pdf->Ln(10);
-		$pdf->Cell(60,0,'EL PERIODO DE DEVOLUCIONES',0,1,'C');
-		$pdf->Ln(3);
-		$pdf->Cell(60,0,'HASTA QUE EL RETIRO DE LA TIENDA',0,1,'C');
-		
+		$pdf->Cell(60,0,'***DISCLAIMER***',0,1,'C');
+		$pdf->Ln(1);
+		$pdf->Cell(60,3,'Este documento tiene ',0,1,'C');
+		$pdf->Cell(60,3,'caracter meramente informativo ',0,1,'C');
+		$pdf->Cell(60,3,'Su contenido carece de valor legal.',0,1,'C');
+
 		$pdf->Output('ticket.pdf','i');
  
 	 }

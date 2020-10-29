@@ -217,14 +217,19 @@ Class ventaModel extends Model{
 
 	public function getVentaFactura($idFactura){
 		$sql="SELECT 
-					  	d.nIDLOCAL,
-						d.sDESCRIPCION,
-						b.nIDVENTA,
-						b.dFECHAVENTA,
-						a.nIDPRODUCTO,
-						c.sNOMBRE,
-						SUM(a.nCANTIDAD) CANTIDAD,
-						a.fPRECIO 
+					d.nIDLOCAL
+					, d.sDESCRIPCION AS TIENDA
+					, d.sRUC
+					, d.sDIRECCION
+					, d.nTELEFONO
+					, b.nIDVENTA
+					, b.dFECHAVENTA
+					, a.nIDPRODUCTO
+					, c.sNOMBRE
+					, SUM(a.nCANTIDAD) CANTIDAD
+					, a.fPRECIO 
+					,c.sNOMBRE 
+					,e.sDESCRIPCION AS CLIENTE
 					FROM
 					kar_venta_detalle AS a 
 					INNER JOIN kar_venta AS b 
@@ -233,8 +238,10 @@ Class ventaModel extends Model{
 					ON a.nIDPRODUCTO = c.nIDPRODUCTO
 					INNER JOIN sel_local AS d
 					ON b.nIDLOCAL = d.nIDLOCAL
+					INNER JOIN sel_cliente AS e 
+	    			ON e.nIDCLIENTE = b.nIDCLIENTE
 					WHERE a.nIDVENTA = '$idFactura'
-					GROUP BY a.nIDPRODUCTO";
+					GROUP BY c.sNOMBRE ";
 				
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $response;
@@ -255,6 +262,8 @@ Class ventaModel extends Model{
 					INNER JOIN sel_cliente AS e 
 					ON e.nIDCLIENTE = b.nIDCLIENTE 
 				WHERE 	d.nIDLOCAL='$idLocal'
+				ORDER BY  b.nIDVENTA DESC
+				LIMIT 5
 				 ";
 				
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
