@@ -155,20 +155,24 @@ Class compraModel extends Model{
 		return $result;
 	}
 
-	public function insertCompraPagos($idCompra,$idtipopago,$montopago,$cuenta){		
+	public function insertCompraPagos($idCompra,$idtipopago,$montopago,$cuenta){	
+		date_default_timezone_set('America/Lima');
+		$fechaHoraActual = date('Y-m-d H:m:s');	
 		$user=$_SESSION['user'];
 		$sql=	"INSERT INTO kar_compra_pago
 				(nIDCOMPRA
 				,nIDTIPOPAGO
 				,fMONTO
-				,sCUENTA
-				,sIDUSUARIOCREACION)
+				,nIDCUENTA
+				,sIDUSUARIOCREACION
+				,dFECHAPAGO)
 				VALUES 
 				('$idCompra'
 				,'$idtipopago'
 				,'$montopago'
 				,'$cuenta'
-				,'$user');";
+				,'$user'
+				,'$fechaHoraActual');";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

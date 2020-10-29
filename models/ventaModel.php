@@ -181,13 +181,15 @@ Class ventaModel extends Model{
 				,fMONTO
 				,sCUENTA
 				,sIDUSUARIOCREACION
-				,dFECHACREACION)
+				,dFECHACREACION
+				,dFECHAPAGO)
 				VALUES 
 				('$idventa'
 				,'$idtipopago'
 				,'$montopago'
 				,'$idCuentaventa'
 				,'$user'
+				,'$fechaHoraActual'
 				,'$fechaHoraActual');";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
