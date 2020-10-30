@@ -86,7 +86,7 @@ Class cuentapagoModel extends Model{
 			INNER JOIN sel_tipopago b ON a.nIDTIPOPAGO = b.nIDTIPOPAGO AND b.nESTADO = 1
 			INNER JOIN sel_cuenta c ON a.nIDCUENTA=c.nIDCUENTA AND c.nESTADO=1
 			WHERE a.nESTADO=1 
-			AND a.nIDCOMPRA=$idCompra ORDER BY a.dFECHAPAGO DESC";
+			AND a.nIDCOMPRA=$idCompra ORDER BY a.nIDCOMPRAPAGO DESC";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

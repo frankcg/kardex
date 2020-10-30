@@ -4,11 +4,11 @@
 
 <div class="px-content">
   <ol class="breadcrumb page-breadcrumb">
-    <li><a href="<?php echo BASE_URL; ?>cuentapago?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
+    <li><a href="<?php echo BASE_URL; ?>cuentacobro?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
     <li class="active">Cuentas</li>
   </ol>
   <div class="page-header">
-    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Cuentas Por Pagar</h1>
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Cuentas Por Cobrar</h1>
   </div>
 
   <div class="row">    
@@ -27,17 +27,17 @@
               </div>
 
               <div class="form-group col-sm-4">
-                <label class="control-label required" for="required-input">Cod. Compra</label>
-                <input type="text" class="form-control numeros" id="codCompra" name="codCompra">
+                <label class="control-label required" for="required-input">Cod. Venta</label>
+                <input type="text" class="form-control numeros" id="codVenta" name="codVenta">
               </div>
 
               <div class="form-group col-sm-4">
-                <label class="control-label required" for="required-input">Fecha Inicio Compra</label>
+                <label class="control-label required" for="required-input">Fecha Inicio Venta</label>
                 <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
               </div>
 
               <div class="form-group col-sm-4">
-                <label class="control-label required" for="required-input">Fecha Fin Compra</label>
+                <label class="control-label required" for="required-input">Fecha Fin Venta</label>
                 <input type="date" class="form-control" id="fechaFin" name="fechaFin">
               </div>
 
@@ -55,15 +55,15 @@
           <div class="col-md-12">
             <div class="panel">
               <div class="panel-heading">
-                <div class="panel-title">Compras Filtradas</div>
+                <div class="panel-title">Ventas Filtradas</div>
               </div>
               <div class="panel-body">
-                <table class="table table-hover" id="tblCuentasPorPagar" width="100%">
+                <table class="table table-hover" id="tblCuentasPorCobrar" width="100%">
                   <thead>
                     <tr>
-                      <th>FECHA COMPRA</th>
-                      <th>COD. COMPRA</th>
-                      <th>PROVEEDOR</th>
+                      <th>FECHA VENTA</th>
+                      <th>COD. VENTA</th>
+                      <th>CLIENTE</th>
                       <th>IMPORTE GENERADO</th>
                       <th>IMPORTE PAGADO</th>
                       <th>DEUDA</th>
@@ -82,43 +82,43 @@
 
 </div>
 
-<div class="modal fade" id="mDetalleCompra" tabindex="-1">
+<div class="modal fade" id="mDetalleVenta" tabindex="-1">
 
   <div class="modal-dialog modal-lg">
 
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title">Cuentas por Pagar</h4>
+        <h4 class="modal-title">Cuentas por Cobrar</h4>
       </div>
 
       <div class="modal-body">
 
-        <form class="" id="form_compra_detalle">
+        <form class="" id="form_venta_detalle">
           <div class="row">
             <div class="form-group col-sm-4">
-              <label class="control-label required" for="required-input">Cod. Compra</label>
-              <input type="text" class="form-control" id="idcompra" name="idcompra" autocomplete="off" maxlength="15" readonly="readonly">
+              <label class="control-label required" for="required-input">Cod. Venta</label>
+              <input type="text" class="form-control" id="idVenta" name="idVenta" autocomplete="off" maxlength="15" readonly="readonly">
             </div>
 
             <div class="form-group col-sm-4">
-              <label class="control-label required" for="required-input">Fecha Compra</label>
-              <input type="text" class="form-control" id="fechaCompra" name="fechaCompra" autocomplete="off" readonly="readonly">
+              <label class="control-label required" for="required-input">Fecha Venta</label>
+              <input type="text" class="form-control" id="fechaVenta" name="fechaVenta" autocomplete="off" readonly="readonly">
             </div>
 
             <div class="form-group col-sm-4">
-              <label class="control-label required" for="required-input">Proveedor</label>
-              <input type="text" class="form-control" id="sProveedor" name="sProveedor" autocomplete="off" maxlength="100" readonly="readonly">
+              <label class="control-label required" for="required-input">Cliente</label>
+              <input type="text" class="form-control" id="sCliente" name="sCliente" autocomplete="off" maxlength="100" readonly="readonly">
             </div>
 
             <div class="form-group col-sm-6">
-              <label class="control-label required" for="required-input">Observacion Compra</label>
-              <textarea class="form-control" id="observacionCompra" name="observacionCompra" autocomplete="off" readonly="readonly"></textarea>
+              <label class="control-label required" for="required-input">Observacion Venta</label>
+              <textarea class="form-control" id="observacionVenta" name="observacionVenta" autocomplete="off" readonly="readonly"></textarea>
             </div>
 
             <div class="form-group col-sm-6">
               <label class="control-label" for="required-input">Observacion Pago</label>
-              <textarea class="form-control" id="observacionCompraPago" name="observacionCompraPago" autocomplete="off"></textarea>
+              <textarea class="form-control" id="observacionVentaPago" name="observacionVentaPago" autocomplete="off"></textarea>
             </div>
 
             <div class="form-group col-sm-3">
@@ -164,14 +164,14 @@
                         <th class="p-x-2">Total</th>
                       </tr>
                     </thead>
-                    <tbody class="font-size-14" id="tBodyDetalleCompra">
+                    <tbody class="font-size-14" id="tBodyDetalleVenta">
                     </tbody>
                     <tfoot>
                       <tr class="info">
                         <td>Cant. Total</td>
-                        <td> <strong><span id="cantidadTotalCompra"></span></strong> </td>
+                        <td> <strong><span id="cantidadTotalVenta"></span></strong> </td>
                         <td>Precio Total</td>
-                        <td> <strong><span id="precioTotalCompra"></span></strong> </td>
+                        <td> <strong><span id="precioTotalVenta"></span></strong> </td>
                       </tr>
                     </tfoot>
                   </table>
@@ -198,7 +198,7 @@
                     <tfoot>
                       <tr class="info">
                         <td style="text-align: center;">Deuda Total</td>
-                        <td> <strong><span id="deudaTotalCompra"></span></strong> </td>
+                        <td> <strong><span id="deudaTotalVenta"></span></strong> </td>
                         <td style="text-align: center;">Pago Total</td>
                         <td> <strong><span id="montoTotalPago"></span></strong> </td>
                       </tr>
