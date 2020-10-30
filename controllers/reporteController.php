@@ -8,10 +8,16 @@ class reporteController extends Controller{
 			$this->redireccionar ( 'index' );
 	}
 
-	public function index(){		
+	public function index(){
+		
+		$idLocal = $_GET['idLocal'];
+		$this->_view->idLocal=$idLocal;
+
+		$objModel=$this->loadModel('general');
+		$nombreLocal = $objModel->getNombreLocal($idLocal);		
+		$this->_view->nombreLocal=$nombreLocal;
+
 		$this->_view->setJs(array('index'));
-		//$objModel=$this->loadModel('producto');
-		//$this->_view->productos=$objModel->getComboProductos();
 		$this->_view->renderizar('index');
 	}
 
@@ -43,6 +49,63 @@ class reporteController extends Controller{
 		}
 		echo json_encode ( $data );
 	}
+
+	public function getVentas($fechaInicio, $fechafin,$idLocal){
+ 
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getVentas($idLocal,$fechaInicio, $fechafin);
+		$cont=0;
+
+		$btn='btn-info';
+		$icon='fa-file';
+		$title='Habilitar';
+		$class='viewPdf';
+
+		while($reg=$result->fetch_object()){
+			$cont++;
+
+			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+
+			$data ['data'] [] = array (
+				'nIDVENTA' 		=> $reg->nIDVENTA,
+				'nIDLOCAL' 		=> $reg->nIDLOCAL,
+				'nLOCAL' 		=> $reg->nLOCAL,
+				'dFECHAVENTA' 	=> $reg->dFECHAVENTA,
+				'total' 		=> $reg->total,
+				'OPCIONES' 		=> $boton,
+				);
+		}
+		echo json_encode ( $data );
+	}
+
+	public function getCompras($fechaInicio, $fechafin,$idLocal){
+ 
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getCompras($idLocal,$fechaInicio, $fechafin);
+		$cont=0;
+
+		$btn='btn-info';
+		$icon='fa-file';
+		$title='Habilitar';
+		$class='viewPdf';
+
+		while($reg=$result->fetch_object()){
+			$cont++;
+
+			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+
+			$data ['data'] [] = array (
+				'nIDCOMPRA' 		=> $reg->nIDCOMPRA,
+				'nIDLOCAL' 		=> $reg->nIDLOCAL,
+				'nLOCAL' 		=> $reg->nLOCAL,
+				'dFECHACOMPRA' 	=> $reg->dFECHACOMPRA,
+				'total' 		=> $reg->total,
+				'OPCIONES' 		=> $boton,
+				);
+		}
+		echo json_encode ( $data );
+	}
+
 	
 }
 ?>

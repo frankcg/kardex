@@ -1,5 +1,40 @@
 $(document).on('ready',function(){
 
+
+	function tblReporteventas(fechaInicio, fechaFin){
+		$('#tblReporteventas').dataTable().fnDestroy();		 	
+		$('#tblReporteventas').DataTable({
+			"order": [[ 0, "desc" ]],
+			"ajax" : "reporte/getVentas/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"columns" : [	
+				{"data" : "nIDVENTA"},
+				{"data" : "nIDLOCAL"},
+				{"data" : "nLOCAL"},
+				{"data" : "dFECHAVENTA"},
+				{"data" : "total"},
+				{"data" : "OPCIONES" },
+			]
+		});	
+	}
+	
+	function tblReportecompras(fechaInicio, fechaFin){
+		$('#tblReportecompras').dataTable().fnDestroy();		 	
+		$('#tblReportecompras').DataTable({
+			"order": [[ 0, "desc" ]],
+			"ajax" : "reporte/getCompras/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"columns" : [	
+				{"data" : "nIDCOMPRA"},
+				{"data" : "nIDLOCAL"},
+				{"data" : "nLOCAL"},
+				{"data" : "dFECHACOMPRA"},
+				{"data" : "total"},
+				{"data" : "OPCIONES", "visible": false},
+			]
+		});	
+	}
+	
+
+
 	$( "#city" ).autocomplete({
 	 	source: function( request, response ) {
 	   	
@@ -26,9 +61,19 @@ $(document).on('ready',function(){
 		var fechaInicio = $('#fechaInicio').val();
 		var fechaFin = $('#fechaFin').val();
 		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
-			reporte_x_fecha(fechaInicio, fechaFin);			
+			tblReporteventas(fechaInicio, fechaFin);			
 		}
 	});
+	
+
+	$('#btnBuscarCompras').click(function(){
+		var fechaInicio = $('#fechaInicio').val();
+		var fechaFin = $('#fechaFin').val();
+		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
+			tblReportecompras(fechaInicio, fechaFin);			
+		}
+	});
+
 
 	function reporte_x_fecha(fechaInicio, fechaFin){
 		$('#tblReporteFecha').dataTable().fnDestroy();		 	

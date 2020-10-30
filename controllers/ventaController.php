@@ -341,7 +341,10 @@ class ventaController extends Controller{
 	public function showpaymentCart(){
 
 		$tablePayments = "";	
-
+		// echo('<pre>');
+		// print_r($_SESSION["cart"]["ventaspayments"] );
+		// echo('</pre>');
+		// exit();
 		if(!empty($_SESSION["cart"]["ventaspayments"])){
 		foreach ($_SESSION["cart"]["ventaspayments"] as $key => $value) {
 				if($value["formaPago"]!==""){
@@ -483,7 +486,11 @@ class ventaController extends Controller{
 							if($existeCuenta !== 1){
 								$idCuentaventa =	$objModel->insertCuenta($cuenta);
 							}else{
-								$idCuentaventa =	$idCuenta;
+								if($idtipopago == '01'){
+									$idCuentaventa =	"1";
+								}else{
+									$idCuentaventa =	$idCuenta;
+								}
 							}
 
 						$result =	$objModel->insertVentaPagos($idventa, $idtipopago,$montopago,$idCuentaventa);

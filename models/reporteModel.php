@@ -20,7 +20,58 @@ Class reporteModel extends Model{
 			ORDER BY FECHA_VENTA DESC";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
-	}	
+	}
+	
+	
+	public function getVentas($idLocal,$fechaInicio, $fechafin){
+		$sql="SELECT 
+					b.nIDVENTA
+					,d.nIDLOCAL
+					, d.sDESCRIPCION nLOCAL
+					, b.dFECHAVENTA 
+					,e.sDESCRIPCION nCLIENTE
+					,(SELECT TRUNCATE(SUM(z.FPRECIO*z.NCANTIDAD),3) AS TOTAL  FROM  kar_venta_detalle AS z WHERE  z.NIDVENTA=b.nIDVENTA) total
+				FROM
+					kar_venta AS b 
+					INNER JOIN sel_local AS d 
+					ON b.nIDLOCAL = d.nIDLOCAL 
+					INNER JOIN sel_cliente AS e 
+					ON e.nIDCLIENTE = b.nIDCLIENTE 
+				WHERE 	d.nIDLOCAL='$idLocal'
+				AND b.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'
+				ORDER BY  b.nIDVENTA DESC
+				 ";
+				
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $response;
+	}
+
+
+	public function getCompras($idLocal,$fechaInicio, $fechafin){
+		$sql="SELECT 
+				b.nIDCOMPRA
+				,d.nIDLOCAL
+				, d.sDESCRIPCION nLOCAL
+				, b.dFECHACOMPRA
+				,e.sDESCRIPCION 
+				,(SELECT TRUNCATE(SUM(z.FPRECIO*z.NCANTIDAD),3) AS TOTAL  FROM  kar_compra_detalle AS z WHERE  z.nIDCOMPRA=b.nIDCOMPRA) total
+				FROM
+				kar_compra AS b 
+				INNER JOIN sel_local AS d 
+				ON b.nIDLOCAL = d.nIDLOCAL 
+				INNER JOIN sel_proveedor AS e 
+				ON e.nIDPROVEEDOR = b.nIDPROVEEDOR 
+				AND b.dFECHACOMPRA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'
+				ORDER BY  b.nIDCOMPRA DESC
+				 ";
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $response;
+	}
+
+
+
 }
 
 ?>
+
+ 

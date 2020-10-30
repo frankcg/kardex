@@ -179,7 +179,7 @@ Class ventaModel extends Model{
 				(nIDVENTA
 				,nIDTIPOPAGO
 				,fMONTO
-				,sCUENTA
+				,nIDCUENTA
 				,sIDUSUARIOCREACION
 				,dFECHACREACION
 				,dFECHAPAGO)
@@ -275,7 +275,7 @@ Class ventaModel extends Model{
 	public function getVentaPagos($idFactura){
 		$sql="  SELECT 
 					b.fmonto,
-					b.scuenta,
+					b.nIDCUENTA,
 					c.sdescripcion 
 				FROM
 					kar_venta AS a 
@@ -284,7 +284,7 @@ Class ventaModel extends Model{
 					INNER JOIN sel_tipopago c 
 					ON b.nidtipopago = c.nidtipopago 
 					INNER JOIN sel_cuenta d 
-					ON d.nidcuenta = b.sCUENTA 
+					ON d.nidcuenta = b.nIDCUENTA 
 				WHERE a.nIDVENTA = '$idFactura' ";
 							
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
