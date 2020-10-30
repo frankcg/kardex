@@ -532,7 +532,7 @@ class ventaController extends Controller{
 
 		$result=$objModel->getVentaFactura($idFactura);
 		$resultProducts=$objModel->getVentaFactura($idFactura);
-		$resultpagos=$objModel->getVentaPagos($idFactura);
+		// $resultpagos=$objModel->getVentaPagos($idFactura);
 
 		$pdf = new FPDF('P','mm',array(80,300));
 		$pdf->AddPage();
@@ -629,7 +629,7 @@ class ventaController extends Controller{
 
 
 	 public function creacionFacturaurl($idFactura){
-
+		date_default_timezone_set('America/Lima');
 		$objModel=$this->loadModel('venta');
 		$this->getLibrary('FPDF/fpdf');
 
@@ -640,7 +640,7 @@ class ventaController extends Controller{
 
 		$result=$objModel->getVentaFactura($idFactura);
 		$resultProducts=$objModel->getVentaFactura($idFactura);
-		$resultpagos=$objModel->getVentaPagos($idFactura);
+		// $resultpagos=$objModel->getVentaPagos($idFactura);
 
 		$pdf = new FPDF('P','mm',array(80,300));
 		$pdf->AddPage();
@@ -657,19 +657,24 @@ class ventaController extends Controller{
 
 		// CABECERA
 		$pdf->SetFont('Helvetica','',12);
-		$pdf->Cell(0,4,$tienda,0,1,'C');
+		// $pdf->Cell(0,4,$tienda,0,1,'C');
+		$pdf->Cell(0,4,'PROFORMA DE VENTA',0,1,'C');
 		$pdf->SetFont('Helvetica','',7);
 		$pdf->Cell(0,4,'RUC.:'.$sRUC,0,1,'C');
 		$pdf->Cell(0,4,$sDIRECCION,0,1,'C');
 		$pdf->Cell(0,4,'Lima-Peru',0,1,'C');
 		
-		$pdf->Cell(0,4,'Telf:'.$nTELEFONO ,0,1,'C');
+		// $pdf->Cell(0,4,'Telf:'.$nTELEFONO ,0,1,'C');
 		// DATOS FACTURA 
 		$pdf->SetFont('Helvetica','',7);
 		$pdf->Ln(5);
+
+		$date = date_create($fVenta);
+		$newDate = date_format($date,"d/m/Y H:i:s");
+
 		$pdf->Cell(25,4,'Cliente: '.$cliente ,0,1,'|');
-		$pdf->Cell(25,4,'Proforma: F2020-'.$idFactura ,0,1,'');
-		$pdf->Cell(25,4,'Fecha: '.$fVenta,0,1,'');
+		$pdf->Cell(25,4,'Proforma: '.$idFactura ,0,1,'');
+		$pdf->Cell(25,4,'Fecha: '.$newDate,0,1,'');
 		 
 	
 		// COLUMNAS
@@ -698,7 +703,7 @@ class ventaController extends Controller{
 			$fPRECIO = $reg->fPRECIO;
 			$total	+= $CANTIDAD*$fPRECIO;
 
-			$pdf->MultiCell(30,4,$sNOMBRE,0,'L'); 
+			$pdf->MultiCell(30,5,$sNOMBRE,0,'L'); 
 			$pdf->Cell(35, -5, $CANTIDAD,0,0,'R');
 			$pdf->Cell(10, -5, number_format(round($fPRECIO,2), 2, ',', ' '),0,0,'R');
 			$pdf->Cell(15, -5, number_format(round($CANTIDAD*$fPRECIO,2), 2, ',', ' '),0,0,'R');
@@ -718,22 +723,22 @@ class ventaController extends Controller{
 		// PIE DE PAGINA
 
 		// PAGOS
-		$pdf->Ln(5);
-		$pdf->Cell(60,0,'','T');
-		$pdf->Ln(1);
-		$pdf->Cell(25,3,'Metodos de pago: ',0,1,'');
-		$pdf->Ln(1);
+		// $pdf->Ln(5);
+		// $pdf->Cell(60,0,'','T');
+		// $pdf->Ln(1);
+		// $pdf->Cell(25,3,'Metodos de pago: ',0,1,'');
+		// $pdf->Ln(1);
 
-		while($reg=$resultpagos->fetch_object()){
-			$Metodo = $reg->sdescripcion;
-			$Monto = $reg->fmonto;
-			$pdf->Cell(25, 3, $Metodo.':', 0);    
-			$pdf->Cell(20, 3, '', 0);
-			$pdf->Cell(15, 3, $simbolo.$Monto,0,0,'R');
-			$pdf->Ln(3);    
+		// while($reg=$resultpagos->fetch_object()){
+		// 	$Metodo = $reg->sdescripcion;
+		// 	$Monto = $reg->fmonto;
+		// 	$pdf->Cell(25, 3, $Metodo.':', 0);    
+		// 	$pdf->Cell(20, 3, '', 0);
+		// 	$pdf->Cell(15, 3, $simbolo.$Monto,0,0,'R');
+		// 	$pdf->Ln(3);    
 
 			
-		}
+		// }
 
 
 
