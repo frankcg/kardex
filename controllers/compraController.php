@@ -437,12 +437,15 @@ class compraController extends Controller{
 						$idCuenta 	= $payments['idCuenta'];
 
 						$existeCuenta=$objModel->cuentavalidate($idCuenta);
-							if($existeCuenta !== 1){
-								$idCuentacompra =	$objModel->insertCuenta($cuenta);
+							if($existeCuenta !== 1){								
+								if($idtipopago=='02'){
+									$idCuentacompra = $objModel->insertCuenta($cuenta);	
+								}else{
+									$idCuentacompra = 1; // pago en efectivo
+								}
 							}else{
 								$idCuentacompra =	$idCuenta;
 							}
-
 						$result =	$objModel->insertCompraPagos($idCompra, $idtipopago,$montopago,$idCuentacompra);
 
 					}

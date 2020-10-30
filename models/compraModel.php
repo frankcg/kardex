@@ -72,7 +72,7 @@ Class compraModel extends Model{
 			return 1;
 		}else{
 			return 0;
-			}
+		}
 	}
 
 	public function insertCuenta($cuenta){		
