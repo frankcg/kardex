@@ -49,7 +49,7 @@ $(document).on('ready',function(){
 		$('#divProductoloading').show();
 
 		if(radioValue == "on"){
-			getComboProductos(0);
+			getComboProductos('vacio');
 		}else{
 			getComboProductos($('#codLocal').val());
 		}

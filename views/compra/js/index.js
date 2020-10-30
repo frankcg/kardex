@@ -15,7 +15,6 @@ $(document).on('ready',function(){
 
 	$('#formaPago').change(function(){
 		var idProducto = $(this).val();
-		console.log("change");
 		if(idProducto=="02"){
 			$('#divCuenta').show();
 		}else{

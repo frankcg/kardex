@@ -6,7 +6,7 @@ Class ventaModel extends Model{
 	}
 
 	public function getComboProductos($codLocal){
-		if($codLocal > '0'){
+		if($codLocal != 'vacio'){
 			$select = " WHERE nLOCAL IN ('".$codLocal."')";
 		}else{
 			$select = "";
