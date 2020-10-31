@@ -3,7 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 <div class="px-content">
-<ol class="breadcrumb page-breadcrumb">
+  <ol class="breadcrumb page-breadcrumb">
     <li><a href="<?php echo BASE_URL; ?>reporte?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
     <li class="active">Reportes</li>
   </ol>
@@ -24,19 +24,44 @@
     <div class="panel-body">
       <ul class="nav nav-tabs">
         <li class="active">
-          <a href="#tabs-home" data-toggle="tab" aria-expanded="true">
+          <a href="#tabs-1" data-toggle="tab" aria-expanded="true">
             Ventas
           </a>
         </li>
         <li class="">
-          <a href="#tabs-profile" data-toggle="tab" aria-expanded="false">
+          <a href="#tabs-2" data-toggle="tab" aria-expanded="false">
             Compras
+          </a>
+        </li>
+        <li class="">
+          <a href="#tabs-3" data-toggle="tab" aria-expanded="false">
+            Extornos
+          </a>
+        </li>
+        <li class="">
+          <a href="#tabs-4" data-toggle="tab" aria-expanded="false">
+            Anulaciones
+          </a>
+        </li>
+        <li class="">
+          <a href="#tabs-5" data-toggle="tab" aria-expanded="false">
+            Cuentas por Pagar
+          </a>
+        </li>
+        <li class="">
+          <a href="#tabs-6" data-toggle="tab" aria-expanded="false">
+            Cuentas por Cobrar
+          </a>
+        </li>
+        <li class="">
+          <a href="#tabs-7" data-toggle="tab" aria-expanded="false">
+            Inversion Actual
           </a>
         </li>
       </ul>
 
       <div class="tab-content tab-content-bordered">
-        <div class="tab-pane fade active in" id="tabs-home">
+        <div class="tab-pane fade active in" id="tabs-1">
           <p>
 
 
@@ -51,12 +76,12 @@
 
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
-                      <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                      <input type="date" class="form-control" id="fechaInicio1" name="fechaInicio1">
                     </div>
 
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Fin</label>
-                      <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                      <input type="date" class="form-control" id="fechaFin1" name="fechaFin1">
                     </div>
 
                     <div class="form-group col-sm-12">
@@ -116,116 +141,298 @@
         </div>
         </p>
 
-        <div class="tab-pane " id="tabs-profile">
-        <p>
+        <div class="tab-pane " id="tabs-2">
+          <p>
 
 
-<div class="col-md-12">
-  <div class="panel">
-    <div class="panel-heading">
-      <div class="panel-title">Filtros</div>
-    </div>
-    <div class="panel-body">
+            <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-heading">
+                  <div class="panel-title">Filtros</div>
+                </div>
+                <div class="panel-body">
 
-      <form class="smart-form" id="formReporte">
+                  <form class="smart-form" id="formReporte">
 
-        <div class="form-group col-sm-6">
-          <label class="control-label required" for="required-input">Fecha Inicio</label>
-          <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
-        </div>
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Inicio</label>
+                      <input type="date" class="form-control" id="fechaInicio2" name="fechaInicio2">
+                    </div>
 
-        <div class="form-group col-sm-6">
-          <label class="control-label required" for="required-input">Fecha Fin</label>
-          <input type="date" class="form-control" id="fechaFin" name="fechaFin">
-        </div>
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Fin</label>
+                      <input type="date" class="form-control" id="fechaFin2" name="fechaFin2">
+                    </div>
 
-        <div class="form-group col-sm-12">
-          <div class="form-group has-error">
-            <small class="form-message" id="msj_reporte"></small>
-          </div>
-        </div>
+                    <div class="form-group col-sm-12">
+                      <div class="form-group has-error">
+                        <small class="form-message" id="msj_reporte"></small>
+                      </div>
+                    </div>
 
-      </form>
+                  </form>
 
-    </div>
+                </div>
 
-    <div class="panel-footer text-right">
-      <button type="button" id="btnBuscarCompras" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
-    </div>
+                <div class="panel-footer text-right">
+                  <button type="button" id="btnBuscarCompras" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
+                </div>
 
-  </div>
-  <div class="row">
-    <div class="row">
-      <div class="col-md-12">
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="panel">
-              <div class="panel-heading">
-                <div class="panel-title">Listado de Producto</div>
               </div>
-              <div class="panel-body table-responsive">
-                <table class="table table-hover" id="tblReportecompras" width="100%">
-                  <thead>
-                    <tr>
-                      <th>nIDCOMPRA</th>
-                      <th>nIDLOCAL</th>
-                      <th>nLOCAL</th>
-                      <th>dFECHACOMPRA</th>
-                      <th>total</th>
-                      <th>OPCIONES</th>
-                    </tr>
-                  </thead>
-                  <tbody id="">
-                  </tbody>
-                  <tfoot>
-                  </tfoot>
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-12">
 
-                </table>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <div class="panel-title">Listado de Producto</div>
+                          </div>
+                          <div class="panel-body table-responsive">
+                            <table class="table table-hover" id="tblReportecompras" width="100%">
+                              <thead>
+                                <tr>
+                                  <th>nIDCOMPRA</th>
+                                  <th>nIDLOCAL</th>
+                                  <th>nLOCAL</th>
+                                  <th>dFECHACOMPRA</th>
+                                  <th>total</th>
+                                  <th>OPCIONES</th>
+                                </tr>
+                              </thead>
+                              <tbody id="">
+                              </tbody>
+                              <tfoot>
+                              </tfoot>
+
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
               </div>
+
             </div>
-          </div>
         </div>
-
-
+        </p>
+      
+      <div class="tab-pane fade" id="tabs-3">
+        <p>
+          Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
+          mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
+          Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
+          locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
+          irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
+          whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
+          vice blog. Scenester cred you probably haven't heard of them, vinyl craft
+          beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
+        </p>
+      </div> 
+      <div class="tab-pane fade" id="tabs-4">
+        <p>
+          Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party
+          before they sold out master cleanse gluten-free squid scenester freegan
+          cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf
+          cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR,
+          banh mi before they sold out farm-to-table VHS viral locavore cosby
+          sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft
+          beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park
+          vegan.
+        </p>
       </div>
+    
+    <div class="tab-pane fade" id="tabs-5">
+      <p>
+      <!-- InicioTab -->
+      <div class="col-md-12"> //
+              <div class="panel">
+                <div class="panel-heading">
+                  <div class="panel-title">Filtros</div>
+                </div>
+                <div class="panel-body">
+
+                  <form class="smart-form" id="formReporte">
+                    <div class="form-group col-md-12">
+                    <select class="form-control" id="tipoVenta" name="tipoVenta"></select>
+                  </div>
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Inicio</label>
+                      <input type="date" class="form-control" id="fechaInicio5" name="fechaInicio5">
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Fin</label>
+                      <input type="date" class="form-control" id="fechaFin5" name="fechaFin5">
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                      <div class="form-group has-error">
+                        <small class="form-message" id="msj_reporte"></small>
+                      </div>
+                    </div>
+
+                  </form>
+
+                </div>
+
+                <div class="panel-footer text-right">
+                  <button type="button" id="btnBuscar5" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <div class="panel-title">Listado de Producto</div>
+                          </div>
+                          <div class="panel-body table-responsive">
+                            <table class="table table-hover" id="tblReporteCuentasxPagar" width="100%">
+                              <thead>
+                                <tr>
+                                  <th>dFECHACOMPRA </th>
+                                  <th>nIDCOMPRA </th>
+                                  <th>nIDPROVEEDOR </th>
+                                  <th>nIDLOCAL </th>
+                                  <th>sOBSERVACION </th>
+                                  <th>nCantidadTotalCompra</th>>
+                                  <th>sCostoTotalCompra </th>
+                                  <th>sPagoTotalCompra </th>
+                                  <th>sDeudaTotalCompra</th>
+                                </tr>
+                              </thead>
+                              <tbody id="">
+                              </tbody>
+                              <tfoot>
+                              </tfoot>
+
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- Fin Tab -->
+
+
+      </p>
+    </div> 
+    <div class="tab-pane fade" id="tabs-6">
+      <p>
+      <!-- InicioTab -->
+      <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-heading">
+                  <div class="panel-title">Filtros</div>
+                </div>
+                <div class="panel-body">
+
+                  <form class="smart-form" id="formReporte">
+
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Inicio</label>
+                      <input type="date" class="form-control" id="fechaInicio6" name="fechaInicio6">
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Fin</label>
+                      <input type="date" class="form-control" id="fechaFin6" name="fechaFin6">
+                    </div>
+
+                    <div class="form-group col-sm-12">
+                      <div class="form-group has-error">
+                        <small class="form-message" id="msj_reporte"></small>
+                      </div>
+                    </div>
+
+                  </form>
+
+                </div>
+
+                <div class="panel-footer text-right">
+                  <button type="button" id="btnBuscar6" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <div class="panel-title">Listado de Producto</div>
+                          </div>
+                          <div class="panel-body table-responsive">
+                            <table class="table table-hover" id="tblReporteCuentasxCobrar" width="100%">
+                              <thead>
+                                <tr>
+                                  <th> dFECHAVENTA </th>
+                                  <th> nIDVENTA </th>
+                                  <th> nIDCLIENTE </th>
+                                  <th> nIDLOCAL </th>
+                                  <th> sOBSERVACION </th>
+                                  <th> nCantidadTotalVenta </th>
+                                  <th> sCostoTotalVenta </th>
+                                  <th> sPagoTotalVenta </th>
+                                  <th> sDeudaTotalVenta </th>
+                                  <th> sCLIENTE </th>
+                                  <th> sLOCAL </th>
+                                </tr>
+                              </thead>
+                              <tbody id="">
+                              </tbody>
+                              <tfoot>
+                              </tfoot>
+
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- Fin Tab -->
+      </p>
+    </div> 
+    <div class="tab-pane fade" id="tabs-7">
+      <p>
+        Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
+        mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
+        Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
+        locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
+        irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
+        whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
+        vice blog. Scenester cred you probably haven't heard of them, vinyl craft
+        beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
+      </p>
     </div>
   </div>
 
+
+
+
 </div>
-</div>
-</p>
-        </div>
-        <div class="tab-pane fade" id="tabs-dropdown1">
-          <p>
-            Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
-            mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
-            Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
-            locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
-            irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
-            whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
-            vice blog. Scenester cred you probably haven't heard of them, vinyl craft
-            beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
-          </p>
-        </div>
-        <div class="tab-pane fade" id="tabs-dropdown2">
-          <p>
-            Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party
-            before they sold out master cleanse gluten-free squid scenester freegan
-            cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf
-            cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR,
-            banh mi before they sold out farm-to-table VHS viral locavore cosby
-            sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft
-            beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park
-            vegan.
-          </p>
-        </div>
-      </div>
-    </div>
-
-
-
-
-  </div>
 
 </div>

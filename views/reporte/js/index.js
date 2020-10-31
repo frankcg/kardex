@@ -34,45 +34,104 @@ $(document).on('ready',function(){
 	}
 	
 
+	function tblReporteCuentasxPagar(fechaInicio, fechaFin){
+		$('#tblReporteCuentasxPagar').dataTable().fnDestroy();		 	
+		$('#tblReporteCuentasxPagar').DataTable({
+			"order": [[ 0, "desc" ]],
+			"ajax" : "reporte/getCuentasPorPagar/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"columns" : [	
+ 				{"data" : "dFECHACOMPRA"}, 
+				{"data" : "nIDCOMPRA"}, 
+				{"data" : "nIDPROVEEDOR"}, 
+				{"data" : "nIDLOCAL"}, 
+				{"data" : "sOBSERVACION"}, 
+				{"data" : "nCantidadTotalCompra"},
+				{"data" : "sCostoTotalCompra"}, 
+				{"data" : "sPagoTotalCompra"}, 
+				{"data" : "sDeudaTotalCompra"},
+			]
+		});	
+	}
 
-	$( "#city" ).autocomplete({
-	 	source: function( request, response ) {
-	   	
-	  	$.ajax({
-			url: "reporte/prueba",
-	    	type: 'post',
-	    	dataType: "json",
-	    	data: {
-	     		search: request.term
-	    	},
-	    	success: function( data ) {
-	    		response( data );
-			}
-		});
-		},select: function (event, ui) {		
-			$('#city').val(ui.item.label); // display the selected text
-	  		//$('#selectuser_id').val(ui.item.value); // save selected id to input
-	  		return false;
-	  	}
-	});
+
+	function tblReporteCuentasxCobrar(fechaInicio, fechaFin){
+		$('#tblReporteCuentasxCobrar').dataTable().fnDestroy();		 	
+		$('#tblReporteCuentasxCobrar').DataTable({
+			"order": [[ 0, "desc" ]],
+			"ajax" : "reporte/getCuentasPorCobrar/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"columns" : [	
+				{"data" : "dFECHAVENTA"},
+				{"data" : "nIDVENTA"},
+				{"data" : "nIDCLIENTE"},
+				{"data" : "nIDLOCAL"},
+				{"data" : "sOBSERVACION"},
+				{"data" : "nCantidadTotalVenta"},
+				{"data" : "sCostoTotalVenta"},
+				{"data" : "sPagoTotalVenta"},
+				{"data" : "sDeudaTotalVenta"},
+				{"data" : "sCLIENTE"},
+				{"data" : "sLOCAL"},
+
+			]
+		});	
+	}
+
 
 
 	$('#btnBuscar').click(function(){
-		var fechaInicio = $('#fechaInicio').val();
-		var fechaFin = $('#fechaFin').val();
+		var fechaInicio = $('#fechaInicio1').val();
+		var fechaFin = $('#fechaFin1').val();
 		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
 			tblReporteventas(fechaInicio, fechaFin);			
 		}
 	});
 	
-
 	$('#btnBuscarCompras').click(function(){
-		var fechaInicio = $('#fechaInicio').val();
-		var fechaFin = $('#fechaFin').val();
+		var fechaInicio = $('#fechaInicio2').val();
+		var fechaFin = $('#fechaFin2').val();
 		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
 			tblReportecompras(fechaInicio, fechaFin);			
 		}
 	});
+
+	$('#btnBuscar5').click(function(){
+		var fechaInicio = $('#fechaInicio5').val();
+		var fechaFin = $('#fechaFin5').val();
+		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
+			tblReporteCuentasxPagar(fechaInicio, fechaFin);			
+		}
+	});
+
+	$('#btnBuscar6').click(function(){
+		var fechaInicio = $('#fechaInicio6').val();
+		var fechaFin = $('#fechaFin6').val();
+		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
+			tblReporteCuentasxCobrar(fechaInicio, fechaFin);			
+		}
+	});
+
+	$( "#city" ).autocomplete({
+		source: function( request, response ) {
+		  
+		 $.ajax({
+		   url: "reporte/prueba",
+		   type: 'post',
+		   dataType: "json",
+		   data: {
+				search: request.term
+		   },
+		   success: function( data ) {
+			   response( data );
+		   }
+	   });
+	   },select: function (event, ui) {		
+		   $('#city').val(ui.item.label); // display the selected text
+			 //$('#selectuser_id').val(ui.item.value); // save selected id to input
+			 return false;
+		 }
+   });
+
+
 
 
 	function reporte_x_fecha(fechaInicio, fechaFin){

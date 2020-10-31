@@ -91,16 +91,74 @@ class reporteController extends Controller{
 
 		while($reg=$result->fetch_object()){
 			$cont++;
-
 			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
-
 			$data ['data'] [] = array (
-				'nIDCOMPRA' 		=> $reg->nIDCOMPRA,
+				'nIDCOMPRA' 	=> $reg->nIDCOMPRA,
 				'nIDLOCAL' 		=> $reg->nIDLOCAL,
 				'nLOCAL' 		=> $reg->nLOCAL,
 				'dFECHACOMPRA' 	=> $reg->dFECHACOMPRA,
 				'total' 		=> $reg->total,
 				'OPCIONES' 		=> $boton,
+				);
+		}
+		echo json_encode ( $data );
+	}
+
+	public function getCuentasPorPagar($fechaInicio, $fechafin,$idLocal){
+ 
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getCuentasPorPagar($idLocal,$fechaInicio, $fechafin);
+		$cont=0;
+
+		$btn='btn-info';
+		$icon='fa-file';
+		$title='Habilitar';
+		$class='viewPdf';
+
+		while($reg=$result->fetch_object()){
+			$cont++;
+			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+			$data ['data'] [] = array (
+				'dFECHACOMPRA'	=> $reg->dFECHACOMPRA , 
+				'nIDCOMPRA'	=> $reg->nIDCOMPRA , 
+				'nIDPROVEEDOR'	=> $reg->nIDPROVEEDOR , 
+				'nIDLOCAL'	=> $reg->nIDLOCAL , 
+				'sOBSERVACION'	=> $reg->sOBSERVACION , 
+				'nCantidadTotalCompra'	=> $reg->nCantidadTotalCompra,
+				'sCostoTotalCompra'	=> $reg->sCostoTotalCompra , 
+				'sPagoTotalCompra'	=> $reg->sPagoTotalCompra , 
+				'sDeudaTotalCompra'	=> $reg->sDeudaTotalCompra,
+				);
+		}
+		echo json_encode ( $data );
+	}
+
+	public function getCuentasPorCobrar($fechaInicio, $fechafin,$idLocal){
+ 
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getCuentasPorCobrar($idLocal,$fechaInicio, $fechafin);
+		$cont=0;
+
+		$btn='btn-info';
+		$icon='fa-file';
+		$title='Habilitar';
+		$class='viewPdf';
+
+		while($reg=$result->fetch_object()){
+			$cont++;
+			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+			$data ['data'] [] = array (
+					'dFECHAVENTA' => $reg->dFECHAVENTA,
+					'nIDVENTA' => $reg->nIDVENTA,
+					'nIDCLIENTE' => $reg->nIDCLIENTE,
+					'nIDLOCAL' => $reg->nIDLOCAL,
+					'sOBSERVACION' => $reg->sOBSERVACION,
+					'nCantidadTotalVenta' => $reg->nCantidadTotalVenta,
+					'sCostoTotalVenta' => $reg->sCostoTotalVenta,
+					'sPagoTotalVenta' => $reg->sPagoTotalVenta,
+					'sDeudaTotalVenta' => $reg->sDeudaTotalVenta,
+					'sCLIENTE' => $reg->sCLIENTE,
+					'sLOCAL' => $reg->sLOCAL,
 				);
 		}
 		echo json_encode ( $data );
