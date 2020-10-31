@@ -261,9 +261,7 @@ class compraController extends Controller{
 					};
 
 					$tablePayments .= '<tr> 
-						<td class="p-a-2">
-							<div class="font-weight-semibold">'.$key.'</div>
-						</td>
+ 
 						<td class="p-a-2">
 							<div class="font-weight-semibold">'.$forma.'</div>
 						</td>
@@ -281,9 +279,7 @@ class compraController extends Controller{
 		  }
 		}else {
 			$tablePayments .= '<tr> 
-						<td class="p-a-2">
-							<div class="font-weight-semibold">-</div>
-						</td>
+ 
 						<td class="p-a-2">
 							<strong>-</strong>
 						</td>
