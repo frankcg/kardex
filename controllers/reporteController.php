@@ -132,7 +132,7 @@ class reporteController extends Controller{
 
 		while($reg=$result->fetch_object()){
 			$cont++;
-			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+			$boton='<button id="'.$reg->nIDCOMPRA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
 			$data ['data'] [] = array (
 				'dFECHACOMPRA'	=> $reg->dFECHACOMPRA , 
 				'nIDCOMPRA'	=> $reg->nIDCOMPRA , 
