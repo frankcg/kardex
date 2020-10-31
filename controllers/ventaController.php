@@ -607,16 +607,15 @@ class ventaController extends Controller{
 		$pdf->Cell(25,4,'Cliente: '.$cliente ,0,1,'|');
 		$pdf->Cell(25,4,'Proforma: F2020-'.$idFactura ,0,1,'');
 		$pdf->Cell(25,4,'Fecha: '.$fVenta,0,1,'');
-		$pdf->Cell(25,4,'Metodos de pago: ',0,1,'');
-		$pdf->Ln(0);
+		// $pdf->Cell(25,4,'Metodos de pago: ',0,1,'');
+		// $pdf->Ln(0);
 
-		while($reg=$resultpagos->fetch_object()){
-			$Metodo = $reg->sdescripcion;
-			$Monto = $reg->fmonto;
-			$pdf->Cell(25,4,$Metodo.'-'.$simbolo.$Monto,0,1,'');
-		}
+		// while($reg=$resultpagos->fetch_object()){
+		// 	$Metodo = $reg->sdescripcion;
+		// 	$Monto = $reg->fmonto;
+		// 	$pdf->Cell(25,4,$Metodo.'-'.$simbolo.$Monto,0,1,'');
+		// }
 
- 
 		// PIE DE PAGINA
 		$pdf->Ln(10);
 		$pdf->Cell(60,0,'***ESTE COMPROBANTE***',0,1,'C');
@@ -791,6 +790,3 @@ class ventaController extends Controller{
 
 
 }
-
-
-?>

@@ -5,6 +5,19 @@ Class reporteModel extends Model{
 		parent::__construct();
 	}
 
+	public function getEstados(){		
+		$sql=	" SELECT
+							nIDESTADO
+							, sDESCRIPCION
+							, nESTADO
+							, dFECHACREACION
+					FROM fzbsokgg_tauro_kardex_v2.sel_estado
+					WHERE nESTADO = 1 ";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
 	public function getReporteFecha($fechaInicio, $fechafin){
 		
 		$sql="SELECT a.IDVENTA, a.IDPRODUCTO, a.IDCOMPRA, a.CANTIDAD, a.PRECIO_VENTA, DATE_FORMAT(a.FECHA_VENTA,'%d/%m/%Y') AS FECHA_VENTA, a.IDVENDEDOR, a.OBSERVACION, b.NOMBRE AS PRODUCTO, CONCAT(e.NOMBRE,' ',e.AP_PATERNO,' ',e.AP_MATERNO) AS VENDEDOR, f.PRECIO_UNIDAD,	
@@ -23,7 +36,7 @@ Class reporteModel extends Model{
 	}
 	
 	
-	public function getVentas($idLocal,$fechaInicio, $fechafin){
+	public function getVentas($idLocal,$fechaInicio, $fechafin,$estado){
 		$sql="SELECT 
 					b.nIDVENTA
 					,d.nIDLOCAL
@@ -39,6 +52,7 @@ Class reporteModel extends Model{
 					ON e.nIDCLIENTE = b.nIDCLIENTE 
 				WHERE 	d.nIDLOCAL='$idLocal'
 				AND b.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'
+				AND b.nESTADO = '$estado'
 				ORDER BY  b.nIDVENTA DESC
 				 ";
 				
@@ -47,7 +61,7 @@ Class reporteModel extends Model{
 	}
 
 
-	public function getCompras($idLocal,$fechaInicio, $fechafin){
+	public function getCompras($idLocal,$fechaInicio, $fechafin,$estado){
 		$sql="SELECT 
 				b.nIDCOMPRA
 				,d.nIDLOCAL
@@ -61,7 +75,9 @@ Class reporteModel extends Model{
 				ON b.nIDLOCAL = d.nIDLOCAL 
 				INNER JOIN sel_proveedor AS e 
 				ON e.nIDPROVEEDOR = b.nIDPROVEEDOR 
+				WHERE 	d.nIDLOCAL='$idLocal'
 				AND b.dFECHACOMPRA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'
+				AND b.nESTADO = '$estado'
 				ORDER BY  b.nIDCOMPRA DESC
 				 ";
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);

@@ -33,7 +33,7 @@
             Compras
           </a>
         </li>
-        <li class="">
+        <!-- <li class="">
           <a href="#tabs-3" data-toggle="tab" aria-expanded="false">
             Extornos
           </a>
@@ -42,7 +42,7 @@
           <a href="#tabs-4" data-toggle="tab" aria-expanded="false">
             Anulaciones
           </a>
-        </li>
+        </li> -->
         <li class="">
           <a href="#tabs-5" data-toggle="tab" aria-expanded="false">
             Cuentas por Pagar
@@ -69,11 +69,14 @@
               <div class="panel">
                 <div class="panel-heading">
                   <div class="panel-title">Filtros</div>
+
                 </div>
                 <div class="panel-body">
 
                   <form class="smart-form" id="formReporte">
-
+                    <div class="form-group col-md-12">
+                      <select class="form-control" id="tipoVenta" name="tipoVenta"></select>
+                    </div>
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
                       <input type="date" class="form-control" id="fechaInicio1" name="fechaInicio1">
@@ -84,11 +87,11 @@
                       <input type="date" class="form-control" id="fechaFin1" name="fechaFin1">
                     </div>
 
-                    <div class="form-group col-sm-12">
+                    <!-- <div class="form-group col-sm-12">
                       <div class="form-group has-error">
                         <small class="form-message" id="msj_reporte"></small>
                       </div>
-                    </div>
+                    </div> -->
 
                   </form>
 
@@ -153,6 +156,10 @@
                 <div class="panel-body">
 
                   <form class="smart-form" id="formReporte">
+
+                    <div class="form-group col-md-12">
+                      <select class="form-control" id="tipoCompra" name="tipoCompra"></select>
+                    </div>
 
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
@@ -220,36 +227,36 @@
             </div>
         </div>
         </p>
-      
-      <div class="tab-pane fade" id="tabs-3">
-        <p>
-          Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
-          mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
-          Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
-          locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
-          irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
-          whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
-          vice blog. Scenester cred you probably haven't heard of them, vinyl craft
-          beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
-        </p>
-      </div> 
-      <div class="tab-pane fade" id="tabs-4">
-        <p>
-          Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party
-          before they sold out master cleanse gluten-free squid scenester freegan
-          cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf
-          cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR,
-          banh mi before they sold out farm-to-table VHS viral locavore cosby
-          sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft
-          beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park
-          vegan.
-        </p>
-      </div>
-    
-    <div class="tab-pane fade" id="tabs-5">
-      <p>
-      <!-- InicioTab -->
-      <div class="col-md-12"> //
+
+        <div class="tab-pane fade" id="tabs-3">
+          <p>
+            Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
+            mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
+            Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
+            locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
+            irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
+            whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
+            vice blog. Scenester cred you probably haven't heard of them, vinyl craft
+            beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="tabs-4">
+          <p>
+            Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party
+            before they sold out master cleanse gluten-free squid scenester freegan
+            cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf
+            cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR,
+            banh mi before they sold out farm-to-table VHS viral locavore cosby
+            sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft
+            beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park
+            vegan.
+          </p>
+        </div>
+
+        <div class="tab-pane fade" id="tabs-5">
+          <p>
+            <!-- InicioTab -->
+            <div class="col-md-12">
               <div class="panel">
                 <div class="panel-heading">
                   <div class="panel-title">Filtros</div>
@@ -257,9 +264,7 @@
                 <div class="panel-body">
 
                   <form class="smart-form" id="formReporte">
-                    <div class="form-group col-md-12">
-                    <select class="form-control" id="tipoVenta" name="tipoVenta"></select>
-                  </div>
+
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
                       <input type="date" class="form-control" id="fechaInicio5" name="fechaInicio5">
@@ -330,12 +335,12 @@
             <!-- Fin Tab -->
 
 
-      </p>
-    </div> 
-    <div class="tab-pane fade" id="tabs-6">
-      <p>
-      <!-- InicioTab -->
-      <div class="col-md-12">
+          </p>
+        </div>
+        <div class="tab-pane fade" id="tabs-6">
+          <p>
+            <!-- InicioTab -->
+            <div class="col-md-12">
               <div class="panel">
                 <div class="panel-heading">
                   <div class="panel-title">Filtros</div>
@@ -414,25 +419,44 @@
 
             </div>
             <!-- Fin Tab -->
-      </p>
-    </div> 
-    <div class="tab-pane fade" id="tabs-7">
-      <p>
-        Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
-        mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
-        Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
-        locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
-        irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
-        whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
-        vice blog. Scenester cred you probably haven't heard of them, vinyl craft
-        beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
-      </p>
+          </p>
+        </div>
+        <div class="tab-pane fade" id="tabs-7">
+          <p>
+            Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
+            mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
+            Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
+            locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
+            irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
+            whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
+            vice blog. Scenester cred you probably haven't heard of them, vinyl craft
+            beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
+          </p>
+        </div>
+      </div>
+
+
+
+
     </div>
+
   </div>
 
 
-
-
-</div>
-
-</div>
+  <div class="modal fade" id="mDetallefactura" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h4 class="modal-title">Proforma</h4>
+        </div>
+        <div class="modal-body">
+          <div id="pdf_viewer">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

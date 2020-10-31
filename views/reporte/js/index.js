@@ -1,11 +1,31 @@
 $(document).on('ready',function(){
 
+	function getEstados(datos){
+		$.ajax({
+			url: 'reporte/getEstados',  
+			type: 'POST',
+			data:  datos, 
+			cache: false,
+			dataType:'json',				
+			success: function(data){
+				var html='';
+				$.each(data, function( i, v ) {
+					html+= '<option value="'+v.nIDESTADO+'"> '+v.sDESCRIPCION+ '</option>'
+				});
+				console.log(data)
+				$('#tipoVenta').html(html);
+				$('#tipoCompra').html(html);
+			}				
+		});
+	}
+
+	getEstados();
 
 	function tblReporteventas(fechaInicio, fechaFin){
 		$('#tblReporteventas').dataTable().fnDestroy();		 	
 		$('#tblReporteventas').DataTable({
 			"order": [[ 0, "desc" ]],
-			"ajax" : "reporte/getVentas/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"ajax" : "reporte/getVentas/"+$('#tipoVenta').val()+"/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
 			"columns" : [	
 				{"data" : "nIDVENTA"},
 				{"data" : "nIDLOCAL"},
@@ -21,7 +41,7 @@ $(document).on('ready',function(){
 		$('#tblReportecompras').dataTable().fnDestroy();		 	
 		$('#tblReportecompras').DataTable({
 			"order": [[ 0, "desc" ]],
-			"ajax" : "reporte/getCompras/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"ajax" : "reporte/getCompras/"+$('#tipoCompra').val()+"/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
 			"columns" : [	
 				{"data" : "nIDCOMPRA"},
 				{"data" : "nIDLOCAL"},
@@ -109,6 +129,18 @@ $(document).on('ready',function(){
 			tblReporteCuentasxCobrar(fechaInicio, fechaFin);			
 		}
 	});
+
+
+
+
+	$("#tblReporteventas").on('click', '.viewPdf', function(){
+		var myId = $(this).attr('id');
+		datos = { 'id': myId};
+		console.log(datos)
+		$("#pdf_viewer").html('<iframe src = "venta/creacionFacturaurl/'+myId+'" width="100%"" height="600px" allowfullscreen webkitallowfullscreen></iframe>')
+		$('#mDetallefactura').modal('toggle');
+	})
+
 
 	$( "#city" ).autocomplete({
 		source: function( request, response ) {

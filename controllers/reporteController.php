@@ -21,6 +21,21 @@ class reporteController extends Controller{
 		$this->_view->renderizar('index');
 	}
 
+
+	public function getEstados(){
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getEstados();
+		$data = array();
+		while($reg=$result->fetch_object()){
+			$data[] = array(
+				'nIDESTADO'	=> $reg->nIDESTADO,
+				'sDESCRIPCION'			=> $reg->sDESCRIPCION,
+			);
+		}
+		echo json_encode($data);
+	}
+
+
 	public function getReporteFecha($fechaInicio, $fechafin){
 	
 		$objModel=$this->loadModel('reporte');
@@ -50,10 +65,10 @@ class reporteController extends Controller{
 		echo json_encode ( $data );
 	}
 
-	public function getVentas($fechaInicio, $fechafin,$idLocal){
+	public function getVentas($estado,$fechaInicio, $fechafin,$idLocal){
  
 		$objModel=$this->loadModel('reporte');
-		$result=$objModel->getVentas($idLocal,$fechaInicio, $fechafin);
+		$result=$objModel->getVentas($idLocal,$fechaInicio, $fechafin,$estado);
 		$cont=0;
 
 		$btn='btn-info';
@@ -78,10 +93,10 @@ class reporteController extends Controller{
 		echo json_encode ( $data );
 	}
 
-	public function getCompras($fechaInicio, $fechafin,$idLocal){
+	public function getCompras($estado,$fechaInicio, $fechafin,$idLocal){
  
 		$objModel=$this->loadModel('reporte');
-		$result=$objModel->getCompras($idLocal,$fechaInicio, $fechafin);
+		$result=$objModel->getCompras($idLocal,$fechaInicio, $fechafin,$estado);
 		$cont=0;
 
 		$btn='btn-info';
@@ -163,6 +178,10 @@ class reporteController extends Controller{
 		}
 		echo json_encode ( $data );
 	}
+
+
+
+
 
 	
 }
