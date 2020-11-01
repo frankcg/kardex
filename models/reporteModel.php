@@ -212,7 +212,7 @@ Class reporteModel extends Model{
 					SUM(b.nCANTIDAD) AS nCantidadTotalVenta,
 					ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta
 					FROM kar_venta a 
-					INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO=1
+					INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO='$tipoVenta'
 					WHERE a.nidlocal=$codLocal and a.nESTADO='$tipoVenta' 
 					$filtroFecha
 					GROUP BY a.dFECHAVENTA,
@@ -221,7 +221,7 @@ Class reporteModel extends Model{
 					a.nIDLOCAL,
 					a.sOBSERVACION
 				) 
-				AS a INNER JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
+				AS a INNER JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO='$tipoVenta'
 				GROUP BY a.dFECHAVENTA,
 				a.nIDVENTA,
 				a.nIDCLIENTE,
@@ -231,9 +231,9 @@ Class reporteModel extends Model{
 			) AS a 
 			INNER JOIN sel_cliente b ON a.nIDCLIENTE = b.nIDCLIENTE AND b.nESTADO=1
 			INNER JOIN sel_local c ON a.nIDLOCAL = c.nIDLOCAL AND c.nESTADO=1
-			WHERE a.sDeudaTotalVenta>0
+			 
 		";
-		//echo $sql; exit();
+		// echo $sql; exit();
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
