@@ -5,9 +5,11 @@ $(document).on('ready',function(){
 	******************************************************************************************************************************** */
 
 	
-	function tablaCatalogo(){
-		$('#tablaCatalogo').dataTable().fnDestroy();		 	
-		$('#tablaCatalogo').DataTable({
+	function tablaStock(){
+		var codLocal = $('#codLocal').val();
+
+		$('#tablaStock').dataTable().fnDestroy();		 	
+		$('#tablaStock').DataTable({
 
 			//PARA EXPORTAR
 			
@@ -25,23 +27,15 @@ $(document).on('ready',function(){
 			responsive: !0,
 			
 			//"order" : [ [ 0, "desc" ] ],
-			"ajax" : "catalogo/getCatalogo",
+			"ajax" : "stock/getStock/"+codLocal,
 			"columns" : [
 			{
-				"data" : "CONT"
-			},{
-				"data" : "IDCOMPRA"
-			},{
-				"data" : "IDPRODUCTO"
+				"data" : "nIDPRODUCTO"
 			},{
 				"data" : "PRODUCTO"
 			},{
-				"data" : "STOCK_GENERAL"
-			},{
-				"data" : "CANTIDAD_VENTAS"
-			},{
-				"data" : "STOCK_ACTUAL"
-			},		
+				"data" : "nCANTIDAD"
+			},	
 			],
 			"language": {
 				"url": "/kardex/public/cdn/datatable.spanish.lang"
@@ -49,6 +43,6 @@ $(document).on('ready',function(){
 		});	
 	}
 	
-	tablaCatalogo();
+	tablaStock();
 });
 
