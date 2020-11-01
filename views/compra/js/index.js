@@ -178,25 +178,9 @@ $(document).on('ready',function(){
 		// Collect and send data...
 		//
 
-		console.log("finishbutton");
-		console.log(items);
-
-		var codLocal = $('#codLocal').val();
-		var proveedor = $('#proveedor').val();
-
-		calc_totalPagos();
-
-		if(proveedor==''){
-			toastr['warning']('Ingrese un Proveedor', 'Paso 4', {optionsToastr});
-			e.preventDefault();
-		}else if(items == 0 ){
-			toastr['warning']('Ingrese un Producto', 'Paso 1', {optionsToastr});
-			e.preventDefault();
-		}else if(itemsPagos == 0){
-			toastr['warning']('Ingrese un Pago', 'Paso 3', {optionsToastr});
-			e.preventDefault();
-		}else {
-			console.log("paso finish");
+		function finishCart(){
+	
+			var codLocal = $('#codLocal').val();
 			var formData = new FormData($("#formProveedor")[0]);
 			formData.append("codLocal",codLocal); 
 
@@ -228,6 +212,9 @@ $(document).on('ready',function(){
 						obtenerPagos();
 						calc_totalPagos();
 						hideItems();
+						
+						$("#idProveedor").val("0001");
+						$("#proveedor").val("PROVEEDOR GENERAL");
 						console.log("finishpaymentCart");
 						toastr['success']('Se Ingreso la compra con exito <br> Cod. Compra:'+parsed[0].idCompra, {optionsToastr});
 
@@ -239,8 +226,45 @@ $(document).on('ready',function(){
 				}				
 			});
 
-			// e.preventDefault();
-			
+		}
+
+		console.log("finishbutton");
+		console.log(items);
+
+		var proveedor = $('#proveedor').val();
+
+		calc_totalPagos();
+ 
+
+		if(proveedor==''){
+			toastr['warning']('Ingrese un Proveedor', 'Paso 4', {optionsToastr});
+			e.preventDefault();
+		}else if(items == 0 ){
+			toastr['warning']('Ingrese un Producto', 'Paso 1', {optionsToastr});
+			e.preventDefault();
+		}else if(itemsPagos == 0){
+			e.preventDefault();
+			$.confirm({
+				title: 'No se ha registrado Ningun pago, es una Compra a Credito?',
+				content: '¿ Desea Continuar ?',
+				closeIcon: true,
+				closeIconClass: 'fa fa-close' ,
+				confirmButton: 'Si',
+				confirmButtonClass: 'btn-primary',
+				cancelButton:'No',
+				icon: 'fa fa-alert',
+				animation: 'zoom', 
+				confirm: function(){
+					finishCart();
+				},cancel: function(){
+					toastr['warning']('Ingrese un Pago', 'Paso 3', {optionsToastr});
+					$('#wizard-basic').pxWizard('goTo', 2);
+					e.preventDefault();	        
+				}
+			});
+		}else {
+			console.log("paso finish");
+			finishCart();			
 		}
 		
 
@@ -353,6 +377,9 @@ $(document).on('ready',function(){
 			$('#montorestante').text(pagoRestantetotal);
 			$('#montopago').val(pagoRestantetotal);
 
+		}else{
+			$('#montorestante').text(pagoRestantetotal);
+			$('#montopago').val(pagoRestantetotal);
 		}
 
 
@@ -381,6 +408,9 @@ $(document).on('ready',function(){
 				console.log(data);
 				console.log("entrodelete");
 				obtenerCart();
+				calc_total();
+				obtenerPagos();
+				calc_totalPagos();
 			}				
 		});
 
@@ -402,7 +432,10 @@ $(document).on('ready',function(){
 			success: function(data){
 				console.log(data);
 				console.log("entrodelete");
+				obtenerCart();
+				calc_total();
 				obtenerPagos();
+				calc_totalPagos();
 			}				
 		});
 

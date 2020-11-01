@@ -86,12 +86,49 @@ class reporteController extends Controller{
 				'nIDLOCAL' 		=> $reg->nIDLOCAL,
 				'nLOCAL' 		=> $reg->nLOCAL,
 				'dFECHAVENTA' 	=> $reg->dFECHAVENTA,
+
+				'sCLIENTE'=>utf8_encode($reg->sCLIENTE),
+				'sLOCAL'=>utf8_encode($reg->sLOCAL),
+				'sOBSERVACION' => $reg->sOBSERVACION,
+
 				'total' 		=> $reg->total,
 				'OPCIONES' 		=> $boton,
 				);
 		}
 		echo json_encode ( $data );
 	}
+
+
+	public function getVentasTable($codLocal=0, $tipoVenta=0, $fechaInicio='', $fechafin=''){		
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getVentasTable($codLocal, $tipoVenta, $fechaInicio, $fechafin);
+		$data = array();
+
+		$btn='btn-info';
+		$icon='fa-file';
+		$title='Habilitar';
+		$class='viewPdf';
+
+		while($reg=$result->fetch_object()){			
+			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+
+			$data ['data'] [] = array(
+				'dFECHAVENTA' => $reg->dFECHAVENTA,				
+				'nIDVENTA' => $reg->nIDVENTA,
+				'sCLIENTE'=>utf8_encode($reg->sCLIENTE),
+				'sLOCAL'=>utf8_encode($reg->sLOCAL),
+				'sCostoTotalVenta' => $reg->sCostoTotalVenta,
+				'sPagoTotalVenta' => $reg->sPagoTotalVenta,
+				'sDeudaTotalVenta' => $reg->sDeudaTotalVenta,
+				'nCantidadTotalVenta' => $reg->nCantidadTotalVenta,				
+				'sOBSERVACION' => $reg->sOBSERVACION,
+				'OPCIONES' => $boton
+			);
+		}
+		echo json_encode ( $data );		
+	}
+
+
 
 	public function getCompras($estado,$fechaInicio, $fechafin,$idLocal){
  
@@ -181,7 +218,47 @@ class reporteController extends Controller{
 
 
 
+	public function getInversion($idLocal){
+ 
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getInversion($idLocal);
+		$cont=0;
 
+		$btn='btn-info';
+		$icon='fa-file';
+		$title='Habilitar';
+		$class='viewPdf';
+
+		while($reg=$result->fetch_object()){
+			$cont++;
+			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+			$data ['data'] [] = array (
+					'nIDPRODUCTO' => $reg->nIDPRODUCTO,
+					'sNOMBRE' => $reg->sNOMBRE,
+					'nCANTIDAD' => $reg->nCANTIDAD,
+					'nTOTAL' => $reg->nTOTAL,
+				);
+		}
+		echo json_encode ( $data );
+	}
+
+
+	public function getReporteBalance($fechaInicio, $fechafin,$idLocal){
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getReporteBalance($fechaInicio, $fechafin,$idLocal);
+		while($reg=$result->fetch_object()){
+			$data ['data'] [] = array (
+				'FECHA' => $reg->FECHA,
+				'ventas' => $reg->ventas,
+				'ventasProductos' => $reg->ventasProductos,
+				'ventasCosto' => $reg->ventasCosto,
+				'efectivo' => $reg->efectivo,
+				'deposito' => $reg->deposito,
+				'credito' => $reg->credito,
+				);
+		}
+		echo json_encode ( $data );
+	}
 
 	
 }

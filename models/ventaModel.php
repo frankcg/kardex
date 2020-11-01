@@ -243,7 +243,7 @@ Class ventaModel extends Model{
 					INNER JOIN sel_cliente AS e 
 	    			ON e.nIDCLIENTE = b.nIDCLIENTE
 					WHERE a.nIDVENTA = '$idFactura'
-					GROUP BY c.sNOMBRE ";
+					GROUP BY a.nIDPRODUCTO ";
 				
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $response;

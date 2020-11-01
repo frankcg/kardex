@@ -36,29 +36,70 @@ Class reporteModel extends Model{
 	}
 	
 	
-	public function getVentas($idLocal,$fechaInicio, $fechafin,$estado){
-		$sql="SELECT 
-					b.nIDVENTA
-					,d.nIDLOCAL
-					, d.sDESCRIPCION nLOCAL
-					, b.dFECHAVENTA 
-					,e.sDESCRIPCION nCLIENTE
-					,(SELECT TRUNCATE(SUM(z.FPRECIO*z.NCANTIDAD),3) AS TOTAL  FROM  kar_venta_detalle AS z WHERE  z.NIDVENTA=b.nIDVENTA) total
-				FROM
-					kar_venta AS b 
-					INNER JOIN sel_local AS d 
-					ON b.nIDLOCAL = d.nIDLOCAL 
-					INNER JOIN sel_cliente AS e 
-					ON e.nIDCLIENTE = b.nIDCLIENTE 
-				WHERE 	d.nIDLOCAL='$idLocal'
-				AND b.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'
-				AND b.nESTADO = '$estado'
-				ORDER BY  b.nIDVENTA DESC
-				 ";
+	// public function getVentas($idLocal,$fechaInicio, $fechafin,$estado){
+
+		
+	// 	$filtroVenta='';
+	// 	$filtroFecha='';
+
+	// 	if($codVenta!='vacio'){
+	// 		$filtroVenta = "AND a.nIDVENTA=$codVenta";
+	// 	}
+
+	// 	if($fechaInicio!='' && $fechafin!=''){
+	// 		$filtroFecha = "AND a.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
+	// 	}
+		
+
+
+	// 	$sql="SELECT a.*, b.sDESCRIPCION AS sCLIENTE, c.sDESCRIPCION AS sLOCAL
+	// 	FROM 
+	// 	(
+	// 		SELECT 
+	// 			a.dFECHAVENTA, 
+	// 			a.nIDVENTA, 
+	// 			a.nIDCLIENTE, 
+	// 			a.nIDLOCAL, 
+	// 			a.sOBSERVACION, 
+	// 			a.nCantidadTotalVenta,
+	// 			a.sCostoTotalVenta, 
+	// 			ROUND(SUM(c.fMONTO),2) AS sPagoTotalVenta, 
+	// 			ROUND(a.sCostoTotalVenta - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalVenta'
+	// 		FROM 
+	// 		(
+	// 			SELECT 
+	// 			a.dFECHAVENTA,
+	// 			a.nIDVENTA,
+	// 			a.nIDCLIENTE,
+	// 			a.nIDLOCAL,
+	// 			a.sOBSERVACION,
+	// 			SUM(b.nCANTIDAD) AS nCantidadTotalVenta,
+	// 			ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta
+	// 			FROM kar_venta a 
+	// 			INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO=1
+	// 			WHERE a.nidlocal='0002' AND a.nESTADO=1 
+
+	// 			GROUP BY a.dFECHAVENTA,
+	// 			a.nIDVENTA,
+	// 			a.nIDCLIENTE,
+	// 			a.nIDLOCAL,
+	// 			a.sOBSERVACION
+	// 		) 
+	// 		AS a LEFT JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
+	// 		GROUP BY a.dFECHAVENTA,
+	// 		a.nIDVENTA,
+	// 		a.nIDCLIENTE,
+	// 		a.nIDLOCAL,
+	// 		a.sOBSERVACION,
+	// 		a.sCostoTotalVenta
+	// 		) AS a 
+	// 		INNER JOIN sel_cliente b ON a.nIDCLIENTE = b.nIDCLIENTE 
+	// 		INNER JOIN sel_local c ON a.nIDLOCAL = c.nIDLOCAL 
+	// 			 ";
 				
-		$response=$this->_db->query($sql)or die ('Error en '.$sql);
-		return $response;
-	}
+	// 	$response=$this->_db->query($sql)or die ('Error en '.$sql);
+	// 	return $response;
+	// }
 
 
 	public function getCompras($idLocal,$fechaInicio, $fechafin,$estado){
@@ -138,12 +179,16 @@ Class reporteModel extends Model{
 		return $response;
 	}
 
-	public function getCuentasPorCobrar($idLocal,$fechaInicio, $fechafin){
+	public function getVentasTable($codLocal, $tipoVenta, $fechaInicio, $fechafin){
 
-		$filtroFecha = "AND a.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
+		$filtroFecha='';
 
+		if($fechaInicio!='' && $fechafin!=''){
+			$filtroFecha = "AND a.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
+		}
+		
 		$sql="
-		SELECT a.*, b.sDESCRIPCION AS sCLIENTE, c.sDESCRIPCION AS sLOCAL
+			SELECT a.*, b.sDESCRIPCION AS sCLIENTE, c.sDESCRIPCION AS sLOCAL
 			FROM 
 			(
 				SELECT 
@@ -168,7 +213,7 @@ Class reporteModel extends Model{
 					ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta
 					FROM kar_venta a 
 					INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO=1
-					WHERE a.nidlocal=$idLocal and a.nESTADO=1 
+					WHERE a.nidlocal=$codLocal and a.nESTADO='$tipoVenta' 
 					$filtroFecha
 					GROUP BY a.dFECHAVENTA,
 					a.nIDVENTA,
@@ -187,10 +232,60 @@ Class reporteModel extends Model{
 			INNER JOIN sel_cliente b ON a.nIDCLIENTE = b.nIDCLIENTE AND b.nESTADO=1
 			INNER JOIN sel_local c ON a.nIDLOCAL = c.nIDLOCAL AND c.nESTADO=1
 			WHERE a.sDeudaTotalVenta>0
-				 ";
+		";
+		//echo $sql; exit();
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+	
+	public function getInversion($idLocal){
+		$sql="SELECT * FROM vw_sel_productos_inversion WHERE nLOCAL='$idLocal'";
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $response;
 	}
+
+	
+	public function getReporteBalance($fechaInicio, $fechafin,$idLocal){
+
+		$filtroFecha='';
+
+		if($fechaInicio!='' && $fechafin!=''){
+			$filtroFecha = "AND a.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
+		}
+
+			$sql="SELECT  az.FECHA
+				,SUM(az.nCantidadVentas) ventas
+				,SUM(az.nCantidadTotalProductosVentas) ventasProductos
+				,SUM(az.sCostoTotalVentas) ventasCosto
+				,SUM(az.efectivo) AS efectivo
+				,SUM(az.deposito) AS deposito
+				, (az.sCostoTotalVentas - (IFNULL(az.efectivo,0) + IFNULL(az.deposito,0))) AS credito
+			FROM (
+			SELECT 
+			DATE(a.dFECHAVENTA) AS FECHA
+				,a.nIDVENTA
+				, COUNT(DISTINCT a.nIDVENTA) AS nCantidadVentas
+				, SUM(b.nCANTIDAD) AS nCantidadTotalProductosVentas
+				, ROUND(SUM(b.nCANTIDAD * b.fPRECIO), 2) AS sCostoTotalVentas
+				,(SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '01'  ) AS efectivo 
+				,(SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '02' ) AS deposito 
+			FROM
+			kar_venta a 
+			LEFT JOIN kar_venta_detalle b 
+				ON a.nIDVENTA = b.nIDVENTA 
+				AND b.nESTADO = 1 
+				WHERE a.nidlocal = '$idLocal' 
+				$filtroFecha
+				AND a.nESTADO = 1 
+				GROUP BY DATE(a.dFECHAVENTA)
+			,a.nIDVENTA
+			)az
+			GROUP BY az.FECHA;";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
 
 
 }

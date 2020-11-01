@@ -26,7 +26,7 @@ class ventaController extends Controller{
 		$result = $objModel->getComboProductos($codLocal);
 		echo '<option selected disabled> SELECCIONE </option>';
 		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->nIDPRODUCTO.'"  id2="'.$reg->sNOMBRE.'" id3="'.$reg->nCANTIDAD.'"> '.$reg->sLOCAL. ' - '.$reg->sNOMBRE. ' - '.$reg->nCANTIDAD. '</option>';
+			echo '<option value="'.$reg->nIDPRODUCTO.'"  id2="'.$reg->sNOMBRE.'" id3="'.$reg->nCANTIDAD.'" title="'.$reg->nCANTIDAD.'" id4="'.$reg->nLOCAL.'"> '.$reg->sLOCAL. ' - '.$reg->sNOMBRE.' - '.' </a></option>';
 		}
 	}
 
@@ -101,6 +101,7 @@ class ventaController extends Controller{
 		$cartNombre		= $_POST['cartNombre'];
 		$precioCompra	= $_POST['precioCompra'];
 		$perdida		= $_POST['perdida'];
+		$idLocal		= $_POST['idLocal'];
 
 		$productsArray = array(
 			"idProducto"=>$idProducto
@@ -108,7 +109,13 @@ class ventaController extends Controller{
 			,"cantidad"=>$cantidad
 			,"precio"=>$precioCompra
 			,"perdida"=>$perdida
+			,"idLocal"=>$idLocal
 		);
+
+		// echo("if entra");
+		// echo('<pre>');
+		// print_r($idLocal);
+		// echo('</pre>');
 
 		// $this->clearCartventas();
 
@@ -137,6 +144,9 @@ class ventaController extends Controller{
 
 		$tableProducts = "";
 
+		// echo('<pre>');
+		// print_r($_SESSION["cart"]["ventasproducts"]);
+		// echo('</pre>');
 
 		if(!empty($_SESSION["cart"]["ventasproducts"])){
 		foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
@@ -152,7 +162,7 @@ class ventaController extends Controller{
 					$tableProducts .= '<tr class='.$trClass.'> 
 						<td class="p-a-2">
 							<div class="font-weight-semibold">'.$items["cartNombre"].'</div>
-							<div class="font-size-12 text-muted"><strong>ITEM ID : </strong>'.$items["idProducto"].'</div>
+							<div class="font-size-12 text-muted"><strong>TIENDA ID : </strong>'.$items["idLocal"].'</div>
 						</td>
 						<td class="p-a-2">
 							<strong>'.$items["cantidad"].'</strong>
