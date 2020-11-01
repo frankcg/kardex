@@ -31,7 +31,7 @@
   
     <hr class="page-wide-block">
 
-    <span class="text-muted">Copyright © 2020 Cristian Tauro All rights reserved.</span>
+    <span class="text-muted">Copyright © 2020 Consorcio Tauro All rights reserved.</span>
   </footer>
   <!-- </div> -->
   <!-- ==============================================================================  |
