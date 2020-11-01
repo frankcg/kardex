@@ -19,7 +19,7 @@ $(document).on('ready',function(){
 		});
 	}
 
-	getEstados();
+	// getEstados();
 
 	function tblReporteventas(codLocal=0, tipoVenta=0, fechaInicio='', fechaFin=''){
 		$('#tblReporteventas').dataTable().fnDestroy();		 	
