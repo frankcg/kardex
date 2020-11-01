@@ -26,7 +26,7 @@ $(document).on('ready',function(){
 			}],
 			responsive: !0,
 			
-			//"order" : [ [ 0, "desc" ] ],
+			"order" : [ [ 1, "asc" ] ],
 			"ajax" : "stock/getStock/"+codLocal,
 			"columns" : [
 			{
