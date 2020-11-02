@@ -53,7 +53,9 @@ $(document).on('ready',function(){
 			},{
 				"data" : "OPCIONES"
 			},		
-			]
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 
 		});	
 	}
 	
@@ -381,7 +383,7 @@ $(document).on('ready',function(){
 			},			
 			],
 			"language": {
-				"url": "/yichang/public/cdn/datatable.spanish.lang"
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
 			} 
 		});	
 	}   

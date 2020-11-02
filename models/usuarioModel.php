@@ -83,7 +83,7 @@ Class usuarioModel extends Model{
 														CONTROLLER USUARIO
 	************************************************************************************************************* */
 	public function getusuarios(){
-		$sql="SELECT a.IDUSUARIO, b.NUMERODOC, CONCAT_WS(' ',b.NOMBRE,b.AP_PATERNO,b.AP_MATERNO) AS NOMBRE, IF(a.ESTADO=1,'ACTIVO','INACTIVO') AS ESTADO, DATE_FORMAT(a.`FECHACREACION`,'%d/%m/%Y') AS FECHA
+		$sql="SELECT a.IDUSUARIO, b.NUMERODOC, CONCAT_WS(' ',b.NOMBRE,b.AP_PATERNO,b.AP_MATERNO) AS NOMBRE, IF(a.ESTADO=1,'ACTIVO','INACTIVO') AS ESTADO, DATE_FORMAT(a.`dFECHACREACION`,'%d/%m/%Y') AS FECHA
 			FROM kar_usuario a INNER JOIN `kar_persona` b ON a.`IDPERSONA`= b.IDPERSONA";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
@@ -167,9 +167,9 @@ Class usuarioModel extends Model{
 	******************************************************************************************************************************** */
 	
 	public function getprofiles(){
-		$sql="SELECT a.IDPERFIL, a.NOMBRE_PERFIL, IF(a.FLAG=1,'ACTIVO','INACTIVO') AS ESTADO, DATE_FORMAT(`FECHACREACION`,'%d/%m/%Y') AS FECHA,
+		$sql="SELECT a.IDPERFIL, a.NOMBRE_PERFIL, IF(a.FLAG=1,'ACTIVO','INACTIVO') AS ESTADO, DATE_FORMAT(`dFECHACREACION`,'%d/%m/%Y') AS FECHA,
 			(SELECT COUNT(*) FROM `seguridad_modulo_perfil` WHERE IDPERFIL=a.IDPERFIL) AS CANTMODULOS
-			FROM `seguridad_perfil` a ORDER BY a.FECHACREACION DESC";
+			FROM `seguridad_perfil` a ORDER BY a.dFECHACREACION DESC";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
