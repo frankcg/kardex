@@ -776,7 +776,7 @@ class ventaController extends Controller{
 		$icon='fa-file';
 		$title='Habilitar';
 		$class='viewPdf';
-
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$cont++;
 
