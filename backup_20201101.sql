@@ -138,7 +138,7 @@ CREATE TABLE `kar_persona` (
 
 /*Data for the table `kar_persona` */
 
-insert  into `kar_persona`(`IDPERSONA`,`NOMBRE`,`AP_PATERNO`,`AP_MATERNO`,`NUMERODOC`,`CORREO`,`TELEFONO`,`TIPOPERSONA`,`ESTADO`,`IDUSUARIOCREACION`,`FECHACREACION`,`IDUSUARIOMOD`,`FECHAMOD`) values (0106,'FRANK','LAURA','BORJA',73191639,'FRANK.CG9@GMAIL.COM',993690057,'USER','1','FLAURA','2018-04-02 00:00:00','','2018-05-01 13:09:57'),(0196,'NOMBRE','PATERNO','MATERNO',10101010,'',0,'USER','1','FLAURA','2020-09-16 21:08:35',NULL,'0000-00-00 00:00:00'),(0197,'TICONA','CRISTIAN','MAMANI',96969696,'',0,'USER','1','FLAURA','2020-09-28 01:34:11',NULL,'0000-00-00 00:00:00'),(0198,'REYBI ANTONY','TICLIA','ACEVEDO',96969697,'',0,'USER','1','FLAURA','2020-09-28 10:03:27',NULL,'0000-00-00 00:00:00');
+insert  into `kar_persona`(`IDPERSONA`,`NOMBRE`,`AP_PATERNO`,`AP_MATERNO`,`NUMERODOC`,`CORREO`,`TELEFONO`,`TIPOPERSONA`,`ESTADO`,`sIDUSUARIOCREACION`,`dFECHACREACION`,`sIDUSUARIOMOD`,`dFECHAMOD`) values (0106,'FRANK','LAURA','BORJA',73191639,'FRANK.CG9@GMAIL.COM',993690057,'USER','1','FLAURA','2018-04-02 00:00:00','','2018-05-01 13:09:57'),(0196,'NOMBRE','PATERNO','MATERNO',10101010,'',0,'USER','1','FLAURA','2020-09-16 21:08:35',NULL,'0000-00-00 00:00:00'),(0197,'TICONA','CRISTIAN','MAMANI',96969696,'',0,'USER','1','FLAURA','2020-09-28 01:34:11',NULL,'0000-00-00 00:00:00'),(0198,'REYBI ANTONY','TICLIA','ACEVEDO',96969697,'',0,'USER','1','FLAURA','2020-09-28 10:03:27',NULL,'0000-00-00 00:00:00');
 
 /*Table structure for table `kar_producto` */
 
@@ -185,7 +185,7 @@ CREATE TABLE `kar_usuario` (
 
 /*Data for the table `kar_usuario` */
 
-insert  into `kar_usuario`(`IDUSUARIO`,`CONTRASENIA`,`ESTADO`,`IDPERSONA`,`IDPERFIL`,`IDUSUARIOCREACION`,`FECHACREACION`,`IDUSUARIOMOD`,`FECHAMOD`) values ('CMAMANI','e1f62e3cdacb60537a660a436d9616d0549f66f4',1,0197,01,'FLAURA','2020-09-28 01:34:11','FLAURA','2020-09-28 01:34:44'),('FLAURA','458f4c520e432987bb4851036aa393ae26c8cba6',1,0106,01,'ADMIN','2020-09-13 00:15:05','FLAURA','2020-09-13 00:26:31'),('RTICLIA','a4ca05c428c63505b2eb852ea556598c10d51d8f',1,0198,05,'FLAURA','2020-09-28 10:03:27','FLAURA','2020-09-28 10:03:33'),('VENDEDOR','f84ae4782a61dc97f19accb967656c3225743d3a',1,0196,05,'FLAURA','2020-09-16 21:08:35','FLAURA','2020-09-27 20:40:20');
+insert  into `kar_usuario`(`IDUSUARIO`,`CONTRASENIA`,`ESTADO`,`IDPERSONA`,`IDPERFIL`,`sIDUSUARIOCREACION`,`dFECHACREACION`,`sIDUSUARIOMOD`,`dFECHAMOD`) values ('CMAMANI','e1f62e3cdacb60537a660a436d9616d0549f66f4',1,0197,01,'FLAURA','2020-09-28 01:34:11','FLAURA','2020-09-28 01:34:44'),('FLAURA','458f4c520e432987bb4851036aa393ae26c8cba6',1,0106,01,'ADMIN','2020-09-13 00:15:05','FLAURA','2020-09-13 00:26:31'),('RTICLIA','a4ca05c428c63505b2eb852ea556598c10d51d8f',1,0198,05,'FLAURA','2020-09-28 10:03:27','FLAURA','2020-09-28 10:03:33'),('VENDEDOR','f84ae4782a61dc97f19accb967656c3225743d3a',1,0196,05,'FLAURA','2020-09-16 21:08:35','FLAURA','2020-09-27 20:40:20');
 
 /*Table structure for table `kar_venta` */
 
@@ -308,7 +308,7 @@ CREATE TABLE `seguridad_modulo` (
 
 /*Data for the table `seguridad_modulo` */
 
-insert  into `seguridad_modulo`(`IDMODULO`,`NOMBRE_MODULO`,`DESCRIPCION`,`TIPO`,`UBICACION`,`nIDLOCAL`,`FLAG`,`FECHAMOD`,`ORDEN`) values (01,'MENU_PANEL','Inicio','MENU_PAN','panel',0003,1,'2020-10-31 22:47:34',1),(02,'MENU_SEGURIDAD','Control de Acceso','MENU_SEG','usuario',0003,1,'2020-10-31 22:47:35',2),(10,'MENU_COMPRA','Registrar Compra','MENU_TIENDA_1','compra',0002,1,'2020-10-31 22:47:40',3),(11,'MENU_CATALOGO','Stock de Productos','MENU_TIENDA_1','stock',0002,1,'2020-10-31 22:52:34',5),(12,'MENU_VENTAS','Registrar Venta','MENU_TIENDA_1','venta',0002,1,'2020-10-31 22:47:48',4),(13,'MENU_REPORTES','Reportes','MENU_TIENDA_1','reporte',0002,1,'2020-10-31 22:48:20',10),(14,'MENU_ANULACION','Anulacion de Compra','MENU_TIENDA_1','anulacion',0002,1,'2020-10-31 22:48:13',7),(15,'MENU_EXTORNO','Extorno de Venta','MENU_TIENDA_1','extorno',0002,1,'2020-10-31 22:48:12',6),(16,'MENU_CUENTA_PAGO','Cuentas por Pagar','MENU_TIENDA_1','cuentapago',0002,1,'2020-10-31 22:48:17',8),(17,'MENU_CUENTA_COBRO','Cuentas por Cobrar','MENU_TIENDA_1','cuentacobro',0002,1,'2020-10-31 22:48:18',9),(18,'MENU_COMPRA','Registrar Compra','MENU_TIENDA_2','compra',0004,1,'2020-11-01 23:38:24',11),(19,'MENU_VENTAS','Registrar Venta','MENU_TIENDA_2','venta',0004,1,'2020-11-01 23:38:25',12),(20,'MENU_CATALOGO','Stock de Productos','MENU_TIENDA_2','stock',0004,1,'2020-11-01 23:38:26',13),(21,'MENU_EXTORNO','Extorno de Venta','MENU_TIENDA_2','extorno',0004,1,'2020-11-01 23:38:26',14),(22,'MENU_ANULACION','Anulacion de Compra','MENU_TIENDA_2','anulacion',0004,1,'2020-11-01 23:38:28',15),(23,'MENU_CUENTA_PAGO','Cuentas por Pagar','MENU_TIENDA_2','cuentapago',0004,1,'2020-11-01 23:38:28',16),(24,'MENU_CUENTA_COBRO','Cuentas por Cobrar','MENU_TIENDA_2','cuentacobro',0004,1,'2020-11-01 23:38:29',17),(25,'MENU_REPORTES','Reportes','MENU_TIENDA_2','reporte',0004,1,'2020-11-01 23:38:29',18);
+insert  into `seguridad_modulo`(`IDMODULO`,`NOMBRE_MODULO`,`DESCRIPCION`,`TIPO`,`UBICACION`,`nIDLOCAL`,`FLAG`,`dFECHAMOD`,`ORDEN`) values (01,'MENU_PANEL','Inicio','MENU_PAN','panel',0003,1,'2020-10-31 22:47:34',1),(02,'MENU_SEGURIDAD','Control de Acceso','MENU_SEG','usuario',0003,1,'2020-10-31 22:47:35',2),(10,'MENU_COMPRA','Registrar Compra','MENU_TIENDA_1','compra',0002,1,'2020-10-31 22:47:40',3),(11,'MENU_CATALOGO','Stock de Productos','MENU_TIENDA_1','stock',0002,1,'2020-10-31 22:52:34',5),(12,'MENU_VENTAS','Registrar Venta','MENU_TIENDA_1','venta',0002,1,'2020-10-31 22:47:48',4),(13,'MENU_REPORTES','Reportes','MENU_TIENDA_1','reporte',0002,1,'2020-10-31 22:48:20',10),(14,'MENU_ANULACION','Anulacion de Compra','MENU_TIENDA_1','anulacion',0002,1,'2020-10-31 22:48:13',7),(15,'MENU_EXTORNO','Extorno de Venta','MENU_TIENDA_1','extorno',0002,1,'2020-10-31 22:48:12',6),(16,'MENU_CUENTA_PAGO','Cuentas por Pagar','MENU_TIENDA_1','cuentapago',0002,1,'2020-10-31 22:48:17',8),(17,'MENU_CUENTA_COBRO','Cuentas por Cobrar','MENU_TIENDA_1','cuentacobro',0002,1,'2020-10-31 22:48:18',9),(18,'MENU_COMPRA','Registrar Compra','MENU_TIENDA_2','compra',0004,1,'2020-11-01 23:38:24',11),(19,'MENU_VENTAS','Registrar Venta','MENU_TIENDA_2','venta',0004,1,'2020-11-01 23:38:25',12),(20,'MENU_CATALOGO','Stock de Productos','MENU_TIENDA_2','stock',0004,1,'2020-11-01 23:38:26',13),(21,'MENU_EXTORNO','Extorno de Venta','MENU_TIENDA_2','extorno',0004,1,'2020-11-01 23:38:26',14),(22,'MENU_ANULACION','Anulacion de Compra','MENU_TIENDA_2','anulacion',0004,1,'2020-11-01 23:38:28',15),(23,'MENU_CUENTA_PAGO','Cuentas por Pagar','MENU_TIENDA_2','cuentapago',0004,1,'2020-11-01 23:38:28',16),(24,'MENU_CUENTA_COBRO','Cuentas por Cobrar','MENU_TIENDA_2','cuentacobro',0004,1,'2020-11-01 23:38:29',17),(25,'MENU_REPORTES','Reportes','MENU_TIENDA_2','reporte',0004,1,'2020-11-01 23:38:29',18);
 
 /*Table structure for table `seguridad_modulo_perfil` */
 
@@ -329,7 +329,7 @@ CREATE TABLE `seguridad_modulo_perfil` (
 
 /*Data for the table `seguridad_modulo_perfil` */
 
-insert  into `seguridad_modulo_perfil`(`IDDETALLE`,`IDMODULO`,`IDPERFIL`,`PERMISO`,`FECHAMOD`) values (0105,01,05,0,'2020-09-27 20:40:28'),(0106,11,05,0,'2020-09-27 20:40:28'),(0107,12,05,0,'2020-09-27 20:40:28'),(0169,01,01,0,'2020-11-01 23:40:02'),(0170,02,01,0,'2020-11-01 23:40:02'),(0171,10,01,0,'2020-11-01 23:40:03'),(0172,11,01,0,'2020-11-01 23:40:03'),(0173,12,01,0,'2020-11-01 23:40:03'),(0174,13,01,0,'2020-11-01 23:40:03'),(0175,14,01,0,'2020-11-01 23:40:03'),(0176,15,01,0,'2020-11-01 23:40:03'),(0177,16,01,0,'2020-11-01 23:40:03'),(0178,17,01,0,'2020-11-01 23:40:03'),(0179,18,01,0,'2020-11-01 23:40:03'),(0180,19,01,0,'2020-11-01 23:40:04'),(0181,20,01,0,'2020-11-01 23:40:04'),(0182,21,01,0,'2020-11-01 23:40:04'),(0183,22,01,0,'2020-11-01 23:40:04'),(0184,23,01,0,'2020-11-01 23:40:04'),(0185,24,01,0,'2020-11-01 23:40:04'),(0186,25,01,0,'2020-11-01 23:40:04');
+insert  into `seguridad_modulo_perfil`(`IDDETALLE`,`IDMODULO`,`IDPERFIL`,`PERMISO`,`dFECHAMOD`) values (0105,01,05,0,'2020-09-27 20:40:28'),(0106,11,05,0,'2020-09-27 20:40:28'),(0107,12,05,0,'2020-09-27 20:40:28'),(0169,01,01,0,'2020-11-01 23:40:02'),(0170,02,01,0,'2020-11-01 23:40:02'),(0171,10,01,0,'2020-11-01 23:40:03'),(0172,11,01,0,'2020-11-01 23:40:03'),(0173,12,01,0,'2020-11-01 23:40:03'),(0174,13,01,0,'2020-11-01 23:40:03'),(0175,14,01,0,'2020-11-01 23:40:03'),(0176,15,01,0,'2020-11-01 23:40:03'),(0177,16,01,0,'2020-11-01 23:40:03'),(0178,17,01,0,'2020-11-01 23:40:03'),(0179,18,01,0,'2020-11-01 23:40:03'),(0180,19,01,0,'2020-11-01 23:40:04'),(0181,20,01,0,'2020-11-01 23:40:04'),(0182,21,01,0,'2020-11-01 23:40:04'),(0183,22,01,0,'2020-11-01 23:40:04'),(0184,23,01,0,'2020-11-01 23:40:04'),(0185,24,01,0,'2020-11-01 23:40:04'),(0186,25,01,0,'2020-11-01 23:40:04');
 
 /*Table structure for table `seguridad_perfil` */
 
@@ -348,7 +348,7 @@ CREATE TABLE `seguridad_perfil` (
 
 /*Data for the table `seguridad_perfil` */
 
-insert  into `seguridad_perfil`(`IDPERFIL`,`NOMBRE_PERFIL`,`FLAG`,`IDUSUARIOCREACION`,`FECHACREACION`,`IDUSUARIOMOD`,`FECHAMOD`) values (01,'ADMINISTRADOR',1,'','2018-04-05 17:32:48','FLAURA','2018-04-10 14:49:05'),(05,'VENDEDOR',1,'','2020-09-13 12:50:30','','2020-09-13 12:50:30');
+insert  into `seguridad_perfil`(`IDPERFIL`,`NOMBRE_PERFIL`,`FLAG`,`sIDUSUARIOCREACION`,`dFECHACREACION`,`sIDUSUARIOMOD`,`dFECHAMOD`) values (01,'ADMINISTRADOR',1,'','2018-04-05 17:32:48','FLAURA','2018-04-10 14:49:05'),(05,'VENDEDOR',1,'','2020-09-13 12:50:30','','2020-09-13 12:50:30');
 
 /*Table structure for table `sel_cliente` */
 
@@ -383,7 +383,7 @@ CREATE TABLE `sel_cuenta` (
 
 /*Data for the table `sel_cuenta` */
 
-insert  into `sel_cuenta`(`nIDCUENTA`,`sDESCRIPCION`,`nESTADO`,`dFECHACREACION`) values (0001,'',1,'2020-11-01 23:14:43'),(0002,'',1,'2020-11-01 23:16:34');
+insert  into `sel_cuenta`(`nIDCUENTA`,`sDESCRIPCION`,`nESTADO`,`dFECHAMOD`) values (0001,'',1,'2020-11-01 23:14:43'),(0002,'',1,'2020-11-01 23:16:34');
 
 /*Table structure for table `sel_estado` */
 
@@ -399,7 +399,7 @@ CREATE TABLE `sel_estado` (
 
 /*Data for the table `sel_estado` */
 
-insert  into `sel_estado`(`nIDESTADO`,`sDESCRIPCION`,`nESTADO`,`dFECHACREACION`) values (1,'ACTIVAS',1,'2020-10-15 17:07:10'),(2,'INACTIVAS',0,'2020-10-15 17:07:15'),(3,'ANULADAS',1,'2020-10-15 17:07:18'),(4,'EXTORNADAS',1,'2020-10-15 17:07:20');
+insert  into `sel_estado`(`nIDESTADO`,`sDESCRIPCION`,`nESTADO`,`dFECHAMOD`) values (1,'ACTIVAS',1,'2020-10-15 17:07:10'),(2,'INACTIVAS',0,'2020-10-15 17:07:15'),(3,'ANULADAS',1,'2020-10-15 17:07:18'),(4,'EXTORNADAS',1,'2020-10-15 17:07:20');
 
 /*Table structure for table `sel_local` */
 
@@ -437,7 +437,7 @@ CREATE TABLE `sel_proveedor` (
 
 /*Data for the table `sel_proveedor` */
 
-insert  into `sel_proveedor`(`nIDPROVEEDOR`,`sDESCRIPCION`,`nESTADO`,`dFECHACREACION`) values (0001,'PROVEEDOR GENETAL',1,'2020-11-01 23:11:24');
+insert  into `sel_proveedor`(`nIDPROVEEDOR`,`sDESCRIPCION`,`nESTADO`,`dFECHAMOD`) values (0001,'PROVEEDOR GENETAL',1,'2020-11-01 23:11:24');
 
 /*Table structure for table `sel_tipopago` */
 
@@ -455,52 +455,13 @@ CREATE TABLE `sel_tipopago` (
 
 insert  into `sel_tipopago`(`nIDTIPOPAGO`,`sDESCRIPCION`,`nESTADO`) values (01,'EFECTIVO',1),(02,'DEPOSITO',1);
 
-/*Table structure for table `vw_sel_productos_inversion` */
-
 DROP TABLE IF EXISTS `vw_sel_productos_inversion`;
 
-/*!50001 DROP VIEW IF EXISTS `vw_sel_productos_inversion` */;
-/*!50001 DROP TABLE IF EXISTS `vw_sel_productos_inversion` */;
-
-/*!50001 CREATE TABLE  `vw_sel_productos_inversion`(
- `nLOCAL` int(4) unsigned zerofill ,
- `sLOCAL` char(100) ,
- `nIDPRODUCTO` int(5) unsigned zerofill ,
- `sNOMBRE` char(150) ,
- `nCANTIDAD` double ,
- `nTOTAL` double 
-)*/;
-
-/*Table structure for table `vw_sel_productos_stock` */
+CREATE ALGORITHM=UNDEFINED DEFINER=`fzbsokgg_user_tauro`@`179.6.222.%` SQL SECURITY DEFINER VIEW `vw_sel_productos_inversion` AS (
+SELECT `az`.`nLOCAL` AS `nLOCAL`,`az`.`sLOCAL` AS `sLOCAL`,`az`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`az`.`sNOMBRE` AS `sNOMBRE`,`az`.`nCANTIDAD` AS `nCANTIDAD`,`az`.`nTOTAL` AS `nTOTAL` FROM (SELECT `a`.`nIDLOCAL` AS `nLOCAL`,`d`.`sDESCRIPCION` AS `sLOCAL`,`a`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`a`.`sNOMBRE` AS `sNOMBRE`,(SELECT SUM(`b`.`nCANTIDAD`) AS `nCANTIDAD` FROM `fzbsokgg_tauro_kardex_v2`.`kar_compra_detalle` `b` WHERE `a`.`nIDPRODUCTO` = `b`.`nIDPRODUCTO` AND `b`.`nESTADO` = 1) - (SELECT CASE WHEN SUM(`c`.`nCANTIDAD`) IS NOT NULL THEN SUM(`c`.`nCANTIDAD`) ELSE 0 END AS `ventas` FROM `fzbsokgg_tauro_kardex_v2`.`kar_venta_detalle` `c` WHERE `a`.`nIDPRODUCTO` = `c`.`nIDPRODUCTO` AND `c`.`nESTADO` = 1) AS `nCANTIDAD`,(SELECT SUM(`z`.`nCANTIDAD` * `z`.`fPRECIO`) AS `total` FROM `fzbsokgg_tauro_kardex_v2`.`kar_compra_detalle` `z` WHERE `z`.`nIDPRODUCTO` = `a`.`nIDPRODUCTO` AND `z`.`bSTOCK` = '1' AND `z`.`nESTADO` = '1') AS `nTOTAL` FROM (`fzbsokgg_tauro_kardex_v2`.`kar_producto` `a` JOIN `fzbsokgg_tauro_kardex_v2`.`sel_local` `d` ON(`a`.`nIDLOCAL` = `d`.`nIDLOCAL`)) WHERE `a`.`nESTADO` = 1 GROUP BY `a`.`nIDPRODUCTO`) `az` WHERE `az`.`nCANTIDAD` > 0 ORDER BY `az`.`sNOMBRE`)$$
 
 DROP TABLE IF EXISTS `vw_sel_productos_stock`;
 
-/*!50001 DROP VIEW IF EXISTS `vw_sel_productos_stock` */;
-/*!50001 DROP TABLE IF EXISTS `vw_sel_productos_stock` */;
+CREATE ALGORITHM=UNDEFINED DEFINER=`fzbsokgg_user_tauro`@`179.6.222.%` SQL SECURITY DEFINER VIEW `vw_sel_productos_stock` AS 
+SELECT `az`.`nLOCAL` AS `nLOCAL`,`az`.`sLOCAL` AS `sLOCAL`,`az`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`az`.`sNOMBRE` AS `sNOMBRE`,`az`.`nCANTIDAD` AS `nCANTIDAD` FROM (SELECT `a`.`nIDLOCAL` AS `nLOCAL`,`d`.`sDESCRIPCION` AS `sLOCAL`,`a`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`a`.`sNOMBRE` AS `sNOMBRE`,(SELECT SUM(`b`.`nCANTIDAD`) AS `nCANTIDAD` FROM `fzbsokgg_tauro_kardex_v2`.`kar_compra_detalle` `b` WHERE `a`.`nIDPRODUCTO` = `b`.`nIDPRODUCTO` AND `b`.`nESTADO` = 1) - (SELECT CASE WHEN SUM(`c`.`nCANTIDAD`) IS NOT NULL THEN SUM(`c`.`nCANTIDAD`) ELSE 0 END AS `ventas` FROM `fzbsokgg_tauro_kardex_v2`.`kar_venta_detalle` `c` WHERE `a`.`nIDPRODUCTO` = `c`.`nIDPRODUCTO` AND `c`.`nESTADO` = 1) AS `nCANTIDAD` FROM (`fzbsokgg_tauro_kardex_v2`.`kar_producto` `a` JOIN `fzbsokgg_tauro_kardex_v2`.`sel_local` `d` ON(`a`.`nIDLOCAL` = `d`.`nIDLOCAL`)) WHERE `a`.`nESTADO` = 1 GROUP BY `a`.`nIDPRODUCTO`) `az` WHERE `az`.`nCANTIDAD` > 0 ORDER BY `az`.`sNOMBRE`$$
 
-/*!50001 CREATE TABLE  `vw_sel_productos_stock`(
- `nLOCAL` int(4) unsigned zerofill ,
- `sLOCAL` char(100) ,
- `nIDPRODUCTO` int(5) unsigned zerofill ,
- `sNOMBRE` char(150) ,
- `nCANTIDAD` double 
-)*/;
-
-/*View structure for view vw_sel_productos_inversion */
-
-/*!50001 DROP TABLE IF EXISTS `vw_sel_productos_inversion` */;
-/*!50001 DROP VIEW IF EXISTS `vw_sel_productos_inversion` */;
-
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`fzbsokgg_user_tauro`@`179.6.222.%` SQL SECURITY DEFINER VIEW `vw_sel_productos_inversion` AS (select `az`.`nLOCAL` AS `nLOCAL`,`az`.`sLOCAL` AS `sLOCAL`,`az`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`az`.`sNOMBRE` AS `sNOMBRE`,`az`.`nCANTIDAD` AS `nCANTIDAD`,`az`.`nTOTAL` AS `nTOTAL` from (select `a`.`nIDLOCAL` AS `nLOCAL`,`d`.`sDESCRIPCION` AS `sLOCAL`,`a`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`a`.`sNOMBRE` AS `sNOMBRE`,(select sum(`b`.`nCANTIDAD`) AS `nCANTIDAD` from `fzbsokgg_tauro_kardex_v2`.`kar_compra_detalle` `b` where `a`.`nIDPRODUCTO` = `b`.`nIDPRODUCTO` and `b`.`nESTADO` = 1) - (select case when sum(`c`.`nCANTIDAD`) is not null then sum(`c`.`nCANTIDAD`) else 0 end AS `ventas` from `fzbsokgg_tauro_kardex_v2`.`kar_venta_detalle` `c` where `a`.`nIDPRODUCTO` = `c`.`nIDPRODUCTO` and `c`.`nESTADO` = 1) AS `nCANTIDAD`,(select sum(`z`.`nCANTIDAD` * `z`.`fPRECIO`) AS `total` from `fzbsokgg_tauro_kardex_v2`.`kar_compra_detalle` `z` where `z`.`nIDPRODUCTO` = `a`.`nIDPRODUCTO` and `z`.`bSTOCK` = '1' and `z`.`nESTADO` = '1') AS `nTOTAL` from (`fzbsokgg_tauro_kardex_v2`.`kar_producto` `a` join `fzbsokgg_tauro_kardex_v2`.`sel_local` `d` on(`a`.`nIDLOCAL` = `d`.`nIDLOCAL`)) where `a`.`nESTADO` = 1 group by `a`.`nIDPRODUCTO`) `az` where `az`.`nCANTIDAD` > 0 order by `az`.`sNOMBRE`) */;
-
-/*View structure for view vw_sel_productos_stock */
-
-/*!50001 DROP TABLE IF EXISTS `vw_sel_productos_stock` */;
-/*!50001 DROP VIEW IF EXISTS `vw_sel_productos_stock` */;
-
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`fzbsokgg_user_tauro`@`179.6.222.%` SQL SECURITY DEFINER VIEW `vw_sel_productos_stock` AS select `az`.`nLOCAL` AS `nLOCAL`,`az`.`sLOCAL` AS `sLOCAL`,`az`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`az`.`sNOMBRE` AS `sNOMBRE`,`az`.`nCANTIDAD` AS `nCANTIDAD` from (select `a`.`nIDLOCAL` AS `nLOCAL`,`d`.`sDESCRIPCION` AS `sLOCAL`,`a`.`nIDPRODUCTO` AS `nIDPRODUCTO`,`a`.`sNOMBRE` AS `sNOMBRE`,(select sum(`b`.`nCANTIDAD`) AS `nCANTIDAD` from `fzbsokgg_tauro_kardex_v2`.`kar_compra_detalle` `b` where `a`.`nIDPRODUCTO` = `b`.`nIDPRODUCTO` and `b`.`nESTADO` = 1) - (select case when sum(`c`.`nCANTIDAD`) is not null then sum(`c`.`nCANTIDAD`) else 0 end AS `ventas` from `fzbsokgg_tauro_kardex_v2`.`kar_venta_detalle` `c` where `a`.`nIDPRODUCTO` = `c`.`nIDPRODUCTO` and `c`.`nESTADO` = 1) AS `nCANTIDAD` from (`fzbsokgg_tauro_kardex_v2`.`kar_producto` `a` join `fzbsokgg_tauro_kardex_v2`.`sel_local` `d` on(`a`.`nIDLOCAL` = `d`.`nIDLOCAL`)) where `a`.`nESTADO` = 1 group by `a`.`nIDPRODUCTO`) `az` where `az`.`nCANTIDAD` > 0 order by `az`.`sNOMBRE` */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
