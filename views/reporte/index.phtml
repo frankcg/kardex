@@ -5,7 +5,7 @@
 <div class="px-content">
   <ol class="breadcrumb page-breadcrumb">
     <li><a href="<?php echo BASE_URL; ?>reporte?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
-    <li class="active">Reportes</li>
+    <li class="active">Reportes Generales</li>
   </ol>
 
   <div class="form-group col-sm-4 hide">
@@ -13,14 +13,11 @@
     <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
   </div>
 
-
   <div class="page-header">
-    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Reportes</h1>
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Reportes Generales</h1>
   </div>
 
   <div class="row">
-
-
     <div class="panel-body">
       <ul class="nav nav-tabs">
         <li class="active">
@@ -33,16 +30,6 @@
             Compras
           </a>
         </li>
-        <!-- <li class="">
-          <a href="#tabs-3" data-toggle="tab" aria-expanded="false">
-            Extornos
-          </a>
-        </li>
-        <li class="">
-          <a href="#tabs-4" data-toggle="tab" aria-expanded="false">
-            Anulaciones
-          </a>
-        </li> -->
         <li class="">
           <a href="#tabs-5" data-toggle="tab" aria-expanded="false">
             Cuentas por Pagar
@@ -68,8 +55,6 @@
       <div class="tab-content tab-content-bordered">
         <div class="tab-pane fade active in" id="tabs-1">
           <p>
-
-
             <div class="col-md-12">
               <div class="panel">
                 <div class="panel-heading">
@@ -95,14 +80,7 @@
                       <input type="date" class="form-control" id="fechaFin1" name="fechaFin1">
                     </div>
 
-                    <!-- <div class="form-group col-sm-12">
-                      <div class="form-group has-error">
-                        <small class="form-message" id="msj_reporte"></small>
-                      </div>
-                    </div> -->
-
                   </form>
-
                 </div>
 
                 <div class="panel-footer text-right">
@@ -118,19 +96,19 @@
                       <div class="col-md-12">
                         <div class="panel">
                           <div class="panel-heading">
-                            <div class="panel-title">Listado de Producto</div>
+                            <div class="panel-title">Detalle de Busqueda</div>
                           </div>
                           <div class="panel-body table-responsive">
                             <table class="table table-hover" id="tblReporteventas" width="100%">
                               <thead>
                                 <tr>
-                                  <th> dFECHAVENTA</th>
-                                  <th> nIDVENTA</th>
-                                  <th> sCLIENTE</th>
-                                  <th> sCostoTotalVenta</th>
-                                  <th> sPagoTotalVenta</th>
-                                  <th> sDeudaTotalVenta</th>
-                                  <th> OPCIONES</th>
+                                  <th> Fecha Venta</th>
+                                  <th> Cod. Venta</th>
+                                  <th> Cliente</th>
+                                  <th> Costo</th>
+                                  <th> Pago</th>
+                                  <th> Deuda</th>
+                                  <th> Proforma</th>
                                 </tr>
                               </thead>
                               <tbody id="">
@@ -153,9 +131,8 @@
         </div>
         </p>
 
-        <div class="tab-pane " id="tabs-2">
+        <div class="tab-pane" id="tabs-2">
           <p>
-
 
             <div class="col-md-12">
               <div class="panel">
@@ -207,18 +184,16 @@
                       <div class="col-md-12">
                         <div class="panel">
                           <div class="panel-heading">
-                            <div class="panel-title">Listado de Producto</div>
+                            <div class="panel-title">Detalle de Busqueda</div>
                           </div>
                           <div class="panel-body table-responsive">
                             <table class="table table-hover" id="tblReportecompras" width="100%">
                               <thead>
                                 <tr>
-                                  <th>nIDCOMPRA</th>
-                                  <th>nIDLOCAL</th>
-                                  <th>nLOCAL</th>
-                                  <th>dFECHACOMPRA</th>
-                                  <th>total</th>
-                                  <th>OPCIONES</th>
+                                  <th>Fecha Compra</th>
+                                  <th>Cod. Compra</th>
+                                  <th>Proveedor</th>                                  
+                                  <th>Costo Total</th>
                                 </tr>
                               </thead>
                               <tbody id="">
@@ -231,40 +206,12 @@
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-
             </div>
         </div>
         </p>
-
-        <div class="tab-pane fade" id="tabs-3">
-          <p>
-            Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out
-            mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.
-            Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
-            locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy
-            irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi
-            whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk
-            vice blog. Scenester cred you probably haven't heard of them, vinyl craft
-            beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.
-          </p>
-        </div>
-        <div class="tab-pane fade" id="tabs-4">
-          <p>
-            Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party
-            before they sold out master cleanse gluten-free squid scenester freegan
-            cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf
-            cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR,
-            banh mi before they sold out farm-to-table VHS viral locavore cosby
-            sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft
-            beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park
-            vegan.
-          </p>
-        </div>
 
         <div class="tab-pane fade" id="tabs-5">
           <p>
@@ -275,9 +222,7 @@
                   <div class="panel-title">Filtros</div>
                 </div>
                 <div class="panel-body">
-
                   <form class="smart-form" id="formReporte">
-
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
                       <input type="date" class="form-control" id="fechaInicio5" name="fechaInicio5">
@@ -299,7 +244,7 @@
                 </div>
 
                 <div class="panel-footer text-right">
-                  <button type="button" id="btnBuscar5" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
+                  <button type="button" id="btnBuscar5" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span>Buscar</button>
                 </div>
 
               </div>
@@ -311,43 +256,35 @@
                       <div class="col-md-12">
                         <div class="panel">
                           <div class="panel-heading">
-                            <div class="panel-title">Listado de Producto</div>
+                            <div class="panel-title">Detalle de Busqueda</div>
                           </div>
                           <div class="panel-body table-responsive">
                             <table class="table table-hover" id="tblReporteCuentasxPagar" width="100%">
                               <thead>
                                 <tr>
-                                  <th>dFECHACOMPRA </th>
-                                  <th>nIDCOMPRA </th>
-                                  <th>nIDPROVEEDOR </th>
-                                  <th>nIDLOCAL </th>
-                                  <th>sOBSERVACION </th>
-                                  <th>nCantidadTotalCompra</th>>
-                                  <th>sCostoTotalCompra </th>
-                                  <th>sPagoTotalCompra </th>
-                                  <th>sDeudaTotalCompra</th>
+                                  <th>Fecha Compra</th>
+                                  <th>Cod. Compra</th>
+                                  <th>Proveedor</th>
+                                  <th>Cant. Productos</th>>
+                                  <th>Costo Total</th>
+                                  <th>Pago Total</th>
+                                  <th>Deuda Total</th>
                                 </tr>
                               </thead>
                               <tbody id="">
                               </tbody>
                               <tfoot>
                               </tfoot>
-
                             </table>
                           </div>
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-
             </div>
             <!-- Fin Tab -->
-
-
           </p>
         </div>
         <div class="tab-pane fade" id="tabs-6">
@@ -395,23 +332,19 @@
                       <div class="col-md-12">
                         <div class="panel">
                           <div class="panel-heading">
-                            <div class="panel-title">Listado de Producto</div>
+                            <div class="panel-title">Detalle de Busqueda</div>
                           </div>
                           <div class="panel-body table-responsive">
                             <table class="table table-hover" id="tblReporteCuentasxCobrar" width="100%">
                               <thead>
                                 <tr>
-                                  <th> dFECHAVENTA </th>
-                                  <th> nIDVENTA </th>
-                                  <th> nIDCLIENTE </th>
-                                  <th> nIDLOCAL </th>
-                                  <th> sOBSERVACION </th>
-                                  <th> nCantidadTotalVenta </th>
-                                  <th> sCostoTotalVenta </th>
-                                  <th> sPagoTotalVenta </th>
-                                  <th> sDeudaTotalVenta </th>
-                                  <th> sCLIENTE </th>
-                                  <th> sLOCAL </th>
+                                  <th> Fecha Venta </th>
+                                  <th> Cod. Venta </th>
+                                  <th> Cliente </th>
+                                  <th> Cant. Productos </th>
+                                  <th> Costo Total </th>
+                                  <th> Pago Total </th>
+                                  <th> Deuda Total </th>
                                 </tr>
                               </thead>
                               <tbody id="">
@@ -437,45 +370,39 @@
 
         <div class="tab-pane fade" id="tabs-7">
           <p>
-            
-
-          <div class="row">
-                <div class="row">
-                  <div class="col-md-12">
-
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="panel">
-                          <div class="panel-heading">
-                            <div class="panel-title">Listado de Producto</div>
-                          </div>
-                          <div class="panel-body table-responsive">
-                            <table class="table table-hover" id="tblReporteInversion" width="100%">
-                              <thead>
-                                <tr>
-                                  <th> nIDPRODUCTO </th>
-                                  <th> sNOMBRE </th>
-                                  <th> nCANTIDAD </th>
-                                  <th> nTOTAL </th>
-                                </tr>
-                              </thead>
-                              <tbody id="">
-                              </tbody>
-                              <tfoot>
-                              </tfoot>
-
-                            </table>
-                          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="panel">
+                        <div class="panel-heading">
+                          <div class="panel-title">Detalle de Busqueda</div>
+                        </div>
+                        <div class="panel-body table-responsive">
+                          <table class="table table-hover" id="tblReporteInversion" width="100%">
+                            <thead>
+                              <tr>
+                                <th> Cod. Producto </th>
+                                <th> Producto </th>
+                                <th> Stock </th>
+                                <th> Inversión </th>
+                              </tr>
+                            </thead>
+                            <tbody id="">
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                          </table>
                         </div>
                       </div>
                     </div>
-
-
                   </div>
                 </div>
               </div>
-
-
+            </div>
+          </div>
           </p>
         </div>
 
@@ -524,19 +451,19 @@
                       <div class="col-md-12">
                         <div class="panel">
                           <div class="panel-heading">
-                            <div class="panel-title">Listado de Producto</div>
+                            <div class="panel-title">Detalle de Busqueda</div>
                           </div>
                           <div class="panel-body table-responsive">
                             <table class="table table-hover" id="tblReporteBalance" width="100%">
                               <thead>
                                 <tr>
-                                  <th> FECHA </th>
-                                  <th> ventas </th>
-                                  <th> ventasProductos </th>
-                                  <th> ventasCosto </th>
-                                  <th> efectivo </th>
-                                  <th> deposito </th>
-                                  <th> credito </th>
+                                  <th> Fecha </th>
+                                  <th> Cant. Ventas </th>
+                                  <th> Cant. Productos Vendidos </th>
+                                  <th> Venta Total </th>
+                                  <th> Pago Efectivo </th>
+                                  <th> Pago Deposito </th>
+                                  <th> Credito / por Cobrar </th>
                                 </tr>
                               </thead>
                               <tbody id="">
@@ -559,154 +486,143 @@
             <!-- Fin Tab -->
           </p>
         </div>
-
-
       </div>
-
-
-
 
     </div>
 
   </div>
+</div>
 
-
-  <div class="modal fade" id="mDetallefactura" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title">Proforma</h4>
+<div class="modal fade" id="mDetallefactura" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title">Proforma</h4>
+      </div>
+      <div class="modal-body">
+        <div id="pdf_viewer">
         </div>
-        <div class="modal-body">
-          <div id="pdf_viewer">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-
-
-
-  
 <div class="modal fade" id="mDetalleVenta" tabindex="-1">
 
-<div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg">
 
-  <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal">×</button>
-      <h4 class="modal-title">Cuentas por Cobrar</h4>
-    </div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title">Detalle Venta</h4>
+      </div>
 
-    <div class="modal-body">
+      <div class="modal-body">
 
-      <form class="" id="form_venta_detalle">
-        <div class="row">
-          <div class="form-group col-sm-4">
-            <label class="control-label required" for="required-input">Cod. Venta</label>
-            <input type="text" class="form-control" id="idVenta" name="idVenta" autocomplete="off" maxlength="15" readonly="readonly">
+        <form class="" id="form_venta_detalle">
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Cod. Venta</label>
+              <input type="text" class="form-control" id="idVenta" name="idVenta" autocomplete="off" maxlength="15" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Fecha Venta</label>
+              <input type="text" class="form-control" id="fechaVenta" name="fechaVenta" autocomplete="off" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Cliente</label>
+              <input type="text" class="form-control" id="sCliente" name="sCliente" autocomplete="off" maxlength="100" readonly="readonly">
+            </div>
+   
+
           </div>
 
-          <div class="form-group col-sm-4">
-            <label class="control-label required" for="required-input">Fecha Venta</label>
-            <input type="text" class="form-control" id="fechaVenta" name="fechaVenta" autocomplete="off" readonly="readonly">
-          </div>
+          <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
+            <li class="active"><a href="#tabDetalleCompra" data-toggle="tab">Detalle Compra</a></li>
+            <li><a href="#tabDetallePago" data-toggle="tab">Detalle Pago</a></li>
+          </ul>
 
-          <div class="form-group col-sm-4">
-            <label class="control-label required" for="required-input">Cliente</label>
-            <input type="text" class="form-control" id="sCliente" name="sCliente" autocomplete="off" maxlength="100" readonly="readonly">
-          </div>
- 
+          <div class="tab-content">
 
-        </div>
+            <div class="tab-pane active" id="tabDetalleCompra">
 
-        <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
-          <li class="active"><a href="#tabDetalleCompra" data-toggle="tab">Detalle Compra</a></li>
-          <li><a href="#tabDetallePago" data-toggle="tab">Detalle Pago</a></li>
-        </ul>
+              <div class="row">
+                <div class="table-responsive">
+                  <table class="table m-a-0">
+                    <thead>
+                      <tr class="bg-white darken">
+                        <th class="p-x-2">Producto</th>
+                        <th class="p-x-2">Cantidad</th>
+                        <th class="p-x-2">Precio Unidad</th>
+                        <th class="p-x-2">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody class="font-size-14" id="tBodyDetalleVenta">
+                    </tbody>
+                    <tfoot>
+                      <tr class="info">
+                        <td>Cant. Total</td>
+                        <td> <strong><span id="cantidadTotalVenta"></span></strong> </td>
+                        <td>Precio Total</td>
+                        <td> <strong><span id="precioTotalVenta"></span></strong> </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>            
+              </div>
 
-        <div class="tab-content">
+            </div>
+            
+            <div class="tab-pane" id="tabDetallePago">    
 
-          <div class="tab-pane active" id="tabDetalleCompra">
+              <div class="row">
+                <div class="table-responsive">
+                  <table class="table m-a-0">
+                    <thead>
+                      <tr class="bg-white darken">
+                        <th class="p-x-2">Fecha Pago</th>
+                        <th class="p-x-2">Tipo Pago</th>
+                        <th class="p-x-2">Nro Cuenta</th>
+                        <th class="p-x-2">Monto</th>                        
+                      </tr>
+                    </thead>
+                    <tbody class="font-size-14" id="tBodyDetallePago">
+                    </tbody>
+                    <tfoot>
+                      <tr class="info">
+                        <td style="text-align: center;">Deuda Total</td>
+                        <td> <strong><span id="deudaTotalVenta"></span></strong> </td>
+                        <td style="text-align: center;">Pago Total</td>
+                        <td> <strong><span id="montoTotalPago"></span></strong> </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>            
+              </div>
 
-            <div class="row">
-              <div class="table-responsive">
-                <table class="table m-a-0">
-                  <thead>
-                    <tr class="bg-white darken">
-                      <th class="p-x-2">Producto</th>
-                      <th class="p-x-2">Cantidad</th>
-                      <th class="p-x-2">Precio Unidad</th>
-                      <th class="p-x-2">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody class="font-size-14" id="tBodyDetalleVenta">
-                  </tbody>
-                  <tfoot>
-                    <tr class="info">
-                      <td>Cant. Total</td>
-                      <td> <strong><span id="cantidadTotalVenta"></span></strong> </td>
-                      <td>Precio Total</td>
-                      <td> <strong><span id="precioTotalVenta"></span></strong> </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>            
             </div>
 
           </div>
+
           
-          <div class="tab-pane" id="tabDetallePago">    
 
-            <div class="row">
-              <div class="table-responsive">
-                <table class="table m-a-0">
-                  <thead>
-                    <tr class="bg-white darken">
-                      <th class="p-x-2">Fecha Pago</th>
-                      <th class="p-x-2">Tipo Pago</th>
-                      <th class="p-x-2">Nro Cuenta</th>
-                      <th class="p-x-2">Monto</th>                        
-                    </tr>
-                  </thead>
-                  <tbody class="font-size-14" id="tBodyDetallePago">
-                  </tbody>
-                  <tfoot>
-                    <tr class="info">
-                      <td style="text-align: center;">Deuda Total</td>
-                      <td> <strong><span id="deudaTotalVenta"></span></strong> </td>
-                      <td style="text-align: center;">Pago Total</td>
-                      <td> <strong><span id="montoTotalPago"></span></strong> </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>            
-            </div>
+        </form>
 
-          </div>
+      </div>
 
-        </div>
-
-        
-
-      </form>
-
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+      </div>
     </div>
 
-    <div class="modal-footer">
-      <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-    </div>
   </div>
-
 </div>
-
-</div>
-
 
 <div class="modal fade" id="mDetalleCompra" tabindex="-1">
 
@@ -850,5 +766,4 @@
     </div>
 
   </div>
-
 </div>

@@ -41,7 +41,7 @@ class reporteController extends Controller{
 		$objModel=$this->loadModel('reporte');
 		$result=$objModel->getReporteFecha($fechaInicio, $fechafin);
 		$cont=0;
-
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$cont++;
 
@@ -75,7 +75,7 @@ class reporteController extends Controller{
 		$icon='fa-file';
 		$title='Habilitar';
 		$class='viewPdf';
-
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$cont++;
 
@@ -86,11 +86,9 @@ class reporteController extends Controller{
 				'nIDLOCAL' 		=> $reg->nIDLOCAL,
 				'nLOCAL' 		=> $reg->nLOCAL,
 				'dFECHAVENTA' 	=> $reg->dFECHAVENTA,
-
 				'sCLIENTE'=>utf8_encode($reg->sCLIENTE),
 				'sLOCAL'=>utf8_encode($reg->sLOCAL),
 				'sOBSERVACION' => $reg->sOBSERVACION,
-
 				'total' 		=> $reg->total,
 				'OPCIONES' 		=> $boton,
 				);
@@ -108,7 +106,7 @@ class reporteController extends Controller{
 		$icon='fa-file';
 		$title='Habilitar';
 		$class='viewPdf';
-
+		$data = array();
 		while($reg=$result->fetch_object()){			
 			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
 
@@ -140,7 +138,7 @@ class reporteController extends Controller{
 		$icon='fa-file';
 		$title='Habilitar';
 		$class='viewPdf';
-
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$cont++;
 			$boton='<button id="'.$reg->nIDCOMPRA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
@@ -150,6 +148,7 @@ class reporteController extends Controller{
 				'nLOCAL' 		=> $reg->nLOCAL,
 				'dFECHACOMPRA' 	=> $reg->dFECHACOMPRA,
 				'total' 		=> $reg->total,
+				'PROVEEDOR' 	=> $reg->PROVEEDOR,
 				'OPCIONES' 		=> $boton,
 				);
 		}
@@ -166,19 +165,20 @@ class reporteController extends Controller{
 		$icon='fa-file';
 		$title='Habilitar';
 		$class='viewPdf';
-
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$cont++;
 			$boton='<button id="'.$reg->nIDCOMPRA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
 			$data ['data'] [] = array (
-				'dFECHACOMPRA'	=> $reg->dFECHACOMPRA , 
-				'nIDCOMPRA'	=> $reg->nIDCOMPRA , 
-				'nIDPROVEEDOR'	=> $reg->nIDPROVEEDOR , 
-				'nIDLOCAL'	=> $reg->nIDLOCAL , 
-				'sOBSERVACION'	=> $reg->sOBSERVACION , 
+				'dFECHACOMPRA'	=> $reg->dFECHACOMPRA,
+				'nIDCOMPRA'	=> $reg->nIDCOMPRA, 
+				'nIDPROVEEDOR'	=> $reg->nIDPROVEEDOR, 
+				'sPROVEEDOR'	=> $reg->sPROVEEDOR, 
+				'nIDLOCAL'	=> $reg->nIDLOCAL, 
+				'sOBSERVACION'	=> $reg->sOBSERVACION, 
 				'nCantidadTotalCompra'	=> $reg->nCantidadTotalCompra,
-				'sCostoTotalCompra'	=> $reg->sCostoTotalCompra , 
-				'sPagoTotalCompra'	=> $reg->sPagoTotalCompra , 
+				'sCostoTotalCompra'	=> $reg->sCostoTotalCompra, 
+				'sPagoTotalCompra'	=> $reg->sPagoTotalCompra, 
 				'sDeudaTotalCompra'	=> $reg->sDeudaTotalCompra,
 				);
 		}
@@ -195,7 +195,7 @@ class reporteController extends Controller{
 		$icon='fa-file';
 		$title='Habilitar';
 		$class='viewPdf';
-
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$cont++;
 			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
@@ -228,10 +228,10 @@ class reporteController extends Controller{
 		$icon='fa-file';
 		$title='Habilitar';
 		$class='viewPdf';
-
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$cont++;
-			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
+			$boton='<button id="'.$reg->nIDPRODUCTO.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
 			$data ['data'] [] = array (
 					'nIDPRODUCTO' => $reg->nIDPRODUCTO,
 					'sNOMBRE' => $reg->sNOMBRE,
@@ -246,6 +246,7 @@ class reporteController extends Controller{
 	public function getReporteBalance($fechaInicio, $fechafin,$idLocal){
 		$objModel=$this->loadModel('reporte');
 		$result=$objModel->getReporteBalance($fechaInicio, $fechafin,$idLocal);
+		$data = array();
 		while($reg=$result->fetch_object()){
 			$data ['data'] [] = array (
 				'FECHA' => $reg->FECHA,

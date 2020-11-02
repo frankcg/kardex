@@ -33,9 +33,10 @@ $(document).on('ready',function(){
 				{ "data" : "sCostoTotalVenta"},
 				{ "data" : "sPagoTotalVenta"},
 				{ "data" : "sDeudaTotalVenta"},
-				{ "data" : "OPCIONES"},
-				
-			]
+				{ "data" : "OPCIONES"},				
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 
 		});	
 	}
 	
@@ -45,13 +46,14 @@ $(document).on('ready',function(){
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getCompras/"+$('#tipoCompra').val()+"/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
 			"columns" : [	
-				{"data" : "nIDCOMPRA"},
-				{"data" : "nIDLOCAL"},
-				{"data" : "nLOCAL"},
 				{"data" : "dFECHACOMPRA"},
+				{"data" : "nIDCOMPRA"},
+				{"data" : "PROVEEDOR"},				
 				{"data" : "total"},
-				{"data" : "OPCIONES", "visible": false},
-			]
+				//{"data" : "OPCIONES", "visible": false},
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 
 		});	
 	}
 	
@@ -62,16 +64,16 @@ $(document).on('ready',function(){
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getCuentasPorPagar/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
 			"columns" : [	
- 				{"data" : "dFECHACOMPRA"}, 
-				{"data" : "nIDCOMPRA"}, 
-				{"data" : "nIDPROVEEDOR"}, 
-				{"data" : "nIDLOCAL"}, 
-				{"data" : "sOBSERVACION"}, 
+ 				{"data" : "dFECHACOMPRA"},
+				{"data" : "nIDCOMPRA"},
+				{"data" : "sPROVEEDOR"},
 				{"data" : "nCantidadTotalCompra"},
 				{"data" : "sCostoTotalCompra"}, 
 				{"data" : "sPagoTotalCompra"}, 
 				{"data" : "sDeudaTotalCompra"},
-			]
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 
 		});	
 	}
 
@@ -84,17 +86,14 @@ $(document).on('ready',function(){
 			"columns" : [	
 				{"data" : "dFECHAVENTA"},
 				{"data" : "nIDVENTA"},
-				{"data" : "nIDCLIENTE"},
-				{"data" : "nIDLOCAL"},
-				{"data" : "sOBSERVACION"},
+				{"data" : "sCLIENTE"},
 				{"data" : "nCantidadTotalVenta"},
 				{"data" : "sCostoTotalVenta"},
 				{"data" : "sPagoTotalVenta"},
 				{"data" : "sDeudaTotalVenta"},
-				{"data" : "sCLIENTE"},
-				{"data" : "sLOCAL"},
-
-			]
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 
 		});	
 	}
 
@@ -108,7 +107,9 @@ $(document).on('ready',function(){
 				{"data" : "sNOMBRE"},
 				{"data" : "nCANTIDAD"},
 				{"data" : "nTOTAL"},
-			]
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 
 		});	
 	}
 
@@ -129,8 +130,9 @@ $(document).on('ready',function(){
 				{"data" : "efectivo"},
 				{"data" : "deposito"},
 				{"data" : "credito"},
-
-			]
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 			
 		});	
 	}
 
@@ -206,8 +208,7 @@ $(document).on('ready',function(){
 	$("#tblReporteventas tbody").on('dblclick','tr',function(){
 		var table = $('#tblReporteventas').DataTable();	
 		var objeto = table.row(this).data();	
-		var datos = { 'idVenta' : objeto.nIDVENTA}
-		console.log(objeto);
+		var datos = { 'idVenta' : objeto.nIDVENTA}		
 
 		$('#idVenta').val(objeto.nIDVENTA);
 		$('#fechaVenta').val(objeto.dFECHAVENTA);
@@ -219,9 +220,7 @@ $(document).on('ready',function(){
 		$('#deudaTotalVenta').html(objeto.sDeudaTotalVenta);
 		getDetalleVentaPago(datos);
 		getDetalleVenta(datos);
-
 		$('#divCuenta').hide();
-
 	});
 
 	function getDetalleVentaPago(datos){
@@ -232,8 +231,7 @@ $(document).on('ready',function(){
 			cache: false,
 			dataType:'json',				
 			success: function(data){
-				//console.log(data);
-				
+				//console.log(data);				
 				var html='';
 				var monto = 0;
 				$.each(data, function( i, v ) {
@@ -270,9 +268,7 @@ $(document).on('ready',function(){
 						'</tr>';
 				});
 				$('#tBodyDetalleVenta').html(html);
-
-				
-			}				
+			}
 		});
 	}	
 
