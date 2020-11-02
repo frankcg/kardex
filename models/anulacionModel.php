@@ -75,8 +75,11 @@ Class anulacionModel extends Model{
 		$sql2 = "UPDATE kar_compra_detalle SET nESTADO=3, sIDUSUARIOMOD='$user' WHERE nIDCOMPRA=$idCompra";
 		$this->_db->query($sql2)or die ('Error en '.$sql2);
 
-		$sql3 = "INSERT INTO kar_compra_anulacion SET nIDCOMPRA=$idCompra, sMOTIVO='$motivo', dFECHA_ANULACION='$fechaHoraActual', sIDUSUARIOCREACION='$user'";
+		$sql3 = "UPDATE kar_compra_pago SET nESTADO=3, sIDUSUARIOMOD='$user' WHERE nIDCOMPRA=$idCompra";
 		$this->_db->query($sql3)or die ('Error en '.$sql3);
+
+		$sql4 = "INSERT INTO kar_compra_anulacion SET nIDCOMPRA=$idCompra, sMOTIVO='$motivo', dFECHA_ANULACION='$fechaHoraActual', sIDUSUARIOCREACION='$user'";
+		$this->_db->query($sql4)or die ('Error en '.$sql4);
 
 		return $this->_db->insert_id;
 	}

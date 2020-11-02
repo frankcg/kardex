@@ -34,73 +34,6 @@ Class reporteModel extends Model{
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
-	
-	
-	// public function getVentas($idLocal,$fechaInicio, $fechafin,$estado){
-
-		
-	// 	$filtroVenta='';
-	// 	$filtroFecha='';
-
-	// 	if($codVenta!='vacio'){
-	// 		$filtroVenta = "AND a.nIDVENTA=$codVenta";
-	// 	}
-
-	// 	if($fechaInicio!='' && $fechafin!=''){
-	// 		$filtroFecha = "AND a.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
-	// 	}
-		
-
-
-	// 	$sql="SELECT a.*, b.sDESCRIPCION AS sCLIENTE, c.sDESCRIPCION AS sLOCAL
-	// 	FROM 
-	// 	(
-	// 		SELECT 
-	// 			a.dFECHAVENTA, 
-	// 			a.nIDVENTA, 
-	// 			a.nIDCLIENTE, 
-	// 			a.nIDLOCAL, 
-	// 			a.sOBSERVACION, 
-	// 			a.nCantidadTotalVenta,
-	// 			a.sCostoTotalVenta, 
-	// 			ROUND(SUM(c.fMONTO),2) AS sPagoTotalVenta, 
-	// 			ROUND(a.sCostoTotalVenta - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalVenta'
-	// 		FROM 
-	// 		(
-	// 			SELECT 
-	// 			a.dFECHAVENTA,
-	// 			a.nIDVENTA,
-	// 			a.nIDCLIENTE,
-	// 			a.nIDLOCAL,
-	// 			a.sOBSERVACION,
-	// 			SUM(b.nCANTIDAD) AS nCantidadTotalVenta,
-	// 			ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta
-	// 			FROM kar_venta a 
-	// 			INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO=1
-	// 			WHERE a.nidlocal='0002' AND a.nESTADO=1 
-
-	// 			GROUP BY a.dFECHAVENTA,
-	// 			a.nIDVENTA,
-	// 			a.nIDCLIENTE,
-	// 			a.nIDLOCAL,
-	// 			a.sOBSERVACION
-	// 		) 
-	// 		AS a LEFT JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
-	// 		GROUP BY a.dFECHAVENTA,
-	// 		a.nIDVENTA,
-	// 		a.nIDCLIENTE,
-	// 		a.nIDLOCAL,
-	// 		a.sOBSERVACION,
-	// 		a.sCostoTotalVenta
-	// 		) AS a 
-	// 		INNER JOIN sel_cliente b ON a.nIDCLIENTE = b.nIDCLIENTE 
-	// 		INNER JOIN sel_local c ON a.nIDLOCAL = c.nIDLOCAL 
-	// 			 ";
-				
-	// 	$response=$this->_db->query($sql)or die ('Error en '.$sql);
-	// 	return $response;
-	// }
-
 
 	public function getCompras($idLocal,$fechaInicio, $fechafin,$estado){
 		$sql="SELECT 
@@ -108,8 +41,8 @@ Class reporteModel extends Model{
 				,d.nIDLOCAL
 				, d.sDESCRIPCION nLOCAL
 				, b.dFECHACOMPRA
-				,e.sDESCRIPCION as 
-				,(SELECT TRUNCATE(SUM(zPROVEEDOR.FPRECIO*z.NCANTIDAD),3) AS TOTAL  FROM  kar_compra_detalle AS z WHERE  z.nIDCOMPRA=b.nIDCOMPRA) total
+				,e.sDESCRIPCION as PROVEEDOR
+				,(SELECT TRUNCATE(SUM(z.FPRECIO*z.NCANTIDAD),3) AS TOTAL  FROM  kar_compra_detalle AS z WHERE  z.nIDCOMPRA=b.nIDCOMPRA) total
 				FROM
 				kar_compra AS b 
 				INNER JOIN sel_local AS d 
@@ -141,8 +74,8 @@ Class reporteModel extends Model{
 				a.sOBSERVACION, 
 				a.nCantidadTotalCompra,
 				a.sCostoTotalCompra, 
-				ROUND(SUM(c.fMONTO),2) AS sPagoTotalCompra, 
-				ROUND(a.sCostoTotalCompra - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalCompra'
+				IFNULL(ROUND(SUM(c.fMONTO),2),0)  AS sPagoTotalCompra, 
+				ROUND(a.sCostoTotalCompra - SUM(ROUND(IFNULL(c.fMONTO,0),2)),2) AS 'sDeudaTotalCompra'
 			FROM 
 			(
 				SELECT 
@@ -163,7 +96,7 @@ Class reporteModel extends Model{
 				a.nIDLOCAL,
 				a.sOBSERVACION
 					) 
-					AS a INNER JOIN kar_compra_pago c ON a.nIDCOMPRA = c.nIDCOMPRA AND c.nESTADO=1
+					AS a LEFT JOIN kar_compra_pago c ON a.nIDCOMPRA = c.nIDCOMPRA AND c.nESTADO=1
 					GROUP BY a.dFECHACOMPRA,
 					a.nIDCOMPRA,
 					a.nIDPROVEEDOR,
@@ -200,8 +133,8 @@ Class reporteModel extends Model{
 					a.sOBSERVACION, 
 					a.nCantidadTotalVenta,
 					a.sCostoTotalVenta, 
-					ROUND(SUM(c.fMONTO),2) AS sPagoTotalVenta, 
-					ROUND(a.sCostoTotalVenta - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalVenta'
+					IFNULL(ROUND(SUM(c.fMONTO),2),0) AS sPagoTotalVenta, 
+					ROUND(a.sCostoTotalVenta - SUM(ROUND(IFNULL(c.fMONTO,0),2)),2) AS 'sDeudaTotalVenta'
 				FROM 
 				(
 					SELECT 
@@ -222,7 +155,7 @@ Class reporteModel extends Model{
 					a.nIDLOCAL,
 					a.sOBSERVACION
 				) 
-				AS a INNER JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
+				AS a LEFT JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
 				GROUP BY a.dFECHAVENTA,
 				a.nIDVENTA,
 				a.nIDCLIENTE,
@@ -342,6 +275,7 @@ Class reporteModel extends Model{
 			,a.nIDVENTA
 			)az
 			GROUP BY az.FECHA;";
+		//echo $sql; exit();
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

@@ -491,15 +491,16 @@ class ventaController extends Controller{
 						$cuenta 	= $payments['cuenta'];
 						$montopago 	= $payments['montopago'];
 						$idCuenta 	= $payments['idCuenta'];
-
-						$existeCuenta=$objModel->cuentavalidate($idCuenta);
-							if($existeCuenta !== 1){
-								$idCuentaventa =	$objModel->insertCuenta($cuenta);
+						$idCuentaventa = 1;
+						$existeCuenta= ($idCuenta=='' || !$idCuenta) ? 0 : $objModel->cuentavalidate($idCuenta);
+						
+							if(!$existeCuenta){
+								if($idtipopago=='02'){
+									$idCuentaventa = $objModel->insertCuenta($cuenta);	
+								}
 							}else{
-								if($idtipopago == '01'){
-									$idCuentaventa =	"1";
-								}else{
-									$idCuentaventa =	$idCuenta;
+								if($idtipopago=='02'){
+									$idCuentaventa =$idCuenta;	
 								}
 							}
 

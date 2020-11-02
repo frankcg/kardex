@@ -14,13 +14,9 @@
   </div>
 
   <div class="form-group col-sm-4 hide">
-                <label class="control-label required" for="required-input">Cod. Local</label>
-                <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
-              </div>
-
-  <!-- <div class="panel-body">
-    <button type="button" id="btnNuevaCompra" class="btn btn-md btn-primary btn-outline btn-3d btn-block" data-toggle="modal" data-target="#mAddCompra">Registrar Compra</button>
-  </div> -->
+    <label class="control-label required" for="required-input">Cod. Local</label>
+    <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
+  </div>
 
   <div class="wizard wizard-bordered" id="wizard-basic">
     <div class="wizard-wrapper">
@@ -258,10 +254,11 @@
       </p>
       <div class="pull-right">
           <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
-          <button type="button" class="btn btn-primary" data-wizard-action="finish">Finish</button>
+          <button type="button" class="btn btn-success" data-wizard-action="finish">Finalizar Compra</button>
         </div>
       </div>
 
     </div>
   </div>
 
+</div>

@@ -31,8 +31,8 @@ Class cuentapagoModel extends Model{
 					a.sOBSERVACION, 
 					a.nCantidadTotalCompra,
 					a.sCostoTotalCompra, 
-					ROUND(SUM(c.fMONTO),2) AS sPagoTotalCompra, 
-					ROUND(a.sCostoTotalCompra - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalCompra'
+					IFNULL(ROUND(SUM(c.fMONTO),2),0)  AS sPagoTotalCompra, 
+					ROUND(a.sCostoTotalCompra - SUM(ROUND(IFNULL(c.fMONTO,0),2)),2) AS 'sDeudaTotalCompra'
 				FROM 
 				(
 					SELECT 
@@ -54,7 +54,7 @@ Class cuentapagoModel extends Model{
 					a.nIDLOCAL,
 					a.sOBSERVACION
 				) 
-				AS a INNER JOIN kar_compra_pago c ON a.nIDCOMPRA = c.nIDCOMPRA AND c.nESTADO=1
+				AS a LEFT JOIN kar_compra_pago c ON a.nIDCOMPRA = c.nIDCOMPRA AND c.nESTADO=1
 				GROUP BY a.dFECHACOMPRA,
 				a.nIDCOMPRA,
 				a.nIDPROVEEDOR,

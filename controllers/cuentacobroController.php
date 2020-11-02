@@ -78,7 +78,7 @@ class cuentacobroController extends Controller{
 		$objModelCompra=$this->loadModel('compra');
 		$existeCuenta= ($idCuenta=='' || !$idCuenta) ? 0 : $objModelCompra->cuentavalidate($idCuenta);
 		
-		if($existeCuenta !== 1){
+		if(!$existeCuenta){
 			if($formaPago=='02'){
 				$idCuentacompra = $objModelCompra->insertCuenta($cuenta);	
 			}		

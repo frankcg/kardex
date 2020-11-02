@@ -31,8 +31,8 @@ Class cuentacobroModel extends Model{
 					a.sOBSERVACION, 
 					a.nCantidadTotalVenta,
 					a.sCostoTotalVenta, 
-					ROUND(SUM(c.fMONTO),2) AS sPagoTotalVenta, 
-					ROUND(a.sCostoTotalVenta - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalVenta'
+					IFNULL(ROUND(SUM(c.fMONTO),2),0) AS sPagoTotalVenta, 
+					ROUND(a.sCostoTotalVenta - SUM(ROUND(IFNULL(c.fMONTO,0),2)),2) AS 'sDeudaTotalVenta'
 				FROM 
 				(
 					SELECT 
@@ -54,7 +54,7 @@ Class cuentacobroModel extends Model{
 					a.nIDLOCAL,
 					a.sOBSERVACION
 				) 
-				AS a INNER JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
+				AS a LEFT JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
 				GROUP BY a.dFECHAVENTA,
 				a.nIDVENTA,
 				a.nIDCLIENTE,

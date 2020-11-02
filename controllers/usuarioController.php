@@ -186,7 +186,7 @@ class usuarioController extends Controller{
 		$objModel=$this->loadModel('usuario');
 		$result = $objModel->getcombomodulo();		
 		while ($reg = $result->fetch_object()){
-			echo '<option value="'.$reg->IDMODULO.'" > '.$reg->DESCRIPCION.' </option>';
+			echo '<option value="'.$reg->IDMODULO.'" >'.$reg->LOCAL.' - '.$reg->DESCRIPCION.' </option>';
 		}
 	}
 
@@ -216,7 +216,7 @@ class usuarioController extends Controller{
 		$objModel=$this->loadModel('usuario');
 		$result = $objModel->getcombomoduloxperfil($idperfil);
 		while ($reg = $result->fetch_object()){
-			echo '<option '.$reg->SELECTED.' value="'.$reg->IDMODULO.'" > '.$reg->DESCRIPCION.' </option>';
+			echo '<option '.$reg->SELECTED.' value="'.$reg->IDMODULO.'" >'.$reg->LOCAL.' - '.$reg->DESCRIPCION.' </option>';
 		}
 	}
 

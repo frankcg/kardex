@@ -82,11 +82,11 @@ Class extornoModel extends Model{
 		$sql2 = "UPDATE kar_venta_detalle SET nESTADO=4, sIDUSUARIOMOD='$user' WHERE nIDVENTA=$idVenta";
 		$this->_db->query($sql2)or die ('Error en '.$sql2);
 
-		$sql2 = "UPDATE kar_venta_pago SET nESTADO=4, sIDUSUARIOMOD='$user' WHERE nIDVENTA=$idVenta";
-		$this->_db->query($sql2)or die ('Error en '.$sql2);
-
-		$sql3 = "INSERT INTO kar_venta_extorno SET nIDVENTA=$idVenta, sMOTIVO='$motivo', dFECHA_EXTORNO='$fechaHoraActual', sIDUSUARIOCREACION='$user'";
+		$sql3 = "UPDATE kar_venta_pago SET nESTADO=4, sIDUSUARIOMOD='$user' WHERE nIDVENTA=$idVenta";
 		$this->_db->query($sql3)or die ('Error en '.$sql3);
+
+		$sql4 = "INSERT INTO kar_venta_extorno SET nIDVENTA=$idVenta, sMOTIVO='$motivo', dFECHA_EXTORNO='$fechaHoraActual', sIDUSUARIOCREACION='$user'";
+		$this->_db->query($sql4)or die ('Error en '.$sql4);
 
 		return $this->_db->insert_id;
 	}

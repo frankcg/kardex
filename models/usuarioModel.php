@@ -175,16 +175,21 @@ Class usuarioModel extends Model{
 	}
 
 	public function getcombomodulo(){
-		$sql="SELECT IDMODULO, NOMBRE_MODULO, DESCRIPCION FROM `seguridad_modulo` WHERE FLAG = '1'";
+		$sql="SELECT a.IDMODULO, a.NOMBRE_MODULO, a.DESCRIPCION, b.sDESCRIPCION AS LOCAL
+			FROM `seguridad_modulo` a INNER JOIN sel_local b ON a.nIDLOCAL = b.nIDLOCAL
+			WHERE a.FLAG = '1'";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
 
 	public function getcombomoduloxperfil($idperfil){
-		$sql="SELECT a.SELECTED, b.`IDMODULO`, b.DESCRIPCION FROM(			
+		$sql="SELECT a.SELECTED, b.`IDMODULO`, b.DESCRIPCION, b.nIDLOCAL, c.sDESCRIPCION AS LOCAL FROM(			
 			SELECT IDMODULO,'selected' SELECTED
 			FROM `seguridad_modulo_perfil` 
-			WHERE IDPERFIL = '$idperfil') AS a RIGHT JOIN `seguridad_modulo` b  ON a.IDMODULO = b.IDMODULO WHERE b.flag=1";
+			WHERE IDPERFIL = '$idperfil'
+			) AS a RIGHT JOIN `seguridad_modulo` b  ON a.IDMODULO = b.IDMODULO 
+			INNER JOIN sel_local c ON b.nIDLOCAL = c.nIDLOCAL
+			WHERE b.flag=1";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
