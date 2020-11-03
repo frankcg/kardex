@@ -53,13 +53,12 @@ Class ventaModel extends Model{
 
 	public function promVentaProductos($idProducto){		
 		$sql=	"
-
 		SELECT
 			nIDPRODUCTO
 			,(SELECT fprecio FROM kar_compra_detalle WHERE nIDPRODUCTO = '$idProducto' ORDER BY dFECHACREACION LIMIT 1)  LAST
 			,MAX(fPrecio) MAX
 			,MIN(fPRECIO) MIN
-			,TRUNCATE(AVG(fPRECIO),2) AVG
+			,ROUND(SUM(nCANTIDAD * fPRECIO) / SUM(nCANTIDAD), 2 )  AVG
 		FROM 	kar_compra_detalle
 		WHERE	 nIDPRODUCTO = '$idProducto'
 			AND nESTADO= '1'

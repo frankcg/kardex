@@ -40,17 +40,23 @@ $(document).on('ready',function(){
 		});	
 	}
 	
-	function tblReportecompras(fechaInicio, fechaFin){
+	function tblReportecompras(codLocal=0, tipoCompra=0, fechaInicio='', fechaFin=''){
 		$('#tblReportecompras').dataTable().fnDestroy();		 	
 		$('#tblReportecompras').DataTable({
 			"order": [[ 0, "desc" ]],
-			"ajax" : "reporte/getCompras/"+$('#tipoCompra').val()+"/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"ajax" : "reporte/getCompras/"+codLocal+'/'+tipoCompra+'/'+fechaInicio+'/'+fechaFin,
 			"columns" : [	
+
 				{"data" : "dFECHACOMPRA"},
+				{"data" : "sLOCAL"},
 				{"data" : "nIDCOMPRA"},
-				{"data" : "PROVEEDOR"},				
-				{"data" : "total"},
-				//{"data" : "OPCIONES", "visible": false},
+				{"data" : "sPROVEEDOR"},
+				{"data" : "nCantidadTotalCompra"},
+				{"data" : "sCostoTotalCompra"},
+				{"data" : "sPagoTotalCompra"},
+				{"data" : "sDeudaTotalCompra"},
+				{"data" : "OPCIONES" ,"visible": false },
+
 			],"language": {
 				"url": "/kardex/public/cdn/datatable.spanish.lang"
 			} 
@@ -107,6 +113,8 @@ $(document).on('ready',function(){
 				{"data" : "sNOMBRE"},
 				{"data" : "nCANTIDAD"},
 				{"data" : "nTOTAL"},
+				{"data" : "avgPorCantidadPrecio"},
+				{"data" : "avgPrecio" ,"visible": false },
 			],"language": {
 				"url": "/kardex/public/cdn/datatable.spanish.lang"
 			} 
@@ -162,10 +170,16 @@ $(document).on('ready',function(){
 
 
 	$('#btnBuscarCompras').click(function(){
-		var fechaInicio = $('#fechaInicio2').val();
-		var fechaFin = $('#fechaFin2').val();
-		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
-			tblReportecompras(fechaInicio, fechaFin);			
+		var codLocal = $('#codLocal').val();
+		var tipoCompra = $('#tipoCompra').val();
+ 		var fechaInicio = $('#fechaInicio2').val();
+		var fechaFin = $('#fechaFin2').val();		
+
+		if(fechaInicio=='' && fechaFin==''){ toastr['warning']('Ingrese almenos un campo de busqueda', 'Cuentas por Cobrar', {optionsToastr});} 
+		else if(((fechaInicio!='' && fechaFin=='') || (fechaInicio=='' && fechaFin!=''))){ toastr['warning']('Ingrese 2 fechas', 'Cuentas por Cobrar', {optionsToastr} );}
+		else if(fechaInicio > fechaFin){ toastr['warning']('La fecha Inicio debe no debe superar la fecha Fin', 'Cuentas por Cobrar', {optionsToastr});}
+		else{			
+			tblReportecompras(codLocal,tipoCompra, fechaInicio, fechaFin);
 		}
 	});
 
@@ -223,6 +237,81 @@ $(document).on('ready',function(){
 		$('#divCuenta').hide();
 	});
 
+
+	$("#tblReportecompras tbody").on('dblclick','tr',function(){
+		
+		var table = $('#tblReportecompras').DataTable();	
+		var objeto = table.row(this).data();		
+		var datos = { 'idcompra' : objeto.nIDCOMPRA}
+
+		$('#idcompra').val(objeto.nIDCOMPRA);
+		$('#fechaCompra').val(objeto.dFECHACOMPRA);
+		$('#sProveedor').val(objeto.sPROVEEDOR);
+		$('#observacionCompra').val(objeto.sOBSERVACION);
+		$('#cantidadTotalCompra').html(objeto.nCantidadTotalCompra);
+		$('#precioTotalCompra').html(objeto.sCostoTotalCompra);
+		$('#observacionCompraPago').val('');
+		$('#deudaTotalCompra').html(objeto.sDeudaTotalCompra);
+		getDetalleCompraPago(datos);
+		getDetalleCompra(datos);
+ 
+
+	});
+
+	function getDetalleCompraPago(datos){
+		$.ajax({
+			url: 'cuentapago/getDetalleCompraPago',  
+			type: 'POST',
+			data:  datos, 
+			cache: false,
+			dataType:'json',				
+			success: function(data){
+				//console.log(data);
+				
+				var html='';
+				var monto = 0;
+				$.each(data, function( i, v ) {
+					html+='<tr>'+
+							'<th>'+v.dFECHAPAGO+'</th>'+
+							'<th>'+v.sTIPOPAGO+'</th>'+
+							'<th>'+v.sNROCUENTA+'</th>'+
+							'<th>'+v.fMONTO+'</th>'+
+						'</tr>';
+					monto += parseFloat(v.fMONTO);
+				});
+				$('#montoTotalPagoCompra').html(monto);
+				$('#tBodyDetallePagoCompras').html(html);
+			}				
+		});
+	}
+
+	function getDetalleCompra(datos){
+		$.ajax({
+			url: 'anulacion/getDetalleCompra',  
+			type: 'POST',
+			data:  datos, 
+			cache: false,
+			dataType:'json',				
+			success: function(data){
+				$('#mDetalleCompra').modal('show');
+				var html='';
+				$.each(data, function( i, v ) {
+					html+='<tr>'+
+							'<th>'+v.sPRODUCTO+'</th>'+
+							'<th>'+v.nCANTIDAD+'</th>'+
+							'<th>'+v.fPRECIO+'</th>'+
+							'<th>'+v.fCOSTO+'</th>'+
+						'</tr>';
+				});
+				$('#tBodyDetalleCompra').html(html);
+
+				
+			}				
+		});
+	}	
+
+
+
 	function getDetalleVentaPago(datos){
 		$.ajax({
 			url: 'cuentacobro/getDetalleVentaPago',  
@@ -271,6 +360,48 @@ $(document).on('ready',function(){
 			}
 		});
 	}	
+
+
+	
+	$("#tblReporteCuentasxPagar tbody").on('dblclick','tr',function(){
+		
+		var table = $('#tblReporteCuentasxPagar').DataTable();	
+		var objeto = table.row(this).data();		
+		var datos = { 'idcompra' : objeto.nIDCOMPRA}
+
+		$('#idcompra').val(objeto.nIDCOMPRA);
+		$('#fechaCompra').val(objeto.dFECHACOMPRA);
+		$('#sProveedor').val(objeto.sPROVEEDOR);
+		$('#observacionCompra').val(objeto.sOBSERVACION);
+		$('#cantidadTotalCompra').html(objeto.nCantidadTotalCompra);
+		$('#precioTotalCompra').html(objeto.sCostoTotalCompra);
+		$('#observacionCompraPago').val('');
+		$('#deudaTotalCompra').html(objeto.sDeudaTotalCompra);
+		getDetalleCompraPago(datos);
+		getDetalleCompra(datos);
+ 
+
+	});
+
+
+	
+	$("#tblReporteCuentasxCobrar tbody").on('dblclick','tr',function(){
+		var table = $('#tblReporteCuentasxCobrar').DataTable();	
+		var objeto = table.row(this).data();	
+		var datos = { 'idVenta' : objeto.nIDVENTA}		
+
+		$('#idVenta').val(objeto.nIDVENTA);
+		$('#fechaVenta').val(objeto.dFECHAVENTA);
+		$('#sCliente').val(objeto.sCLIENTE);
+		$('#observacionVenta').val(objeto.sOBSERVACION);
+		$('#cantidadTotalVenta').html(objeto.nCantidadTotalVenta);
+		$('#precioTotalVenta').html(objeto.sCostoTotalVenta);
+		$('#observacionVentaPago').val('');
+		$('#deudaTotalVenta').html(objeto.sDeudaTotalVenta);
+		getDetalleVentaPago(datos);
+		getDetalleVenta(datos);
+		$('#divCuenta').hide();
+	});
 
 
 

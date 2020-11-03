@@ -1,6 +1,6 @@
 <!-- jQuery UI -->
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
 
 <div class="px-content">
   <ol class="breadcrumb page-breadcrumb">
@@ -63,11 +63,11 @@
                 </div>
                 <div class="panel-body">
 
-                  <form class="smart-form" id="formReporte">
+                  <form class="smart-form" id="formReporte1">
                     <div class="form-group col-md-12">
                       <select class="form-control" id="tipoVenta" name="tipoVenta">
-                      <option value="1">ACTIVAS</option>
-                      <option value="4">EXTORNADAS</option>
+                        <option value="1">ACTIVAS</option>
+                        <option value="4">EXTORNADAS</option>
                       </select>
                     </div>
                     <div class="form-group col-sm-6">
@@ -141,12 +141,12 @@
                 </div>
                 <div class="panel-body">
 
-                  <form class="smart-form" id="formReporte">
+                  <form class="smart-form" id="formReporte2">
 
                     <div class="form-group col-md-12">
                       <select class="form-control" id="tipoCompra" name="tipoCompra">
-                      <option value="1">ACTIVAS</option>
-                      <option value="3">ANULADAS</option>
+                        <option value="1">ACTIVAS</option>
+                        <option value="3">ANULADAS</option>
 
                       </select>
                     </div>
@@ -190,10 +190,16 @@
                             <table class="table table-hover" id="tblReportecompras" width="100%">
                               <thead>
                                 <tr>
-                                  <th>Fecha Compra</th>
-                                  <th>Cod. Compra</th>
-                                  <th>Proveedor</th>                                  
-                                  <th>Costo Total</th>
+
+                                  <th> Fecha </th>
+                                  <th> Local </th>
+                                  <th> idCompra </th>
+                                  <th> Proveedor </th>
+                                  <th> Cantidad Total </th>
+                                  <th> Costo Total </th>
+                                  <th> Pago Total Compra </th>
+                                  <th> Deuda </th>
+                                  <th> Opciones </th>
                                 </tr>
                               </thead>
                               <tbody id="">
@@ -222,7 +228,7 @@
                   <div class="panel-title">Filtros</div>
                 </div>
                 <div class="panel-body">
-                  <form class="smart-form" id="formReporte">
+                  <form class="smart-form" id="formReporte3">
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
                       <input type="date" class="form-control" id="fechaInicio5" name="fechaInicio5">
@@ -297,7 +303,7 @@
                 </div>
                 <div class="panel-body">
 
-                  <form class="smart-form" id="formReporte">
+                  <form class="smart-form" id="formReporte4">
 
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
@@ -370,31 +376,34 @@
 
         <div class="tab-pane fade" id="tabs-7">
           <p>
-          <div class="col-md-12">
-            <div class="row">
+            <div class="col-md-12">
               <div class="row">
-                <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="panel">
-                        <div class="panel-heading">
-                          <div class="panel-title">Detalle de Busqueda</div>
-                        </div>
-                        <div class="panel-body table-responsive">
-                          <table class="table table-hover" id="tblReporteInversion" width="100%">
-                            <thead>
-                              <tr>
-                                <th> Cod. Producto </th>
-                                <th> Producto </th>
-                                <th> Stock </th>
-                                <th> Inversión </th>
-                              </tr>
-                            </thead>
-                            <tbody id="">
-                            </tbody>
-                            <tfoot>
-                            </tfoot>
-                          </table>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <div class="panel-title">Detalle de Busqueda</div>
+                          </div>
+                          <div class="panel-body table-responsive">
+                            <table class="table table-hover" id="tblReporteInversion" width="100%">
+                              <thead>
+                                <tr>
+                                  <th> Cod. Producto </th>
+                                  <th> Producto </th>
+                                  <th> Stock </th>
+                                  <th> Inversión </th>
+                                  <th> Precio Promedio </th>
+                                  <th> Avg Total </th>
+                                </tr>
+                              </thead>
+                              <tbody id="">
+                              </tbody>
+                              <tfoot>
+                              </tfoot>
+                            </table>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -402,7 +411,6 @@
                 </div>
               </div>
             </div>
-          </div>
           </p>
         </div>
 
@@ -416,7 +424,7 @@
                 </div>
                 <div class="panel-body">
 
-                  <form class="smart-form" id="formReporte">
+                  <form class="smart-form" id="formReporte5">
 
                     <div class="form-group col-sm-6">
                       <label class="control-label required" for="required-input">Fecha Inicio</label>
@@ -539,18 +547,18 @@
               <label class="control-label required" for="required-input">Cliente</label>
               <input type="text" class="form-control" id="sCliente" name="sCliente" autocomplete="off" maxlength="100" readonly="readonly">
             </div>
-   
+
 
           </div>
 
           <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
-            <li class="active"><a href="#tabDetalleCompra" data-toggle="tab">Detalle Compra</a></li>
+            <li class="active"><a href="#tabDetalleVenta" data-toggle="tab">Detalle Compra</a></li>
             <li><a href="#tabDetallePago" data-toggle="tab">Detalle Pago</a></li>
           </ul>
 
           <div class="tab-content">
 
-            <div class="tab-pane active" id="tabDetalleCompra">
+            <div class="tab-pane active" id="tabDetalleVenta">
 
               <div class="row">
                 <div class="table-responsive">
@@ -574,12 +582,12 @@
                       </tr>
                     </tfoot>
                   </table>
-                </div>            
+                </div>
               </div>
 
             </div>
-            
-            <div class="tab-pane" id="tabDetallePago">    
+
+            <div class="tab-pane" id="tabDetallePago">
 
               <div class="row">
                 <div class="table-responsive">
@@ -589,7 +597,7 @@
                         <th class="p-x-2">Fecha Pago</th>
                         <th class="p-x-2">Tipo Pago</th>
                         <th class="p-x-2">Nro Cuenta</th>
-                        <th class="p-x-2">Monto</th>                        
+                        <th class="p-x-2">Monto</th>
                       </tr>
                     </thead>
                     <tbody class="font-size-14" id="tBodyDetallePago">
@@ -603,14 +611,14 @@
                       </tr>
                     </tfoot>
                   </table>
-                </div>            
+                </div>
               </div>
 
             </div>
 
           </div>
 
-          
+
 
         </form>
 
@@ -658,42 +666,20 @@
               <textarea class="form-control" id="observacionCompra" name="observacionCompra" autocomplete="off" readonly="readonly"></textarea>
             </div>
 
-            <div class="form-group col-sm-6">
-              <label class="control-label" for="required-input">Observacion Pago</label>
-              <textarea class="form-control" id="observacionCompraPago" name="observacionCompraPago" autocomplete="off"></textarea>
-            </div>
-
-            <div class="form-group col-sm-3">
-              <label class="control-label required" for="required-input">Fecha Pago</label>
-              <input type="date" class="form-control" id="fechaPago" name="fechaPago">
-            </div>
-
-            <div class="form-group col-sm-3">
-              <label class="control-label required" for="required-input">Forma Pago</label>
-                <select class="form-control" id="formaPago" name="formaPago"></select>
-            </div>
-
-            <div class="form-group col-sm-3" id="divCuenta">
-              <label class="control-label required" for="required-input">N° Cuenta</label>
-              <input type="text" class="form-control hide" id="idCuenta" name="idCuenta" autocomplete="off">
-              <input type="text" class="form-control" id="cuenta" name="cuenta" autocomplete="off">
-            </div>
-
-            <div class="form-group col-sm-3">
-              <label class="control-label required" for="required-input">Monto</label>
-                <input type="text" class="form-control numerospunto" id="montopago" name="montopago" autocomplete="off">
-            </div>
-
           </div>
 
           <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
-            <li class="active"><a href="#tabDetalleCompra" data-toggle="tab">Detalle Compra</a></li>
-            <li><a href="#tabDetallePago" data-toggle="tab">Detalle Pago</a></li>
+
+            <li class="active"><a href="#tabDetallecompra" data-toggle="tab">Detalle Compra</a></li>
+            <li class=""><a href="#tabDetallePagocompra" data-toggle="tab">Detalle Pago</a></li>
+
           </ul>
 
           <div class="tab-content">
 
-            <div class="tab-pane active" id="tabDetalleCompra">
+
+
+            <div class="tab-pane active" id="tabDetallecompra">
 
               <div class="row">
                 <div class="table-responsive">
@@ -717,12 +703,14 @@
                       </tr>
                     </tfoot>
                   </table>
-                </div>            
+                </div>
               </div>
 
+
+
             </div>
-            
-            <div class="tab-pane" id="tabDetallePago">    
+
+            <div class="tab-pane" id="tabDetallePagocompra">
 
               <div class="row">
                 <div class="table-responsive">
@@ -732,28 +720,28 @@
                         <th class="p-x-2">Fecha Pago</th>
                         <th class="p-x-2">Tipo Pago</th>
                         <th class="p-x-2">Nro Cuenta</th>
-                        <th class="p-x-2">Monto</th>                        
+                        <th class="p-x-2">Monto</th>
                       </tr>
                     </thead>
-                    <tbody class="font-size-14" id="tBodyDetallePago">
+                    <tbody class="font-size-14" id="tBodyDetallePagoCompras">
                     </tbody>
                     <tfoot>
                       <tr class="info">
                         <td style="text-align: center;">Deuda Total</td>
                         <td> <strong><span id="deudaTotalCompra"></span></strong> </td>
                         <td style="text-align: center;">Pago Total</td>
-                        <td> <strong><span id="montoTotalPago"></span></strong> </td>
+                        <td> <strong><span id="montoTotalPagoCompra"></span></strong> </td>
                       </tr>
                     </tfoot>
                   </table>
-                </div>            
+                </div>
               </div>
 
             </div>
 
           </div>
 
-          
+
 
         </form>
 
@@ -761,9 +749,9 @@
 
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-danger" id="btnPagar">Pagar</button>
       </div>
     </div>
 
   </div>
+
 </div>

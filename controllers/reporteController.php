@@ -128,10 +128,10 @@ class reporteController extends Controller{
 
 
 
-	public function getCompras($estado,$fechaInicio, $fechafin,$idLocal){
+	public function getCompras($codLocal=0, $tipoCompra=0, $fechaInicio='', $fechafin=''){
  
 		$objModel=$this->loadModel('reporte');
-		$result=$objModel->getCompras($idLocal,$fechaInicio, $fechafin,$estado);
+		$result=$objModel->getCompras($codLocal,$tipoCompra, $fechaInicio,$fechafin);
 		$cont=0;
 
 		$btn='btn-info';
@@ -139,17 +139,24 @@ class reporteController extends Controller{
 		$title='Habilitar';
 		$class='viewPdf';
 		$data = array();
+
 		while($reg=$result->fetch_object()){
 			$cont++;
 			$boton='<button id="'.$reg->nIDCOMPRA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
 			$data ['data'] [] = array (
-				'nIDCOMPRA' 	=> $reg->nIDCOMPRA,
-				'nIDLOCAL' 		=> $reg->nIDLOCAL,
-				'nLOCAL' 		=> $reg->nLOCAL,
-				'dFECHACOMPRA' 	=> $reg->dFECHACOMPRA,
-				'total' 		=> $reg->total,
-				'PROVEEDOR' 	=> $reg->PROVEEDOR,
-				'OPCIONES' 		=> $boton,
+
+				'dFECHACOMPRA' => $reg->dFECHACOMPRA,
+				'nIDCOMPRA' => $reg->nIDCOMPRA,
+				'nIDPROVEEDOR' => $reg->nIDPROVEEDOR,
+				'nIDLOCAL' => $reg->nIDLOCAL,
+				'sOBSERVACION' => $reg->sOBSERVACION,
+				'nCantidadTotalCompra' => $reg->nCantidadTotalCompra,
+				'sCostoTotalCompra' => $reg->sCostoTotalCompra,
+				'sPagoTotalCompra' => $reg->sPagoTotalCompra,
+				'sDeudaTotalCompra' => $reg->sDeudaTotalCompra,
+				'sPROVEEDOR' => $reg->sPROVEEDOR,
+				'sLOCAL' => $reg->sLOCAL,
+				'OPCIONES' => $boton
 				);
 		}
 		echo json_encode ( $data );
@@ -237,6 +244,11 @@ class reporteController extends Controller{
 					'sNOMBRE' => $reg->sNOMBRE,
 					'nCANTIDAD' => $reg->nCANTIDAD,
 					'nTOTAL' => $reg->nTOTAL,
+					'nTOTAL' => $reg->nTOTAL,
+					'nTOTAL' => $reg->nTOTAL,
+					'avgPorCantidadPrecio' => $reg->avgPorCantidadPrecio,	
+					'avgPrecio' => $reg->avgPrecio,
+
 				);
 		}
 		echo json_encode ( $data );
