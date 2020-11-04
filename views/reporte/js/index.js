@@ -24,6 +24,50 @@ $(document).on('ready',function(){
 	function tblReporteventas(codLocal=0, tipoVenta=0, fechaInicio='', fechaFin=''){
 		$('#tblReporteventas').dataTable().fnDestroy();		 	
 		$('#tblReporteventas').DataTable({
+
+			"footerCallback": function ( row, data, start, end, display ) {
+	            var api = this.api(), data;
+	            // Remove the formatting to get integer data for summation
+	            var intVal = function ( i ) {
+	                return typeof i === 'string' ?
+	                    i.replace(/[\$,]/g, '')*1 :
+	                    typeof i === 'number' ?
+	                        i : 0;
+	            };
+	            // Totales por columna desde 0
+				let costo = api.column( 3 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let pago = api.column( 4 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let deuda = api.column( 5 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				 $( api.column( 2 ).footer() ).html('Total:');
+				 $( api.column( 3 ).footer() ).html(costo);
+				 $( api.column( 4 ).footer() ).html(pago);
+				 $( api.column( 5 ).footer() ).html(deuda);
+	        },
+			//PARA EXPORTAR			
+			dom: 'frtip<"clear"B>',
+			buttons: [
+				{
+					extend: 'collection',
+					text: 'Exportar',
+					buttons: [
+						'copy',
+						'excel',
+						'csv',
+						'pdf',
+						'print'
+					]
+				}
+			],
+
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getVentasTable/"+codLocal+'/'+tipoVenta+'/'+fechaInicio+'/'+fechaFin,
 			"columns" : [	
@@ -43,6 +87,57 @@ $(document).on('ready',function(){
 	function tblReportecompras(codLocal=0, tipoCompra=0, fechaInicio='', fechaFin=''){
 		$('#tblReportecompras').dataTable().fnDestroy();		 	
 		$('#tblReportecompras').DataTable({
+
+			"footerCallback": function ( row, data, start, end, display ) {
+	            var api = this.api(), data;
+	            // Remove the formatting to get integer data for summation
+	            var intVal = function ( i ) {
+	                return typeof i === 'string' ?
+	                    i.replace(/[\$,]/g, '')*1 :
+	                    typeof i === 'number' ?
+	                        i : 0;
+	            };
+				// Totales por columna desde 0
+				
+				let cantidad = api.column( 4 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let costo = api.column( 5 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let pago = api.column( 6 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let deuda = api.column( 7 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				 $( api.column( 3 ).footer() ).html('Total:');
+				 $( api.column( 4 ).footer() ).html(cantidad);
+				 $( api.column( 5 ).footer() ).html(costo);
+				 $( api.column( 6 ).footer() ).html(pago);
+				 $( api.column( 7 ).footer() ).html(deuda);
+	        },
+			//PARA EXPORTAR			
+			dom: 'frtip<"clear"B>',
+			buttons: [
+				{
+					extend: 'collection',
+					text: 'Exportar',
+					buttons: [
+						'copy',
+						'excel',
+						'csv',
+						'pdf',
+						'print'
+					]
+				}
+			],
+
+
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getCompras/"+codLocal+'/'+tipoCompra+'/'+fechaInicio+'/'+fechaFin,
 			"columns" : [	
@@ -67,6 +162,57 @@ $(document).on('ready',function(){
 	function tblReporteCuentasxPagar(fechaInicio, fechaFin){
 		$('#tblReporteCuentasxPagar').dataTable().fnDestroy();		 	
 		$('#tblReporteCuentasxPagar').DataTable({
+
+			"footerCallback": function ( row, data, start, end, display ) {
+	            var api = this.api(), data;
+	            // Remove the formatting to get integer data for summation
+	            var intVal = function ( i ) {
+	                return typeof i === 'string' ?
+	                    i.replace(/[\$,]/g, '')*1 :
+	                    typeof i === 'number' ?
+	                        i : 0;
+	            };
+				// Totales por columna desde 0
+				
+				let cantidad = api.column( 3 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let costo = api.column( 4 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let pago = api.column( 5 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let deuda = api.column( 6 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				 $( api.column( 2 ).footer() ).html('Total:');
+				 $( api.column( 3 ).footer() ).html(cantidad);
+				 $( api.column( 4 ).footer() ).html(costo);
+				 $( api.column( 5 ).footer() ).html(pago);
+				 $( api.column( 6 ).footer() ).html(deuda);
+	        },
+			//PARA EXPORTAR			
+			dom: 'frtip<"clear"B>',
+			buttons: [
+				{
+					extend: 'collection',
+					text: 'Exportar',
+					buttons: [
+						'copy',
+						'excel',
+						'csv',
+						'pdf',
+						'print'
+					]
+				}
+			],
+
+
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getCuentasPorPagar/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
 			"columns" : [	
@@ -87,6 +233,57 @@ $(document).on('ready',function(){
 	function tblReporteCuentasxCobrar(fechaInicio, fechaFin){
 		$('#tblReporteCuentasxCobrar').dataTable().fnDestroy();		 	
 		$('#tblReporteCuentasxCobrar').DataTable({
+
+			"footerCallback": function ( row, data, start, end, display ) {
+	            var api = this.api(), data;
+	            // Remove the formatting to get integer data for summation
+	            var intVal = function ( i ) {
+	                return typeof i === 'string' ?
+	                    i.replace(/[\$,]/g, '')*1 :
+	                    typeof i === 'number' ?
+	                        i : 0;
+	            };
+				// Totales por columna desde 0
+				
+				let cantidad = api.column( 3 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let costo = api.column( 4 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let pago = api.column( 5 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let deuda = api.column( 6 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				 $( api.column( 2 ).footer() ).html('Total:');
+				 $( api.column( 3 ).footer() ).html(cantidad);
+				 $( api.column( 4 ).footer() ).html(costo);
+				 $( api.column( 5 ).footer() ).html(pago);
+				 $( api.column( 6 ).footer() ).html(deuda);
+	        },
+			//PARA EXPORTAR			
+			dom: 'frtip<"clear"B>',
+			buttons: [
+				{
+					extend: 'collection',
+					text: 'Exportar',
+					buttons: [
+						'copy',
+						'excel',
+						'csv',
+						'pdf',
+						'print'
+					]
+				}
+			],
+
+
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getCuentasPorCobrar/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
 			"columns" : [	
@@ -106,6 +303,47 @@ $(document).on('ready',function(){
 	function getInversion(){
 		$('#tblReporteInversion').dataTable().fnDestroy();		 	
 		$('#tblReporteInversion').DataTable({
+
+			"footerCallback": function ( row, data, start, end, display ) {
+	            var api = this.api(), data;
+	            // Remove the formatting to get integer data for summation
+	            var intVal = function ( i ) {
+	                return typeof i === 'string' ?
+	                    i.replace(/[\$,]/g, '')*1 :
+	                    typeof i === 'number' ?
+	                        i : 0;
+	            };
+				// Totales por columna desde 0
+				
+				let cantidad = api.column( 2 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let costo = api.column( 3 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				 $( api.column( 1 ).footer() ).html('Total:');
+				 $( api.column( 2 ).footer() ).html(cantidad);
+				 $( api.column( 3 ).footer() ).html(costo);
+
+	        },
+			//PARA EXPORTAR			
+			dom: 'frtip<"clear"B>',
+			buttons: [
+				{
+					extend: 'collection',
+					text: 'Exportar',
+					buttons: [
+						'copy',
+						'excel',
+						'csv',
+						'pdf',
+						'print'
+					]
+				}
+			],
+
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getInversion/"+$('#codLocal').val(),
 			"columns" : [	
@@ -127,6 +365,76 @@ $(document).on('ready',function(){
 	function tblReporteBalance(fechaInicio, fechaFin){
 		$('#tblReporteBalance').dataTable().fnDestroy();		 	
 		$('#tblReporteBalance').DataTable({
+
+			"footerCallback": function ( row, data, start, end, display ) {
+	            var api = this.api(), data;
+	            // Remove the formatting to get integer data for summation
+	            var intVal = function ( i ) {
+	                return typeof i === 'string' ?
+	                    i.replace(/[\$,]/g, '')*1 :
+	                    typeof i === 'number' ?
+	                        i : 0;
+	            };
+				// Totales por columna desde 0
+				
+				let cantidad = api.column( 2 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let cantidadProductos = api.column( 3 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let ventaTotal = api.column( 4 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let pagoEfectivo = api.column( 5 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let pagoDeposito = api.column( 6 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+				let credito = api.column( 7 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+console.log(cantidad);
+console.log(cantidadProductos);
+console.log(ventaTotal);
+console.log(pagoEfectivo);
+console.log(pagoDeposito);
+console.log(credito);
+
+				 $( api.column( 1 ).footer() ).html('Total:');
+				 $( api.column( 2 ).footer() ).html(cantidad);
+				 $( api.column( 3 ).footer() ).html(cantidadProductos);
+				 $( api.column( 4 ).footer() ).html(ventaTotal);
+				 $( api.column( 5 ).footer() ).html(pagoEfectivo);
+				 $( api.column( 6 ).footer() ).html(pagoDeposito);
+				 $( api.column( 7 ).footer() ).html(credito);
+				 
+
+	        },
+			//PARA EXPORTAR			
+			dom: 'frtip<"clear"B>',
+			buttons: [
+				{
+					extend: 'collection',
+					text: 'Exportar',
+					buttons: [
+						'copy',
+						'excel',
+						'csv',
+						'pdf',
+						'print'
+					]
+				}
+			],
+
+
 			"order": [[ 0, "desc" ]],
 			"ajax" : "reporte/getReporteBalance/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
 			"columns" : [	
