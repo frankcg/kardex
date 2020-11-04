@@ -285,7 +285,7 @@ Class reporteModel extends Model{
 				,SUM(az.sCostoTotalVentas) ventasCosto
 				,SUM(az.efectivo) AS efectivo
 				,SUM(az.deposito) AS deposito
-				, (az.sCostoTotalVentas - (IFNULL(az.efectivo,0) + IFNULL(az.deposito,0))) AS credito
+				, (SUM(az.sCostoTotalVentas) - (IFNULL(SUM(az.efectivo),0) + IFNULL(SUM(az.deposito),0))) AS credito
 			FROM (
 			SELECT 
 			DATE(a.dFECHAVENTA) AS FECHA
@@ -293,8 +293,8 @@ Class reporteModel extends Model{
 				, COUNT(DISTINCT a.nIDVENTA) AS nCantidadVentas
 				, SUM(b.nCANTIDAD) AS nCantidadTotalProductosVentas
 				, ROUND(SUM(b.nCANTIDAD * b.fPRECIO), 2) AS sCostoTotalVentas
-				,(SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '01'  ) AS efectivo 
-				,(SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '02' ) AS deposito 
+				,IFNULL((SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '01'),0) AS efectivo 
+				,IFNULL((SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '02' ),0) AS deposito
 			FROM
 			kar_venta a 
 			LEFT JOIN kar_venta_detalle b 
