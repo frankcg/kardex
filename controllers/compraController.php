@@ -97,8 +97,9 @@ class compraController extends Controller{
 
 	public function autocomplete(){
 		$search = $_GET['query'];
+		$codLocal = $_GET['codLocal'];
 		$objModel=$this->loadModel('compra');
-		$result=$objModel->autocomplete($search);		
+		$result=$objModel->autocomplete($search,$codLocal);		
 		$data = array();
 		while($reg=$result->fetch_object()){
 			$data[] = array("value"=>$reg->nIDPRODUCTO,"label"=>$reg->sNOMBRE);

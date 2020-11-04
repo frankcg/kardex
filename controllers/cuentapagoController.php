@@ -21,7 +21,7 @@ class cuentapagoController extends Controller{
 	}
 
 	public function getCuentasPorPagar($codLocal=0, $codCompra=0, $fechaInicio='', $fechafin=''){		
-		$objModel=$this->loadModel('cuentaPago');
+		$objModel=$this->loadModel('cuentapago');
 		$result=$objModel->getCuentasPorPagar($codLocal, $codCompra, $fechaInicio, $fechafin);
 		$data = array();
 
@@ -44,7 +44,7 @@ class cuentapagoController extends Controller{
 
 	public function getDetalleCompraPago(){
 		$idCompra = $_POST['idcompra'];
-		$objModel=$this->loadModel('cuentaPago');
+		$objModel=$this->loadModel('cuentapago');
 		$result=$objModel->getDetalleCompraPago($idCompra);
 		$data = array();
 		while($reg=$result->fetch_object()){
@@ -88,7 +88,7 @@ class cuentapagoController extends Controller{
 			}
 		}
 
-		$objModel=$this->loadModel('cuentaPago');
+		$objModel=$this->loadModel('cuentapago');
 		$result=$objModel->addPago($idCompra, $observacionCompraPago, $fechaPago, $formaPago, $idCuentacompra, $montopago);	
 		echo json_encode(array('idPago'=>$result));
 	}

@@ -27,8 +27,8 @@ Class compraModel extends Model{
 		return $result;
 	}
 
-	public function autocomplete($valor){		
-		$sql="SELECT * FROM kar_producto WHERE nESTADO=1 AND sNOMBRE LIKE '$valor%' ";
+	public function autocomplete($valor,$codLocal){		
+		$sql="SELECT * FROM kar_producto WHERE nESTADO=1 AND sNOMBRE LIKE '$valor%' AND nIDLOCAL=$codLocal ";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

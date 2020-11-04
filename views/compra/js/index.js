@@ -26,8 +26,10 @@ $(document).on('ready',function(){
 
 
 	$(function() {
+		var codLocal = $('#codLocal').val();
 
-		$('#nombre').typeahead({
+		$('#nombre').typeahead({			
+
 			displayText: function(item) {
 				 return item.label
 			},
@@ -58,7 +60,7 @@ $(document).on('ready',function(){
 
 			},
 			source: function (query, process) {
-			  return $.getJSON('compra/autocomplete', { query: query }, function(data) {
+			  return $.getJSON('compra/autocomplete', { query: query, codLocal:codLocal }, function(data) {
 				process(data)
 			  })
 			}   
