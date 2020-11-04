@@ -257,9 +257,16 @@ class reporteController extends Controller{
 
 	public function getReporteBalance($fechaInicio, $fechafin,$idLocal){
 		$objModel=$this->loadModel('reporte');
-		$result=$objModel->getReporteBalance($fechaInicio, $fechafin,$idLocal);
-		$data = array();
+		$result=$objModel->getReporteBalance($fechaInicio, $fechafin,$idLocal);		
+		
 		while($reg=$result->fetch_object()){
+
+			/*$response = $objModel->getDetalleDepositosXDia($reg->FECHA);
+			$dataCuenta = array();
+			foreach ($response as $key => $value) {
+				$dataCuenta['nroCuenta'] = 'monto';
+			}*/
+
 			$data ['data'] [] = array (
 				'FECHA' => $reg->FECHA,
 				'ventas' => $reg->ventas,
@@ -268,6 +275,7 @@ class reporteController extends Controller{
 				'efectivo' => $reg->efectivo,
 				'deposito' => $reg->deposito,
 				'credito' => $reg->credito,
+				//'detalleCuentas' => $dataCuenta,
 				);
 		}
 		echo json_encode ( $data );
