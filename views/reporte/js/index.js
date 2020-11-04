@@ -377,44 +377,37 @@ $(document).on('ready',function(){
 	            };
 				// Totales por columna desde 0
 				
-				let cantidad = api.column( 2 ).data().reduce( function (a, b) {
+				let cantidad = api.column( 1 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
 
-				let cantidadProductos = api.column( 3 ).data().reduce( function (a, b) {
+				let cantidadProductos = api.column( 2 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
 
-				let ventaTotal = api.column( 4 ).data().reduce( function (a, b) {
+				let ventaTotal = api.column( 3 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
 
-				let pagoEfectivo = api.column( 5 ).data().reduce( function (a, b) {
+				let pagoEfectivo = api.column( 4 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
 
-				let pagoDeposito = api.column( 6 ).data().reduce( function (a, b) {
+				let pagoDeposito = api.column( 5 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
 
-				let credito = api.column( 7 ).data().reduce( function (a, b) {
+				let credito = api.column( 6 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
 
-console.log(cantidad);
-console.log(cantidadProductos);
-console.log(ventaTotal);
-console.log(pagoEfectivo);
-console.log(pagoDeposito);
-console.log(credito);
-
-				 $( api.column( 1 ).footer() ).html('Total:');
-				 $( api.column( 2 ).footer() ).html(cantidad);
-				 $( api.column( 3 ).footer() ).html(cantidadProductos);
-				 $( api.column( 4 ).footer() ).html(ventaTotal);
-				 $( api.column( 5 ).footer() ).html(pagoEfectivo);
-				 $( api.column( 6 ).footer() ).html(pagoDeposito);
-				 $( api.column( 7 ).footer() ).html(credito);
+				 $( api.column( 0 ).footer() ).html('Total:');
+				 $( api.column( 1 ).footer() ).html(cantidad);
+				 $( api.column( 2 ).footer() ).html(cantidadProductos);
+				 $( api.column( 3 ).footer() ).html(ventaTotal);
+				 $( api.column( 4 ).footer() ).html(pagoEfectivo);
+				 $( api.column( 5 ).footer() ).html(pagoDeposito);
+				 $( api.column( 6 ).footer() ).html(credito);
 				 
 
 	        },
