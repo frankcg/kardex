@@ -244,7 +244,15 @@
         <nav class="navbar px-navbar">
           <!-- Header -->
           <div class="navbar-header">
-            <a class="navbar-brand px-demo-brand" href="<?php echo BASE_URL; ?>panel"><span class="font-size-20 line-height-1"><img src="public/img/kardex.png" alt="" class="pull-xs-left m-r-2 border-round" style="width: 124px; height: 50px;"></span></span></a>
+            <a class="navbar-brand px-demo-brand" href="<?php echo BASE_URL; ?>panel">
+            
+            <span class="font-size-20 line-height-1">
+            <z style="font-family: inherit;width: 124px; height: 50px;"> KARDEX </z>
+              <!-- <img src="public/img/kardex.png" alt="" class="pull-xs-left m-r-2 border-round" style="width: 124px; height: 50px;"> -->
+              <!-- <a style="font-family: inherit;"> KARDEX </a> -->
+            </span>
+            
+          </span></a>
           </div>
 
           <!-- Navbar togglers -->
