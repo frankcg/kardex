@@ -261,11 +261,19 @@ class reporteController extends Controller{
 		
 		while($reg=$result->fetch_object()){
 
-			/*$response = $objModel->getDetalleDepositosXDia($reg->FECHA);
+			$response = $objModel->getDetalleDepositosXDia($reg->FECHA);
 			$dataCuenta = array();
-			foreach ($response as $key => $value) {
-				$dataCuenta['nroCuenta'] = 'monto';
-			}*/
+
+			while($dat=$response->fetch_object()){
+				$dataCuenta [$dat->tipoPago] [] = array (
+					'cuenta' => $dat->cuenta,
+					'fmonto' => $dat->fmonto,
+					);
+			}
+
+			// echo('<pre>');
+			// print_r($dataCuenta);
+			// echo('</pre>');
 
 			$data ['data'] [] = array (
 				'FECHA' => $reg->FECHA,
@@ -275,7 +283,8 @@ class reporteController extends Controller{
 				'efectivo' => $reg->efectivo,
 				'deposito' => $reg->deposito,
 				'credito' => $reg->credito,
-				//'detalleCuentas' => $dataCuenta,
+				'ganancia' => $reg->ventasCosto - $reg->compraCosto,
+				'detalleCuentas' => $dataCuenta,
 				);
 		}
 		echo json_encode ( $data );

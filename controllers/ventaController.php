@@ -650,7 +650,7 @@ class ventaController extends Controller{
 
 		$result=$objModel->getVentaFactura($idFactura);
 		$resultProducts=$objModel->getVentaFactura($idFactura);
-		// $resultpagos=$objModel->getVentaPagos($idFactura);
+		$resultpagos=$objModel->getVentaPagos($idFactura);
 
 		$pdf = new FPDF('P','mm',array(80,300));
 		$pdf->AddPage();
@@ -733,22 +733,30 @@ class ventaController extends Controller{
 		// PIE DE PAGINA
 
 		// PAGOS
-		// $pdf->Ln(5);
-		// $pdf->Cell(60,0,'','T');
-		// $pdf->Ln(1);
-		// $pdf->Cell(25,3,'Metodos de pago: ',0,1,'');
-		// $pdf->Ln(1);
+		$pdf->Ln(5);
+		$pdf->Cell(60,0,'','T');
+		$pdf->Ln(1);
+		// $pdf->Cell(25,3,'Resumen: ',0,1,'');
+		$pdf->Ln(1);
+		$totalpagos = 0;
+		while($reg=$resultpagos->fetch_object()){
+			$Metodo = $reg->sdescripcion;
+			$Monto = $reg->fmonto;
+			$totalpagos = $totalpagos + $Monto;
 
-		// while($reg=$resultpagos->fetch_object()){
-		// 	$Metodo = $reg->sdescripcion;
-		// 	$Monto = $reg->fmonto;
-		// 	$pdf->Cell(25, 3, $Metodo.':', 0);    
-		// 	$pdf->Cell(20, 3, '', 0);
-		// 	$pdf->Cell(15, 3, $simbolo.$Monto,0,0,'R');
-		// 	$pdf->Ln(3);    
+			// $pdf->Cell(25, 3, $Metodo.':', 0);    
+			// $pdf->Cell(20, 3, '', 0);
+			// $pdf->Cell(15, 3, $simbolo.$Monto,0,0,'R');
+			// $pdf->Ln(3);    
+		}
 
-			
-		// }
+		$pdf->Cell(25, 3, 'Pago Total:', 0);    
+		$pdf->Cell(20, 3, '', 0);
+		$pdf->Cell(15, 3, $simbolo.$totalpagos,0,0,'R');
+		$pdf->Ln(3);
+		$pdf->Cell(25, 3, 'Deuda:', 0);    
+		$pdf->Cell(20, 3, '', 0);
+		$pdf->Cell(15, 3, $simbolo.($totalpagos-$total),0,0,'R');
 
 
 

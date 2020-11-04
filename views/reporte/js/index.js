@@ -400,6 +400,9 @@ $(document).on('ready',function(){
 				let credito = api.column( 6 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
+				let ganancia = api.column( 7 ).data().reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
 
 				 $( api.column( 0 ).footer() ).html('Total:');
 				 $( api.column( 1 ).footer() ).html(cantidad);
@@ -408,7 +411,7 @@ $(document).on('ready',function(){
 				 $( api.column( 4 ).footer() ).html(pagoEfectivo);
 				 $( api.column( 5 ).footer() ).html(pagoDeposito);
 				 $( api.column( 6 ).footer() ).html(credito);
-				 
+				 $( api.column( 7 ).footer() ).html(ganancia);
 
 	        },
 			//PARA EXPORTAR			
@@ -439,12 +442,49 @@ $(document).on('ready',function(){
 				{"data" : "efectivo"},
 				{"data" : "deposito"},
 				{"data" : "credito"},
+				{"data" : "ganancia"},
 			],"language": {
 				"url": "/kardex/public/cdn/datatable.spanish.lang"
 			} 			
 		});	
 	}
 
+
+	$("#tblReporteBalance tbody").on('dblclick','tr',function(){
+		var table = $('#tblReporteBalance').DataTable();	
+		var objeto = table.row(this).data();
+
+		// var datos = { 'idVenta' : objeto.nIDVENTA}		
+		var montoEfectivo = objeto.detalleCuentas.EFECTIVO[0].fmonto;
+
+		html='';
+
+		$.each(objeto.detalleCuentas.DEPOSITO, function( i, v ) {
+
+			let cuenta=v.cuenta.match(/.{1,4}/g);
+
+			html+='<a href="#" class="box m-a-0 p-x-3 p-y-2 b-t-1 bg-white">'+
+				'<div class="box-cell valign-middle" style="width: 0px;">'+
+				'<i class="fa fa-cc-visa text-muted font-size-28"></i>'+
+				'</div>'+
+				'<div class="box-cell">'+
+				'<div class="pull-xs-right font-size-18"><small class="font-size-13">S/ </small><strong>'+v.fmonto+'</strong></div>'+
+				'<div class="text-muted font-size-14">'+cuenta.join(' ')+'</div>'+
+				'</div>'+
+				'</a>'
+				;
+		});
+
+		$('#montoEfectivo').html(montoEfectivo);
+		$('#divPagosCuentas').html(html);
+
+		$('#mDetallePagos').modal('show');
+		// $('#idVenta').val(objeto.nIDVENTA);
+		// $('#fechaVenta').val(objeto.dFECHAVENTA);
+		// $('#sCliente').val(objeto.sCLIENTE);
+		// $('#observacionVenta').val(objeto.sOBSERVACION);
+
+	});
 
 	// $('#btnBuscar').click(function(){
 	// 	var fechaInicio = $('#fechaInicio1').val();

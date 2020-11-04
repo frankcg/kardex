@@ -285,7 +285,8 @@ Class reporteModel extends Model{
 				,SUM(az.sCostoTotalVentas) ventasCosto
 				,SUM(az.efectivo) AS efectivo
 				,SUM(az.deposito) AS deposito
-				, (SUM(az.sCostoTotalVentas) - (IFNULL(SUM(az.efectivo),0) + IFNULL(SUM(az.deposito),0))) AS credito
+				,(SUM(az.sCostoTotalVentas) - (IFNULL(SUM(az.efectivo),0) + IFNULL(SUM(az.deposito),0))) AS credito
+				,SUM(az.sCostoCompra) AS compraCosto
 			FROM (
 			SELECT 
 			DATE(a.dFECHAVENTA) AS FECHA
@@ -295,11 +296,15 @@ Class reporteModel extends Model{
 				, ROUND(SUM(b.nCANTIDAD * b.fPRECIO), 2) AS sCostoTotalVentas
 				,IFNULL((SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '01'),0) AS efectivo 
 				,IFNULL((SELECT ROUND(SUM(c.fMONTO),2) FROM kar_venta_pago c WHERE c.nIDVENTA=a.nIDVENTA AND  c.nIDTIPOPAGO = '02' ),0) AS deposito
+				, ROUND(SUM(b.nCANTIDAD * c.fPRECIO), 2) AS sCostoCompra
 			FROM
 			kar_venta a 
 			LEFT JOIN kar_venta_detalle b 
 				ON a.nIDVENTA = b.nIDVENTA 
 				AND b.nESTADO = 1 
+				INNER JOIN kar_compra_detalle c 
+				ON c.nIDPRODUCTO = b.nIDPRODUCTO 
+				AND c.nIDCOMPRADETALLE=b.nIDCOMPRADETALLE
 				WHERE a.nidlocal = '$idLocal' 
 				$filtroFecha
 				AND a.nESTADO = 1 
@@ -312,7 +317,23 @@ Class reporteModel extends Model{
 		return $result;
 	}
 
-
+	public function getDetalleDepositosXDia($fechaPago){
+		$sql="SELECT 
+			b.sDESCRIPCION AS tipoPago
+			,c.sDESCRIPCION AS cuenta
+			,SUM(a.fMONTO) fmonto
+			FROM
+					kar_venta_pago a
+			INNER JOIN sel_tipopago b
+			ON a.nIDTIPOPAGO=b.nIDTIPOPAGO
+			INNER JOIN sel_cuenta c 
+			ON a.nidcuenta=c.nIDCUENTA
+			WHERE a.nESTADO = 1 
+					AND DATE(a.dFECHAPAGO) = DATE('$fechaPago') 
+			GROUP BY  a.nIDTIPOPAGO, a.nidcuenta ";
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $response;
+	}
 
 }
 
