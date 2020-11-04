@@ -107,12 +107,12 @@ Class usuarioModel extends Model{
 	
 	public function addusuario($usuario, $ndoc, $apepaterno, $apematerno, $nombre, $telefono, $correo, $contrasenia){
 		$user=$_SESSION['user'];
-		$sql="INSERT INTO `kar_persona` SET nombre='$nombre', ap_paterno='$apepaterno', ap_materno='$apematerno', numerodoc='$ndoc', correo='$correo', telefono='$telefono', tipopersona='USER', idusuariocreacion='$user' ";
+		$sql="INSERT INTO `kar_persona` SET nombre='$nombre', ap_paterno='$apepaterno', ap_materno='$apematerno', numerodoc='$ndoc', correo='$correo', telefono='$telefono', tipopersona='USER', sidusuariocreacion='$user' ";
 		$this->_db->query($sql) or die ('Error en '.$sql);
 
 		$idpersona=$this->_db->insert_id;
 
-		$sql2="INSERT INTO `kar_usuario` SET idusuario='$usuario', contrasenia=SHA1('$contrasenia'), idpersona='$idpersona', idusuariocreacion='$user'";
+		$sql2="INSERT INTO `kar_usuario` SET idusuario='$usuario', contrasenia=SHA1('$contrasenia'), idpersona='$idpersona', sidusuariocreacion='$user'";
 		$this->_db->query($sql2) or die ('Error en '.$sql2);
 
 		if($this->_db->errno)
