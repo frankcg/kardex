@@ -78,21 +78,13 @@ class ventaController extends Controller{
 		}
 		echo json_encode($data);
 	}
-	
-
-
-
-
 
 	public function clearCartventas(){
 		unset($_SESSION["cart"]["ventasproducts"]);
 		$_SESSION['cart']['ventasproducts'] = array();
-
 		unset($_SESSION["cart"]["ventaspayments"]);
 		$_SESSION['cart']['ventaspayments'] = array();
 	}
-
-
 
 	public function addproductCart(){
  
@@ -117,80 +109,56 @@ class ventaController extends Controller{
 			,"nombreLocal"=>$nombreLocal
 		);
 
-		// echo("if entra");
-		// echo('<pre>');
-		// print_r($idLocal);
-		// echo('</pre>');
-
 		// $this->clearCartventas();
 
-			if(isset($_SESSION["cart"]["ventasproducts"][$idProducto])){
-				
-				// echo("if entra");
-				// echo('<pre>');
-				// print_r($productsArray);
-				// echo('</pre>');
-
-				array_splice($_SESSION["cart"]["ventasproducts"][$idProducto],0);
-				array_push($_SESSION["cart"]["ventasproducts"][$idProducto],$productsArray);
-
-				// echo('<pre>');
-				// print_r($_SESSION["cart"]["ventasproducts"]);
-				// echo('</pre>');
-
-			}else{
-				echo("else entra");
-				$_SESSION["cart"]["ventasproducts"][$idProducto] = array();
-				array_push($_SESSION["cart"]["ventasproducts"][$idProducto],$productsArray);
-			}	
+		if(isset($_SESSION["cart"]["ventasproducts"][$idProducto])){
+			array_splice($_SESSION["cart"]["ventasproducts"][$idProducto],0);
+			array_push($_SESSION["cart"]["ventasproducts"][$idProducto],$productsArray);
+		}else{
+			$_SESSION["cart"]["ventasproducts"][$idProducto] = array();
+			array_push($_SESSION["cart"]["ventasproducts"][$idProducto],$productsArray);
+		}	
 	}
 
 	public function showproductCart(){
 
 		$tableProducts = "";
 
-		// echo('<pre>');
-		// print_r($_SESSION["cart"]["ventasproducts"]);
-		// echo('</pre>');
-
 		if(!empty($_SESSION["cart"]["ventasproducts"])){
-		foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
-			foreach($productos as $items){
-				if($items["cartNombre"]!==""){
+			foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
+				foreach($productos as $items){
+					if($items["cartNombre"]!==""){
 
-					if($items["perdida"]==0){
-						$trClass = ''; 
-					}else{
-						$trClass = 'danger'; 
+						if($items["perdida"]==0){
+							$trClass = ''; 
+						}else{
+							$trClass = 'danger'; 
+						}
+
+						$tableProducts .= '<tr class='.$trClass.'> 
+							<td class="p-a-2">
+								<div class="font-weight-semibold">'.$items["cartNombre"].'</div>
+								<div class="font-size-12 text-muted"><strong>LOCAL : </strong>'.$items["nombreLocal"].'</div>
+							</td>
+							<td class="p-a-2">
+								<strong>'.$items["cantidad"].'</strong>
+							</td>
+							<td class="p-a-2">
+								<strong>'.$items["precio"].'</strong>
+							</td>
+							<td class="p-a-2">
+								<strong class="total">'.$items["cantidad"]*$items["precio"].'</strong>
+							</td>
+							<td class="p-a-2">
+								 
+							<button type="button" class="btn btn-xs btn-warning btn-outline btn-rounded btn-outline-colorless btn-delete" id="'.$items["idProducto"].'">x</button>
+
+							</td>
+						  </tr>'
+						  ;
 					}
-
-					$tableProducts .= '<tr class='.$trClass.'> 
-						<td class="p-a-2">
-							<div class="font-weight-semibold">'.$items["cartNombre"].'</div>
-							<div class="font-size-12 text-muted"><strong>LOCAL : </strong>'.$items["nombreLocal"].'</div>
-						</td>
-						<td class="p-a-2">
-							<strong>'.$items["cantidad"].'</strong>
-						</td>
-						<td class="p-a-2">
-							<strong>'.$items["precio"].'</strong>
-						</td>
-						<td class="p-a-2">
-							<strong class="total">'.$items["cantidad"]*$items["precio"].'</strong>
-						</td>
-						<td class="p-a-2">
-							 
-						<button type="button" class="btn btn-xs btn-warning btn-outline btn-rounded btn-outline-colorless btn-delete" id="'.$items["idProducto"].'">x</button>
-
-						</td>
-					  </tr>'
-					  ;
-					// echo('<pre>');
-					// print_r($items);
-					// echo('</pre>');
 				}
 			}
-		  }
 		}else {
 			$tableProducts .= '<tr> 
 						<td class="p-a-2">
@@ -208,52 +176,31 @@ class ventaController extends Controller{
 					  </tr>'
 					  ;
 		}
-		  echo($tableProducts);
+		echo($tableProducts);
 	}
 
 
 	public function clearproductCart(){
 		$id= $_POST['id'];
-
-		print_r($_POST);
-		echo($id);
-		echo("entro al post");
-
 		unset($_SESSION["cart"]["ventasproducts"][$id]);
-
 		if(!isset($_SESSION["cart"]["ventasproducts"][$id])){
 			return 1;
 		}else {
 			return 0;
 		}
-
-	}
-	
+	}	
 
 	public function clearpaymentCart(){
 		$id= $_POST['id'];
-
-		print_r($_POST);
-		echo($id);
-		echo("entro al post");
-
 		unset($_SESSION["cart"]["ventaspayments"][$id]);
-
 		if(!isset($_SESSION["cart"]["ventaspayments"][$id])){
 			return 1;
 		}else {
 			return 0;
 		}
-
 	}
 
-
 	public function paymentsstock(){
-		
-		
-		echo('<pre>');
-		print_r($_SESSION["cart"]["ventasproducts"]);
-		echo('</pre>');
 
 		$objModel=$this->loadModel('venta');
 
@@ -263,7 +210,6 @@ class ventaController extends Controller{
 				$idProducto = $items['idProducto'];
 				$cantidad = $items['cantidad'];
 				$precio = $items['precio'];
-
 				
 				$cantidadrestante = $cantidad ; 
 				$vendido = 0;
@@ -295,8 +241,7 @@ class ventaController extends Controller{
 					if($cantidadrestante > 0 ){
 					}else{
 						break;
-					}
- 
+					} 
 				}
 
 				foreach ($data as $key => $value) {
@@ -304,19 +249,12 @@ class ventaController extends Controller{
 					$cantidadVendida = $value['nVENDIDO'];
 					$idCompraDetalle = $value['nIDCOMPRADETALLE'];
 					
-					// $result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle, $idProducto,$$cantidadVendida,$precio); 
-
+					// $result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle, $idProducto,$$cantidadVendida,$precio);
 				}
-
 				echo(json_encode($data));
-
 			}
 		}
-
 	}
-
-
-
 	
 	public function addpaymentCart(){
 
@@ -340,28 +278,17 @@ class ventaController extends Controller{
 				,"idCuenta"				=>$idCuenta
 			);
 			array_push($_SESSION["cart"]["ventaspayments"],$paymentArray);
-			echo("1");
-			// echo('<pre>');
-			// print_r($_SESSION);
-			// echo('</pre>');
+			echo("1");			
 		}else{
 			echo("0");
 		}
-
-
 	}
 
-
-
 	public function showpaymentCart(){
+		$tablePayments = "";
 
-		$tablePayments = "";	
-		// echo('<pre>');
-		// print_r($_SESSION["cart"]["ventaspayments"] );
-		// echo('</pre>');
-		// exit();
 		if(!empty($_SESSION["cart"]["ventaspayments"])){
-		foreach ($_SESSION["cart"]["ventaspayments"] as $key => $value) {
+			foreach ($_SESSION["cart"]["ventaspayments"] as $key => $value) {
 				if($value["formaPago"]!==""){
 
 					if($value["formaPago"]=="1"){
@@ -385,8 +312,8 @@ class ventaController extends Controller{
 						</td>
 					</tr>'
 					;
+				}
 			}
-		}
 		}else {
 			$tablePayments .= '<tr> 
 						<td class="p-a-2">
@@ -402,10 +329,7 @@ class ventaController extends Controller{
 					;
 		}
 		echo($tablePayments);
-	}
-
-
-	
+	}	
 
 	public function finishpaymentCart(){
 
@@ -415,20 +339,15 @@ class ventaController extends Controller{
 		$observaciones	= $_POST['observaciones'];
 
 		$objModel=$this->loadModel('venta');
- 
-		// echo('<pre>');
-		// print_r($_SESSION["cart"]["ventaspayments"] );
-		// echo('</pre>');
-		// exit();
 
 		try {
 
 			$existeProveedor =	$objModel->clientevalidate($idCLiente);
-				if($existeProveedor !== 1){
-					$idClientecompra =	$objModel->insertCliente($cliente);
-				}else{
-					$idClientecompra =	$idCLiente;
-				}
+			if($existeProveedor !== 1){
+				$idClientecompra =	$objModel->insertCliente($cliente);
+			}else{
+				$idClientecompra =	$idCLiente;
+			}
 	
 			$idventa = $objModel->insertVenta($codLocal,$idClientecompra,$observaciones);
 			try {
@@ -477,16 +396,13 @@ class ventaController extends Controller{
 								$objModel->updateCompraStockzer0($idCompraDetalle);
 							}
 
-							$result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio); 
-		
-
-
+							$result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio);
 						}
 		
 					}
 				}
 
-			try {
+				try {
 					foreach ($_SESSION["cart"]["ventaspayments"] as $payments) {
 		
 						$idtipopago = $payments['formaPago'];
@@ -522,7 +438,6 @@ class ventaController extends Controller{
 		if($result == 1 ){
 			$this->clearCartventas();
 		}
-
 
 		$data[] = array(
 			'idventa'	=> $idventa,
@@ -774,8 +689,7 @@ class ventaController extends Controller{
 	 }
 	 
 
-	 public function getVentas($codLocal){
-		
+	 public function getVentas($codLocal){		
 
 		$objModel=$this->loadModel('venta');
 		$result=$objModel->getVentas($codLocal);
@@ -802,10 +716,5 @@ class ventaController extends Controller{
 		}
 		echo json_encode ( $data );
 	}
-
-
-
-
-
 
 }
