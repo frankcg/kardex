@@ -103,6 +103,10 @@ class ventaController extends Controller{
 		$perdida		= $_POST['perdida'];
 		$idLocal		= $_POST['idLocal'];
 
+		$objModel=$this->loadModel('general');
+		$nombreLocal = $objModel->getNombreLocal($idLocal);		
+		
+
 		$productsArray = array(
 			"idProducto"=>$idProducto
 			,"cartNombre"=>$cartNombre
@@ -110,6 +114,7 @@ class ventaController extends Controller{
 			,"precio"=>$precioCompra
 			,"perdida"=>$perdida
 			,"idLocal"=>$idLocal
+			,"nombreLocal"=>$nombreLocal
 		);
 
 		// echo("if entra");
@@ -162,7 +167,7 @@ class ventaController extends Controller{
 					$tableProducts .= '<tr class='.$trClass.'> 
 						<td class="p-a-2">
 							<div class="font-weight-semibold">'.$items["cartNombre"].'</div>
-							<div class="font-size-12 text-muted"><strong>TIENDA ID : </strong>'.$items["idLocal"].'</div>
+							<div class="font-size-12 text-muted"><strong>LOCAL : </strong>'.$items["nombreLocal"].'</div>
 						</td>
 						<td class="p-a-2">
 							<strong>'.$items["cantidad"].'</strong>
@@ -386,9 +391,6 @@ class ventaController extends Controller{
 			$tablePayments .= '<tr> 
 						<td class="p-a-2">
 							<div class="font-weight-semibold">-</div>
-						</td>
-						<td class="p-a-2">
-							<strong>-</strong>
 						</td>
 						<td class="p-a-2">
 							<strong>-</strong>
@@ -772,13 +774,11 @@ class ventaController extends Controller{
 	 }
 	 
 
-	 public function getVentas(){
-	
-		$idLocal 	= '0002';
-		// $codLocal	= $_POST['codLocal'];
+	 public function getVentas($codLocal){
+		
 
 		$objModel=$this->loadModel('venta');
-		$result=$objModel->getVentas($idLocal);
+		$result=$objModel->getVentas($codLocal);
 		$cont=0;
 
 		$btn='btn-info';
@@ -792,11 +792,11 @@ class ventaController extends Controller{
 			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
 
 			$data ['data'] [] = array (
+				'dFECHAVENTA' 		=> $reg->dFECHAVENTA,
 				'nIDVENTA' 		=> $reg->nIDVENTA,
-				'nIDLOCAL' 		=> $reg->nIDLOCAL,
-				'nLOCAL' 		=> $reg->nLOCAL,
-				'dFECHAVENTA' 	=> $reg->dFECHAVENTA,
-				'total' 		=> $reg->total,
+				'sCLIENTE' 		=> $reg->sCLIENTE,
+				'sVENDEDOR' 	=> $reg->sIDUSUARIOCREACION,
+				'sCostoTotalVenta' 		=> $reg->sCostoTotalVenta,
 				'OPCIONES' 		=> $boton,
 				);
 		}

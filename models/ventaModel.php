@@ -248,24 +248,51 @@ Class ventaModel extends Model{
 		return $response;
 	}
 
-	public function getVentas($idLocal){
-		$sql="SELECT 
-					b.nIDVENTA
-					,d.nIDLOCAL
-					, d.sDESCRIPCION nLOCAL
-					, b.dFECHAVENTA 
-					,e.sDESCRIPCION nCLIENTE
-					,(SELECT TRUNCATE(SUM(z.FPRECIO*z.NCANTIDAD),3) AS TOTAL  FROM  kar_venta_detalle AS z WHERE  z.NIDVENTA=b.nIDVENTA) total
-				FROM
-					kar_venta AS b 
-					INNER JOIN sel_local AS d 
-					ON b.nIDLOCAL = d.nIDLOCAL 
-					INNER JOIN sel_cliente AS e 
-					ON e.nIDCLIENTE = b.nIDCLIENTE 
-				WHERE 	d.nIDLOCAL='$idLocal'
-				ORDER BY  b.nIDVENTA DESC
-				LIMIT 5
-				 ";
+	public function getVentas($codLocal){
+		$sql="SELECT a.*, b.sDESCRIPCION AS sCLIENTE, c.sDESCRIPCION AS sLOCAL
+			FROM 
+			(
+				SELECT 
+					a.dFECHAVENTA, 
+					a.nIDVENTA, 
+					a.nIDCLIENTE, 
+					a.nIDLOCAL, 
+					a.sOBSERVACION, 
+					a.nCantidadTotalVenta,
+					a.sCostoTotalVenta,
+					a.sIDUSUARIOCREACION,
+					ROUND(SUM(c.fMONTO),2) AS sPagoTotalVenta, 
+					ROUND(a.sCostoTotalVenta - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalVenta'
+				FROM 
+				(
+					SELECT 
+					a.dFECHAVENTA,
+					a.nIDVENTA,
+					a.nIDCLIENTE,
+					a.nIDLOCAL,
+					a.sOBSERVACION,
+					SUM(b.nCANTIDAD) AS nCantidadTotalVenta,
+					ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta,
+					a.sIDUSUARIOCREACION
+					FROM kar_venta a 
+					INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO='1'
+					WHERE a.nidlocal=$codLocal and a.nESTADO='1'
+					GROUP BY a.dFECHAVENTA,
+					a.nIDVENTA,
+					a.nIDCLIENTE,
+					a.nIDLOCAL,
+					a.sOBSERVACION
+				) 
+				AS a LEFT JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO='1'
+				GROUP BY a.dFECHAVENTA,
+				a.nIDVENTA,
+				a.nIDCLIENTE,
+				a.nIDLOCAL,
+				a.sOBSERVACION,
+				a.sCostoTotalVenta
+			) AS a 
+			INNER JOIN sel_cliente b ON a.nIDCLIENTE = b.nIDCLIENTE AND b.nESTADO=1
+			INNER JOIN sel_local c ON a.nIDLOCAL = c.nIDLOCAL AND c.nESTADO=1 ORDER BY a.dFECHAVENTA DESC LIMIT 5";
 				
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $response;

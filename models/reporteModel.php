@@ -90,7 +90,7 @@ Class reporteModel extends Model{
 			INNER JOIN sel_local c ON a.nIDLOCAL = c.nIDLOCAL AND c.nESTADO=1
 			 
 		";
-		// echo $sql; exit();
+		//echo $sql; exit();
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

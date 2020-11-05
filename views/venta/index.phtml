@@ -10,7 +10,7 @@
   </ol>
 
   <div class="page-header">
-    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Registrar Venta</h1>
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Registrar Venta - Local: <?php echo $this->nombreLocal; ?></h1>
   </div>
 
   <div class="form-group col-sm-4 hide">
@@ -79,7 +79,7 @@
             <br><br>
              <div class="form-group col-sm-6">
               <label class="control-label required" for="required-input">Cantidad</label>
-              <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off">
+              <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off" maxlength="7">
             
               <div class="form-group ">
                 <br>
@@ -102,7 +102,7 @@
 
             <div class="form-group col-sm-6">
               <label class="control-label required" for="required-input">Precio Venta (x Unidad)</label>
-              <input type="text" class="form-control numerospunto" id="precioCompra" name="precioCompra" autocomplete="off">
+              <input type="text" class="form-control numerospunto" id="precioCompra" name="precioCompra" autocomplete="off" maxlength="7">
 
               <div class="widget-notifications-item" style="padding: unset;" class="hide" id="divPreciosAnt">
                 <br>
@@ -185,7 +185,7 @@
 
 
               <div class="form-group col-md-12">
-                <label for="formaPago" class="col-md-3 control-label">Forma de Pago</label>
+                <label for="formaPago" class="col-md-3 control-label required">Forma de Pago</label>
                 <div class="col-md-12">
                   <select class="form-control" id="formaPago" name="formaPago"></select>
                 </div>
@@ -251,7 +251,7 @@
             <div class="form-group col-md-12">
               <div class="form-group col-md-12">
                 <label class="control-label required" for="required-input">Cliente</label>
-                <input type="text" class="form-control" id="cliente" name="cliente" autocomplete="off">
+                <input type="text" class="form-control" id="cliente" name="cliente" autocomplete="off" maxlength="100">
               </div>
               <div class="form-group col-md-12 hide">
                 <label class="control-label required" for="required-input">idCliente</label>
@@ -259,7 +259,7 @@
               </div>
 
               <div class="form-group col-md-12">
-                <label class="control-label required" for="required-input">Observaciones</label>
+                <label class="control-label" for="required-input">Observaciones</label>
                 <textarea class="form-control" rows="3" id="observaciones" name="observaciones" placeholder="Obsercaciones"></textarea>
 
               </div>
@@ -293,18 +293,18 @@
           <div class="col-md-12">
             <div class="panel">
               <div class="panel-heading">
-                <div class="panel-title">Listado de Producto</div>
+                <div class="panel-title">Listado de Ventas</div>
               </div>
               <div class="panel-body table-responsive">
                 <table class="table table-hover" id="tblReporteventas" width="100%">
                   <thead>
                     <tr>
-                      <th>nIDVENTA</th>
-                      <th>nIDLOCAL</th>
-                      <th>nLOCAL</th>
-                      <th>dFECHAVENTA</th>
-                      <th>total</th>
-                      <th>OPCIONES</th>
+                      <th>Fecha Venta</th>
+                      <th>Cod. Venta</th>
+                      <th>Cliente</th>
+                      <th>Vendedor</th>
+                      <th>Importe</th>
+                      <th>Proforma</th>
                     </tr>
                   </thead>
                   <tbody id="">
