@@ -78,7 +78,7 @@ Class reporteModel extends Model{
 					a.nIDLOCAL,
 					a.sOBSERVACION
 				) 
-				AS a INNER JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO='$tipoVenta'
+				AS a LEFT JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO='$tipoVenta'
 				GROUP BY a.dFECHAVENTA,
 				a.nIDVENTA,
 				a.nIDCLIENTE,
