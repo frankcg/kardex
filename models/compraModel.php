@@ -55,6 +55,13 @@ Class compraModel extends Model{
 			}
 	}
 
+	public function productvalidateNombre($nombreProducto){		
+		$sql="SELECT nIDPRODUCTO FROM   kar_producto WHERE sNOMBRE = '$nombreProducto' AND nESTADO=1 ";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+
 	public function proveedorvalidate($idProveedor){		
 		$sql="SELECT nIDPROVEEDOR FROM sel_proveedor WHERE nIDPROVEEDOR='$idProveedor'";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);

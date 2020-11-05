@@ -216,9 +216,9 @@ class compraController extends Controller{
 						</td>
 					  </tr>'
 					  ;
-					echo('<pre>');
-					print_r($items);
-					echo('</pre>');
+					// echo('<pre>');
+					// print_r($items);
+					// echo('</pre>');
 				}
 			}
 		  }
@@ -305,6 +305,21 @@ class compraController extends Controller{
 		$precioCompra	= $_POST['precioCompra'];
 		$aliasCompra	= $_POST['aliasCompra'];
 		$descripcion	= strtoupper(trim($_POST['descripcion']));
+
+		$objModel=$this->loadModel('compra');
+		$count = 0;
+		$result =	$objModel->productvalidateNombre($nombre);
+		
+		while($reg=$result->fetch_object()){
+			 $nIDPRODUCTO = $reg->nIDPRODUCTO;
+			 $count++;
+		}
+
+		if($count>0){
+			$idProducto =	$nIDPRODUCTO; 
+		}else{
+			$idProducto =	$idProducto;
+		}
 
 		$productsArray = array(
 			"idProducto"=>$idProducto
