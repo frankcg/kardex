@@ -11,7 +11,7 @@ Class reporteModel extends Model{
 							, sDESCRIPCION
 							, nESTADO
 							, dFECHACREACION
-					FROM fzbsokgg_tauro_kardex_v2.sel_estado
+					FROM sel_estado
 					WHERE nESTADO = 1 ";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
@@ -334,6 +334,23 @@ Class reporteModel extends Model{
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $response;
 	}
+
+	public function getVentasXVendedor($fechaInicio, $fechafin,$idLocal){
+		$filtroFecha = "AND a.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
+		$sql="SELECT 
+			CAST(a.dFECHAVENTA AS DATE) AS dFECHAVENTA,
+			a.sIDUSUARIOCREACION AS sVENDEDOR,
+			SUM(b.nCANTIDAD) AS nCantidadTotalVenta,
+			ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta					
+			FROM kar_venta a 
+			INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO='1'
+			WHERE a.nidlocal=$idLocal AND a.nESTADO=1
+			$filtroFecha
+			GROUP BY CAST(a.dFECHAVENTA AS DATE),
+			a.sIDUSUARIOCREACION";
+		$response=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $response;
+	}	
 
 }
 

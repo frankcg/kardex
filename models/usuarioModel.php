@@ -256,7 +256,7 @@ Class usuarioModel extends Model{
 
 	public function addacceso($idperfil, $usuario){
 		$user=$_SESSION['user'];
-		$sql="UPDATE `kar_usuario` SET IDPERFIL='$idperfil', IDUSUARIOMOD='$user' WHERE IDUSUARIO='$usuario'";
+		$sql="UPDATE `kar_usuario` SET IDPERFIL='$idperfil', sIDUSUARIOMOD='$user' WHERE IDUSUARIO='$usuario'";
 		$this->_db->query($sql)or die ('Error en '.$sql);
 		if($this->_db->errno)
 			return false;

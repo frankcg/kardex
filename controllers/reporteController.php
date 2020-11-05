@@ -290,6 +290,22 @@ class reporteController extends Controller{
 		echo json_encode ( $data );
 	}
 
+
+	public function getVentasXVendedor($fechaInicio, $fechafin,$idLocal){
+		$objModel=$this->loadModel('reporte');
+		$result=$objModel->getVentasXVendedor($fechaInicio, $fechafin,$idLocal);		
+		
+		while($reg=$result->fetch_object()){
+			
+			$data ['data'] [] = array (
+				'dFECHAVENTA' => $reg->dFECHAVENTA,
+				'sVENDEDOR' => $reg->sVENDEDOR,
+				'nCantidadTotalVenta' => $reg->nCantidadTotalVenta,
+				'sCostoTotalVenta' => $reg->sCostoTotalVenta,
+			);
+		}
+		echo json_encode ( $data );
+	}
 	
 }
 ?>

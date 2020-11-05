@@ -851,12 +851,48 @@ $(document).on('ready',function(){
 			"language": {
 				"url": "/kardex/public/cdn/datatable.spanish.lang"
 			},
-			
-
-			
-
+		});	
+	}
 
 
+	$('#btnBuscar9').click(function(){
+		var fechaInicio = $('#fechaInicio9').val();
+		var fechaFin = $('#fechaFin9').val();
+		if(fechaInicio <= fechaFin && fechaInicio!='' && fechaFin!=''){
+			tblReporteVentasPorVendedor(fechaInicio, fechaFin);			
+		}
+	});
+
+
+	function tblReporteVentasPorVendedor(fechaInicio, fechaFin){
+		$('#tblReporteVentasPorVendedor').dataTable().fnDestroy();		 	
+		$('#tblReporteVentasPorVendedor').DataTable({
+
+			//PARA EXPORTAR			
+			dom: 'frtip<"clear"B>',
+			buttons: [
+				{
+					extend: 'collection',
+					text: 'Exportar',
+					buttons: [
+						'copy',
+						'excel',
+						'csv',
+						'pdf',
+						'print'
+					]
+				}
+			],
+			"order": [[ 0, "desc" ]],
+			"ajax" : "reporte/getVentasXVendedor/"+fechaInicio+"/"+fechaFin+"/"+$('#codLocal').val(),
+			"columns" : [ 
+				{"data" : "dFECHAVENTA"},
+				{"data" : "sVENDEDOR"},
+				{"data" : "nCantidadTotalVenta"},
+				{"data" : "sCostoTotalVenta"},
+			],"language": {
+				"url": "/kardex/public/cdn/datatable.spanish.lang"
+			} 			
 		});	
 	}
 	

@@ -50,6 +50,11 @@
             Resumen Venta
           </a>
         </li>
+        <li class="">
+          <a href="#tabs-9" data-toggle="tab" aria-expanded="false">
+            Ventas por Vendedor
+          </a>
+        </li>
       </ul>
 
       <div class="tab-content tab-content-bordered">
@@ -554,6 +559,76 @@
             <!-- Fin Tab -->
           </p>
         </div>
+
+        <div class="tab-pane fade" id="tabs-9">
+          <p>
+            <!-- InicioTab -->
+            <div class="col-md-12">
+              <div class="panel">
+                <div class="panel-heading">
+                  <div class="panel-title">Filtros</div>
+                </div>
+                <div class="panel-body">
+
+                  <form class="smart-form" id="formReporte5">
+
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Inicio</label>
+                      <input type="date" class="form-control" id="fechaInicio9" name="fechaInicio9">
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                      <label class="control-label required" for="required-input">Fecha Fin</label>
+                      <input type="date" class="form-control" id="fechaFin9" name="fechaFin9">
+                    </div>
+
+                  </form>
+
+                </div>
+
+                <div class="panel-footer text-right">
+                  <button type="button" id="btnBuscar9" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="row">
+                  <div class="col-md-12">
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="panel">
+                          <div class="panel-heading">
+                            <div class="panel-title">Detalle de Busqueda</div>
+                          </div>
+                          <div class="panel-body table-responsive">
+                            <table class="table table-hover" id="tblReporteVentasPorVendedor" width="100%">
+                              <thead>
+                                <tr>
+                                  <th> Fecha Venta </th>
+                                  <th> Vendedor </th>
+                                  <th> Cant. Productos Vendidos </th>
+                                  <th> Importe Venta </th>
+                                </tr>
+                              </thead>
+                              <tbody id="">
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <!-- Fin Tab -->
+          </p>
+        </div>
+
       </div>
 
     </div>
