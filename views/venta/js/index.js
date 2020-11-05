@@ -149,7 +149,8 @@ $(document).on('ready',function(){
 		var nombrecart = $('#idProducto').find(':selected').attr('id2');
 		$('#cartNombre').val(nombrecart);
 		console.log(nombrecart);
-		// $('#divPreciosAnt').show();
+		//prodiccion off
+		$('#divPreciosAnt').show();
 		var idProducto = $(this).val();
 		promVentaProductos(idProducto);
 	});
@@ -254,8 +255,11 @@ $(document).on('ready',function(){
 		else if(stockActual < 0){ toastr['warning']('la cantidad ingresada es superior al Stock', 'Paso 1', {optionsToastr});}
 		else{
 			$('#msj_compra').html('');
+			
+			pCompra = parseFloat(precioCompra);
+			pVenta = parseFloat(precioVentaPromedio);
 
-		if(precioCompra < precioVentaPromedio){
+		if(pCompra < pVenta){
 			$.confirm({
 				title: 'Precio menor al Promedio de Compra!!',
 				content: '¿ Desea Continuar ?',

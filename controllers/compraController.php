@@ -216,9 +216,9 @@ class compraController extends Controller{
 						</td>
 					  </tr>'
 					  ;
-					// echo('<pre>');
-					// print_r($items);
-					// echo('</pre>');
+					echo('<pre>');
+					print_r($items);
+					echo('</pre>');
 				}
 			}
 		  }
@@ -414,6 +414,8 @@ class compraController extends Controller{
 						// echo('</pre>');
 
 						$existeProducto=$objModel->productvalidate($idProducto);
+
+
 							if($existeProducto !== 1){
 								$idProductocompra =	$objModel->insertProducto($nombre, $codLocal);
 							}else{
