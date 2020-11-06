@@ -124,6 +124,10 @@ class ventaController extends Controller{
 
 		$tableProducts = "";
 
+		// echo('<pre>');
+		// print_r($_SESSION["cart"]["ventasproducts"]);
+		// echo('</pre>');
+
 		if(!empty($_SESSION["cart"]["ventasproducts"])){
 			foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
 				foreach($productos as $items){
@@ -340,6 +344,8 @@ class ventaController extends Controller{
 
 		$objModel=$this->loadModel('venta');
 
+		$idVentaCompartida = ''; 
+
 		try {
 
 			$existeProveedor =	$objModel->clientevalidate($idCLiente);
@@ -350,6 +356,7 @@ class ventaController extends Controller{
 			}
 	
 			$idventa = $objModel->insertVenta($codLocal,$idClientecompra,$observaciones);
+			$countVentaInsert = 0;
 			try {
 				foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
 					foreach($productos as $items){
@@ -358,6 +365,8 @@ class ventaController extends Controller{
 						$cantidad = $items['cantidad'];
 						$precio = $items['precio'];
 		
+						$idLocalProducto = $items['idLocal'];
+
 						$cantidadrestante = $cantidad ; 
 						$vendido = 0;
 						$vendidoFinal = 0;
@@ -392,11 +401,22 @@ class ventaController extends Controller{
 							$nStock 			= $value['nSTOCK'];
 							$cantidadVendida 	= $value['nVENDIDO'];
 
+
 							if($cantidadVendida == $nStock){
 								$objModel->updateCompraStockzer0($idCompraDetalle);
 							}
 
 							$result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio);
+							 
+							if($codLocal != $idLocalProducto ){
+								if($countVentaInsert == 0){
+									$idVentaCompartida = $objModel->insertVentaCompartida($idLocalProducto,$idClientecompra,$observaciones,$idventa);
+									$result =	$objModel->insertVentaDetalleCompartida($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio,$idVentaCompartida);
+								}else{
+									$result =	$objModel->insertVentaDetalleCompartida($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio,$idVentaCompartida);
+								}
+							}
+
 						}
 		
 					}
