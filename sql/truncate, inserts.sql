@@ -3,6 +3,8 @@
 TRUNCATE kar_compra_detalle;
 TRUNCATE kar_compra_pago;
 TRUNCATE kar_compra_anulacion;
+TRUNCATE kar_compra_produccion;
+TRUNCATE kar_compra_taller;
 
 SET FOREIGN_KEY_CHECKS = 0; 
 TRUNCATE TABLE kar_compra; 

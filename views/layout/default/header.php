@@ -227,7 +227,7 @@
               </li>
             <?php endif;?>
 
-            <?php if (isset($_SESSION['menu']['MENU_TALLER'])):?>
+            <?php if (isset($_SESSION['menu']['MENU_TALLER']) && false):?>
               <li class="px-nav-item px-nav-dropdown">
               <a href=""><i class="px-nav-icon fa fa-shopping-cart"></i><span class="px-nav-label">Taller</span></a>
                 <ul class="px-nav-dropdown-menu">
