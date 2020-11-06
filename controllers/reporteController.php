@@ -113,6 +113,7 @@ class reporteController extends Controller{
 			$data ['data'] [] = array(
 				'dFECHAVENTA' => $reg->dFECHAVENTA,				
 				'nIDVENTA' => $reg->nIDVENTA,
+				'nIDVENTACOMPARTIDA' => $reg->nIDVENTACOMPARTIDA,
 				'sCLIENTE'=>utf8_encode($reg->sCLIENTE),
 				'sLOCAL'=>utf8_encode($reg->sLOCAL),
 				'sCostoTotalVenta' => $reg->sCostoTotalVenta,

@@ -1,5 +1,5 @@
 <?php 
-Class reporteModel extends Model{
+Class reportevendedorModel extends Model{
 	
 	public function __construct(){
 		parent::__construct();
@@ -71,7 +71,7 @@ Class reporteModel extends Model{
 					SUM(b.nCANTIDAD) AS nCantidadTotalVenta,
 					ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta
 					FROM kar_venta a 
-					LEFT JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO='$tipoVenta'
+					LEFT JOIN kar_venta_detalle b ON a.nIDVENTACOMPARTIDA = b.nIDVENTA AND b.nESTADO='$tipoVenta'
 					WHERE a.nidlocal=$codLocal and a.nESTADO='$tipoVenta' 
 					$filtroFecha
 					GROUP BY a.dFECHAVENTA,
@@ -108,14 +108,28 @@ Class reporteModel extends Model{
 			b.sDESCRIPCION AS sTIPOPAGO,
 			c.sDESCRIPCION AS sNROCUENTA
 			FROM kar_venta_pago a 
-			INNER JOIN sel_tipopago b ON a.nIDTIPOPAGO = b.nIDTIPOPAGO AND b.nESTADO = 1
-			INNER JOIN sel_cuenta c ON a.nIDCUENTA=c.nIDCUENTA AND c.nESTADO=1
-			WHERE a.nESTADO=1 
+			LEFT JOIN sel_tipopago b ON a.nIDTIPOPAGO = b.nIDTIPOPAGO AND b.nESTADO = 1
+			LEFT JOIN sel_cuenta c ON a.nIDCUENTA=c.nIDCUENTA AND c.nESTADO=1
+			WHERE a.nESTADO=5 
 			AND a.nIDVENTA=$idVenta ORDER BY a.nIDVENTAPAGO DESC";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
 
+	public function getDetalleVenta($idVenta){
+		$sql = "SELECT
+			a.nIDVENTA,
+			a.nIDPRODUCTO,
+			b.sNOMBRE AS PRODUCTO, 
+			SUM(a.nCANTIDAD) AS 'nCANTIDAD',
+			a.fPRECIO,
+			ROUND(a.fPRECIO*SUM(a.nCANTIDAD),2) AS 'COSTO'
+			FROM kar_venta_detalle a INNER JOIN kar_producto b ON a.nIDPRODUCTO=b.nIDPRODUCTO AND b.nESTADO=1
+			WHERE a.nIDVENTA = $idVenta and a.nESTADO='5'
+			GROUP BY a.nIDVENTA, a.nIDPRODUCTO, b.sNOMBRE, a.fPRECIO";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
 	
 	public function getCompras($codLocal, $tipoCompra, $fechaInicio, $fechafin){
 

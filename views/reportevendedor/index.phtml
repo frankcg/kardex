@@ -25,7 +25,7 @@
             Ventas
           </a>
         </li>
-        <li class="">
+        <!-- <li class="">
           <a href="#tabs-2" data-toggle="tab" aria-expanded="false">
             Compras
           </a>
@@ -54,7 +54,7 @@
           <a href="#tabs-9" data-toggle="tab" aria-expanded="false">
             Ventas por Vendedor
           </a>
-        </li>
+        </li> -->
       </ul>
 
       <div class="tab-content tab-content-bordered">
@@ -71,8 +71,8 @@
                   <form class="smart-form" id="formReporte1">
                     <div class="form-group col-md-12">
                       <select class="form-control" id="tipoVenta" name="tipoVenta">
-                        <option value="1">ACTIVAS</option>
-                        <option value="4">EXTORNADAS</option>
+                        <option value="5">COMPARTIDAS</option>
+                        <!-- <option value="4">EXTORNADAS</option> -->
                       </select>
                     </div>
                     <div class="form-group col-sm-6">
@@ -109,6 +109,7 @@
                                 <tr>
                                   <th> Fecha Venta</th>
                                   <th> Cod. Venta</th>
+                                  <th> Cod. Venta Comp</th>
                                   <th> Cliente</th>
                                   <th> Costo</th>
                                   <th> Pago</th>
@@ -389,9 +390,6 @@
                                 </tr>
                               </thead>
                               <tbody id="">
-                
-                              </tbody>
-                              <tfoot>
                               <tr>
                                   <th></th>
                                   <th></th>
@@ -401,6 +399,8 @@
                                   <th></th>
                                   <th></th>
                                 </tr>
+                              </tbody>
+                              <tfoot>
                               </tfoot>
 
                             </table>
@@ -675,6 +675,11 @@
             </div>
 
             <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Cod. Venta Compartida</label>
+              <input type="text" class="form-control" id="idVentaCompartida" name="idVentaCompartida" autocomplete="off" maxlength="15" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-4">
               <label class="control-label required" for="required-input">Fecha Venta</label>
               <input type="text" class="form-control" id="fechaVenta" name="fechaVenta" autocomplete="off" readonly="readonly">
             </div>
@@ -689,7 +694,7 @@
 
           <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
             <li class="active"><a href="#tabDetalleVenta" data-toggle="tab">Detalle Compra</a></li>
-            <li><a href="#tabDetallePago" data-toggle="tab">Detalle Pago</a></li>
+            <!-- <li><a href="#tabDetallePago" data-toggle="tab">Detalle Pago</a></li> -->
           </ul>
 
           <div class="tab-content">
