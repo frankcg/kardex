@@ -512,6 +512,13 @@ $(document).on('ready',function(){
 		});
 	});
 
+	$('#cliente').click(function(){
+	
+		$("#idCliente").val("");
+		$("#cliente").val("");
+
+	})
+
 	$("#pagosCart").on('click', '.btn-delete', function(){		
 		var myId = $(this).attr('id');		
 		datos = { 'id': myId};		
