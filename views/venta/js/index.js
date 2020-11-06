@@ -31,7 +31,12 @@ $(document).on('ready',function(){
 	};
 	
 	function getComboProductos(codLocal) {
- 
+
+		try{
+			$('#idProducto').select2('destroy');
+		}catch(err) {
+		}
+		
 		$(function(){
 			$.post('venta/getComboProductos/'+codLocal,{},function(data){
 				

@@ -150,6 +150,37 @@ Class ventaModel extends Model{
 		return $idCompra;
 	}
 
+	public function insertVentaCompartida($codLocal,$idClientecompra,$observaciones,$idventa){	
+		
+		$user=$_SESSION['user'];
+		date_default_timezone_set('America/Lima');
+		$fechaHoraActual = date('Y-m-d H:m:s');
+
+		$sql=	"INSERT INTO kar_venta
+						(nIDLOCAL,
+						nIDCLIENTE,
+						dFECHAVENTA,
+						sOBSERVACION,
+						nIDVENTACOMPARTIDA,
+						sIDUSUARIOCREACION,
+						nESTADO,
+						dFECHACREACION
+						)
+				VALUES ('$codLocal',
+						'$idClientecompra',
+						'$fechaHoraActual',
+						'$observaciones',
+						'$idventa',
+						'$user',
+						'5',
+						'$fechaHoraActual'
+				);";
+		$this->_db->query($sql)or die ('Error en '.$sql);
+		$idCompra=$this->_db->insert_id;
+		return $idCompra;
+	}
+
+
 	public function insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio){		
 		$user=$_SESSION['user'];
 		$sql=	"INSERT INTO kar_venta_detalle
@@ -169,6 +200,29 @@ Class ventaModel extends Model{
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
+
+	public function insertVentaDetalleCompartida($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio){		
+		$user=$_SESSION['user'];
+		$sql=	"INSERT INTO kar_venta_detalle
+				(nIDVENTA
+				,nIDCOMPRADETALLE
+				,nIDPRODUCTO
+				,nCANTIDAD
+				,fPRECIO
+				,nESTADO
+				,sIDUSUARIOCREACION)
+				VALUES 
+				('$idventa'
+				,'$idCompraDetalle'
+				,'$idProducto'
+				,'$cantidadVendida'
+				,'$precio'
+				,'5'
+				,'$user');";
+		$result = $this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
 
 	public function insertVentaPagos($idventa,$idtipopago,$montopago,$idCuentaventa){		
 		$user=$_SESSION['user'];
