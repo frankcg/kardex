@@ -35,14 +35,14 @@ $(document).on('ready',function(){
 	                        i : 0;
 	            };
 	            // Totales por columna desde 0
-				let costo = api.column( 3 ).data().reduce( function (a, b) {
+				let costo = api.column( 4 ).data().reduce( function (a, b) {
 					return intVal(a) + intVal(b);
 				}, 0 );
 
  
 
-				 $( api.column( 2 ).footer() ).html('Total:');
-				 $( api.column( 3 ).footer() ).html(costo);
+				 $( api.column( 3 ).footer() ).html('Total:');
+				 $( api.column( 4 ).footer() ).html(costo);
  
 	        },
 			//PARA EXPORTAR			
