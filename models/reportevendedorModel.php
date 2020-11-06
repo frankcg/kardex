@@ -72,7 +72,7 @@ Class reportevendedorModel extends Model{
 					ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta
 					FROM kar_venta a 
 					LEFT JOIN kar_venta_detalle b ON a.nIDVENTACOMPARTIDA = b.nIDVENTA AND b.nESTADO='$tipoVenta'
-					WHERE a.nidlocal=$codLocal and a.nESTADO='$tipoVenta' 
+					WHERE a.nidlocal=$codLocal and a.nESTADO='$tipoVenta' AND nIDVENTACOMPARTIDA<>0
 					$filtroFecha
 					GROUP BY a.dFECHAVENTA,
 					a.nIDVENTA,
