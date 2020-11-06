@@ -1,6 +1,6 @@
 <?php 
 
-class anulacionController extends Controller{
+class produccionController extends Controller{
 	
 	public function __construct(){
 		parent::__construct();		
@@ -8,10 +8,10 @@ class anulacionController extends Controller{
 			$this->redireccionar ( 'index' );
 	}
 
-	public function index(){
+	public function index(){		
 		$idLocal = $_GET['idLocal'];
 		$this->_view->idLocal=$idLocal;
-		
+
 		$objModel=$this->loadModel('general');
 		$nombreLocal = $objModel->getNombreLocal($idLocal);		
 		$this->_view->nombreLocal=$nombreLocal;
@@ -21,9 +21,8 @@ class anulacionController extends Controller{
 	}
 
 	public function getCompras($codLocal=0, $codCompra=0, $fechaInicio='', $fechafin=''){		
-		
-		$objModel=$this->loadModel('anulacion');
-		$result=$objModel->getCompras($codLocal, $codCompra, $fechaInicio, $fechafin);
+		$objModel=$this->loadModel('produccion');
+		$result=$objModel->getVentas($codLocal, $codCompra, $fechaInicio, $fechafin);
 		$data = array();
 
 		while($reg=$result->fetch_object()){			
@@ -37,55 +36,53 @@ class anulacionController extends Controller{
 				'OBSERVACION' => $reg->sOBSERVACION
 			);
 		}
-		echo json_encode ( $data );		
+		echo json_encode ( $data );
 	}
 
-	public function getDetalleCompra(){
-		$idCompra = $_POST['idcompra'];
-		$objModel=$this->loadModel('anulacion');
+	public function getDetalleCompra($idCompra){
+		$objModel=$this->loadModel('produccion');
 		$result=$objModel->getDetalleCompra($idCompra);
 		$data = array();
 		while($reg=$result->fetch_object()){
-			$data[] = array(
+
+			$detalleProduccion = array();
+			
+			$response=$objModel->getDetalleProduccion($reg->nIDCOMPRADETALLE);
+
+			while($det=$response->fetch_object()){
+
+				$detalleProduccion[] = array(
+					'nIDPRODUCCION' => $det->nIDPRODUCCION,
+					'nIDCOMPRADETALLE' => $det->nIDCOMPRADETALLE,
+					'nCANTIDAD' => $det->nCANTIDAD,
+					'dFECHAPRODUCCION' => $det->dFECHAPRODUCCION,
+					'sIDUSUARIOCREACION' => $det->sIDUSUARIOCREACION,					
+				); 
+			}
+
+			$data ['data'] [] = array(
 				'nIDDETALLE'	=> $reg->nIDCOMPRADETALLE,
 				'nIDCOMPRA'	=> $reg->nIDCOMPRA,
 				'nIDPRODUCTO'	=> $reg->nIDPRODUCTO,
-				'nCANTIDAD'	=> $reg->nCANTIDAD,
-				'fPRECIO'	=> $reg->fPRECIO,
-				'fCOSTO'	=> $reg->COSTO,
+				'nCANTIDADCOMPRADA'	=> $reg->nCANTIDADCOMPRADA,
 				'sPRODUCTO'	=> $reg->PRODUCTO,
+				'nCANTIDADPRODUCIDA' => $reg->nCANTIDADPRODUCIDA,
+				'nDIFERENCIA' => $reg->nDIFERENCIA,
+				'detalleProduccion' => $detalleProduccion,
 			);
 		}
 		echo json_encode($data);
 	}
 
-	public function anularCompra(){
-		$idCompra = $_POST['idcompra'];
+	public function extornarVenta(){
+		$idVenta = $_POST['idVenta'];
 		$motivo = $_POST['motivo'];
-		$objModel=$this->loadModel('anulacion');
-		$response=$objModel->validarAnulacion($idCompra);
-		if(!$response)
-			$result=$objModel->anularCompra($idCompra, $motivo);
-		else
-			$result=false;
+		$objModel=$this->loadModel('extorno');
 
-		echo json_encode(array('idAnulacion'=>$result));
-	}
-
-	public function getDetalleVenta(){
-		$idCompra = $_POST['idcompra'];
-		$objModel=$this->loadModel('anulacion');
-		$result=$objModel->getDetalleVenta($idCompra);
-		$data = array();
-		while($reg=$result->fetch_object()){
-			$data[] = array(
-				'nIDVENTA'	=> $reg->nidventa,
-				'dFECHAVENTA'	=> $reg->dfechaventa,
-				'nCANTIDAD'	=> $reg->cantidadTotal,
-				'fIMPORTE'	=> $reg->importeTotal,
-			);
-		}
-		echo json_encode($data);
+		$objModel->updateStockCompra($idVenta);
+		$result=$objModel->extornarVenta($idVenta, $motivo);
+		
+		echo json_encode(array('idExtorno'=>$result));
 	}
 
 }

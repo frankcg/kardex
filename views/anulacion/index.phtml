@@ -128,36 +128,64 @@
 
           </div>
 
-          <div class="row">
-            <div class="table-responsive">
-              <table class="table m-a-0">
-                <thead>
-                  <tr class="bg-white darken">
-                    <th class="p-x-2">Producto</th>
-                    <th class="p-x-2">Cantidad</th>
-                    <th class="p-x-2">Precio Unidad</th>
-                    <th class="p-x-2">Total</th>
-                  </tr>
-                </thead>
-                <tbody class="font-size-14" id="tBodyDetalleCompra">
-                </tbody>
-                <tfoot>
-                  <tr class="info">
-                    <td>Cant. Total</td>
-                    <td> <strong><span id="cantidadTotalCompra"></span></strong> </td>
-                    <td>Precio Total</td>
-                    <td> <strong><span id="precioTotalCompra"></span></strong> </td>
-                  </tr>
-                </tfoot>
-              </table>
+          <ul class="nav nav-tabs nav-xs" id="tab-resize-xs">
+            <li class="active"><a href="#tabDetalleCompra" data-toggle="tab">Detalle Compra</a></li>
+            <li><a href="#tabDetalleVenta" data-toggle="tab">Venta Realizadas</a></li>
+          </ul>
+
+          <div class="tab-content">
+
+            <div class="tab-pane active" id="tabDetalleCompra">
+
+              <div class="row">
+                <div class="table-responsive">
+                  <table class="table m-a-0">
+                    <thead>
+                      <tr class="bg-white darken">
+                        <th class="p-x-2">Producto</th>
+                        <th class="p-x-2">Cantidad</th>
+                        <th class="p-x-2">Precio Unidad</th>
+                        <th class="p-x-2">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody class="font-size-14" id="tBodyDetalleCompra">
+                    </tbody>
+                    <tfoot>
+                      <tr class="info">
+                        <td>Cant. Total</td>
+                        <td> <strong><span id="cantidadTotalCompra"></span></strong> </td>
+                        <td>Precio Total</td>
+                        <td> <strong><span id="precioTotalCompra"></span></strong> </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>                
+              </div>
+
             </div>
             
-          </div>
+            <div class="tab-pane" id="tabDetalleVenta">
+              <div class="row">
+                <div class="table-responsive">
+                  <table class="table m-a-0">
+                    <thead>
+                      <tr class="bg-white darken">
+                        <th class="p-x-2">Fecha Venta</th>
+                        <th class="p-x-2">Cod. Venta</th>
+                        <th class="p-x-2">Cantidad</th>
+                        <th class="p-x-2">Importe</th>
+                      </tr>
+                    </thead>
+                    <tbody class="font-size-14" id="tBodyDetalleVenta">
+                    </tbody>
+                  </table>
+                </div>                
+              </div>
+            </div>
 
+          </div>          
         </form>
-
       </div>
-
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-danger" id="btnAnular">Anular</button>
