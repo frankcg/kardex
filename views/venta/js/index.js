@@ -137,7 +137,7 @@ $(document).on('ready',function(){
 		$('#cartNombre').val(nombrecart);
 		
 		//prodiccion off
-		$('#divPreciosAnt').show();
+		//$('#divPreciosAnt').show();
 		var idProducto = $(this).val();
 		promVentaProductos(idProducto);
 	});
