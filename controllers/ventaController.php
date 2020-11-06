@@ -412,6 +412,7 @@ class ventaController extends Controller{
 								if($countVentaInsert == 0){
 									$idVentaCompartida = $objModel->insertVentaCompartida($idLocalProducto,$idClientecompra,$observaciones,$idventa);
 									$result =	$objModel->insertVentaDetalleCompartida($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio,$idVentaCompartida);
+									$countVentaInsert++;
 								}else{
 									$result =	$objModel->insertVentaDetalleCompartida($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio,$idVentaCompartida);
 								}
