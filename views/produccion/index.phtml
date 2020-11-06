@@ -1,0 +1,228 @@
+<!-- jQuery UI -->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<div class="px-content">
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>produccion?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
+    <li class="active">Extorno</h1></li>
+  </ol>
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Produccion - Local: <?php echo $this->nombreLocal; ?></h1>
+  </div>
+
+  <div class="row">    
+    <div class="col-md-12">
+      <div class="panel">
+        <div class="panel-heading">
+          <div class="panel-title">Busqueda</div>
+        </div>
+        <div class="panel-body">
+
+          <form class="smart-form" id="formProduccion">
+
+              <div class="form-group col-sm-4 hide">
+                <label class="control-label required" for="required-input">Cod. Local</label>
+                <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label class="control-label" for="required-input">Cod. Compra</label>
+                <input type="text" class="form-control numeros" id="codCompra" name="codCompra">
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label class="control-label required" for="required-input">Fecha Inicio Compra</label>
+                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label class="control-label required" for="required-input">Fecha Fin Compra</label>
+                <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+              </div>
+
+          </form>          
+          
+        </div>
+
+        <div class="panel-footer text-right">
+          <button type="button" id="btnBuscar" class="btn btn-primary"><span class="btn-label-icon right fa fa-search"></span> Buscar</button>
+        </div>
+
+      </div>
+      
+        <div class="row">    
+          <div class="col-md-12">
+            <div class="panel">
+              <div class="panel-heading">
+                <div class="panel-title">Ventas Filtradas</div>
+              </div>
+              <div class="panel-body">
+                <table class="table table-hover" id="tablaCompra" width="100%">
+                  <thead>
+                    <tr>
+                      <th>FECHA COMPRA</th>
+                      <th>COD. COMPRA</th>
+                      <th>PROVEEDOR</th>
+                      <th>CANTIDAD COMPRA</th>
+                      <th>COSTO COMPRA</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="mDetalleCompra" tabindex="-1">
+
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title">Produccion</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <form class="" id="form_venta_detalle">
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Cod. Compra</label>
+              <input type="text" class="form-control" id="codCompra" name="codCompra" autocomplete="off" maxlength="15" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Fecha Compra</label>
+              <input type="text" class="form-control" id="fechaCompra" name="fechaCompra" autocomplete="off" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Proveedor</label>
+              <input type="text" class="form-control" id="sProveedor" name="sProveedor" autocomplete="off" maxlength="100" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Observacion Compra</label>
+              <textarea class="form-control" id="observacionCompra" name="observacionCompra" autocomplete="off" readonly="readonly"></textarea>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label class="control-label required" for="required-input">Observacion Produccion</label>
+              <textarea class="form-control" id="observacionProduccion" name="observacionProduccion" autocomplete="off"></textarea>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table m-a-0" id="tablaDetalleCompra" width="100%">
+                <thead>
+                  <tr class="bg-white darken">
+                    <th class="p-x-2">Producto</th>
+                    <th class="p-x-2">Cantidad Comprada</th>
+                    <th class="p-x-2">Cantidad Producida</th>
+                    <th class="p-x-2">Diferencia</th>
+                  </tr>
+                </thead>
+                <tbody class="font-size-14">
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="modal fade" id="mDetalleProduccion" tabindex="-1">
+
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title" id="titleProducto"></h4>
+      </div>
+
+      <div class="modal-body">
+
+        <form class="" id="form_detalle_produccion">
+
+          <div class="row">
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Cod. Compra Detalle</label>
+              <input type="text" class="form-control" id="codCompraDetalle" name="codCompraDetalle" autocomplete="off" maxlength="15" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Fecha Produccion</label>
+              <input type="text" class="form-control" id="fechaProduccion" name="fechaProduccion" autocomplete="off" readonly="readonly">
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label class="control-label required" for="required-input">Cantidad</label>
+              <input type="text" class="form-control" id="nCantidad" name="nCantidad" autocomplete="off" maxlength="100" readonly="readonly">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="table-responsive">
+              <table class="table m-a-0">
+                <thead>
+                  <tr class="bg-white darken">
+                    <th class="p-x-2">Fecha Produccion</th>
+                    <th class="p-x-2">Cod. Produccion</th>
+                    <th class="p-x-2">Responsable</th>
+                    <th class="p-x-2">Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody class="font-size-14" id="tBodyDetalleProduccion">
+                </tbody>
+                <tfoot>
+                  <tr class="info">
+                    <td colspan="3">Cant. Total</td>
+                    <td> <strong><span id="cantidadTotalProduccion"></span></strong> </td>                    
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-danger" id="btnExtornar">Agregar</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

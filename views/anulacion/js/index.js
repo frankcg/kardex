@@ -103,6 +103,27 @@ $(document).on('ready',function(){
 			}				
 		});
 
+
+		$.ajax({
+			url: 'anulacion/getDetalleVenta',  
+			type: 'POST',
+			data:  datos, 
+			cache: false,
+			dataType:'json',				
+			success: function(data){
+				var html='';
+				$.each(data, function( i, v ) {
+					html+='<tr>'+
+							'<th>'+v.dFECHAVENTA+'</th>'+
+							'<th>'+v.nIDVENTA+'</th>'+
+							'<th>'+v.nCANTIDAD+'</th>'+
+							'<th>'+v.fIMPORTE+'</th>'+
+						'</tr>';
+				});
+				$('#tBodyDetalleVenta').html(html);
+			}				
+		});
+
 	});
 
 	$('#btnAnular').click(function(){
@@ -136,7 +157,7 @@ $(document).on('ready',function(){
 								toastr['success']('Compra Anulada Correctamente <br> Cod. Anulacion: '+data.idAnulacion, 'Anulacion', {optionsToastr});
 								$('#tablaCompra').dataTable().fnClearTable();
 							}else{
-								$('#mDetalleCompra').modal('hide');
+								//$('#mDetalleCompra').modal('hide');
 								toastr['warning']('La compra no puede ser anulada, porque existe ventas', 'Anulacion', {optionsToastr});
 							}
 						}

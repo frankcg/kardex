@@ -84,6 +84,19 @@ Class anulacionModel extends Model{
 		return $this->_db->insert_id;
 	}
 
+	public function getDetalleVenta($idCompra){
+		$sql = "SELECT a.nidventa, b.dfechaventa, SUM(a.ncantidad) AS cantidadTotal, 
+				ROUND(SUM(a.ncantidad * a.fprecio),2) AS importeTotal
+				FROM kar_venta_detalle a INNER JOIN kar_venta b ON a.nidventa = b.nidventa
+				WHERE nIDCOMPRADETALLE IN (
+				SELECT b.nidcompradetalle FROM kar_compra a INNER JOIN kar_compra_detalle b ON a.nidcompra=b.nidcompra AND b.nestado=1 WHERE a.nestado=1 AND a.nidcompra=$idCompra
+				)
+				GROUP BY a.nidventa
+				ORDER BY b.dfechaventa DESC";
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
 }
 
 ?>
