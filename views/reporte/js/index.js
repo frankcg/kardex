@@ -143,7 +143,7 @@ $(document).on('ready',function(){
 			"columns" : [	
 
 				{"data" : "dFECHACOMPRA"},
-				{"data" : "sLOCAL"},
+				{"data" : "sLOCAL","visible": false},
 				{"data" : "nIDCOMPRA"},
 				{"data" : "sPROVEEDOR"},
 				{"data" : "nCantidadTotalCompra"},
