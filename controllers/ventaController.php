@@ -15,6 +15,9 @@ class ventaController extends Controller{
 		$objModel=$this->loadModel('general');
 		$nombreLocal = $objModel->getNombreLocal($idLocal);		
 		$this->_view->nombreLocal=$nombreLocal;
+
+		$_SESSION['cart']['products'] = array();
+		$_SESSION['cart']['payments'] = array();
 		
 		$this->_view->setJs(array('index'));
 		$this->_view->renderizar('index');

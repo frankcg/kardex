@@ -16,6 +16,9 @@ class compraController extends Controller{
 		$nombreLocal = $objModel->getNombreLocal($idLocal);		
 		$this->_view->nombreLocal=$nombreLocal;
 		
+		$_SESSION['cart']['products'] = array();
+		$_SESSION['cart']['payments'] = array();
+
 		$this->_view->setJs(array('index'));
 		$this->_view->renderizar('index');
 	}
@@ -305,10 +308,13 @@ class compraController extends Controller{
 		$precioCompra	= $_POST['precioCompra'];
 		$aliasCompra	= $_POST['aliasCompra'];
 		$descripcion	= strtoupper(trim($_POST['descripcion']));
+		$codLocal 	= $_POST['codLocal'];
 
+
+		
 		$objModel=$this->loadModel('compra');
 		$count = 0;
-		$result =	$objModel->productvalidateNombre($nombre);
+		$result =	$objModel->productvalidateNombre($nombre,$codLocal );
 		
 		while($reg=$result->fetch_object()){
 			 $nIDPRODUCTO = $reg->nIDPRODUCTO;
@@ -423,13 +429,12 @@ class compraController extends Controller{
 						$nombre = $items['name'];
 						$cantidad = $items['cantidad'];
 						$precio = $items['precio'];
-		
+
 						// echo('<pre>');
 						// print_r($_SESSION["cart"]["products"][$nombre]);
 						// echo('</pre>');
 
 						$existeProducto=$objModel->productvalidate($idProducto);
-
 
 							if($existeProducto !== 1){
 								$idProductocompra =	$objModel->insertProducto($nombre, $codLocal);
