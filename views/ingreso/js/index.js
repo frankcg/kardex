@@ -187,7 +187,7 @@ $(document).on('ready',function(){
 			formData.append("codLocal",codLocal); 
 
 			$.ajax({
-				url: 'compra/finishpaymentCart',  
+				url: 'ingreso/finishpaymentCart',  
 				type: 'POST',
 				data: formData,
 				cache: false,
@@ -289,7 +289,7 @@ $(document).on('ready',function(){
 	******************************************************************************************************************************** */	
 	function obtenerCart(){
 		$.ajax({
-			url: 'compra/showproductCart',  
+			url: 'ingreso/showproductCart',  
 			type: 'GET',
 			data: html,
 			success: function(data){
@@ -452,8 +452,11 @@ $(document).on('ready',function(){
 		var nombre = $('#nombre').val();
 		var cantidad = $('#cantidad').val();
 		var precioCompra = $('#precioCompra').val();
-		var aliasCompra = $('#aliasCompra').val();
-		
+		var cProduccion = $('#cProduccion').val();
+		var ganancia = $('#ganancia').val();
+
+
+
 		console.log(nombre);
 
 		var formData = new FormData($("#formCompra")[0]);
@@ -473,12 +476,13 @@ $(document).on('ready',function(){
 		if(nombre == ''){ $('#msj_compra').html('Ingrese Nombre del Producto');}
 		else if(cantidad == ''){ $('#msj_compra').html('Ingrese Cantidad');}
 		else if(precioCompra == ''){ $('#msj_compra').html('Ingrese Compra');}
-		else if(aliasCompra == ''){ $('#msj_compra').html('Ingrese Alias');}
+		else if(cProduccion == ''){ $('#msj_compra').html('Ingrese produccion');}
+		else if(ganancia  == ''){ $('#msj_compra').html('Ingrese Ganancia');}
 		else{
 			$('#msj_compra').html('');
 
 			$.ajax({
-				url: 'compra/addproductCart',  
+				url: 'ingreso/addproductCart',  
 				type: 'POST',
 				data: formData,
 				cache: false,
