@@ -57,8 +57,8 @@ Class reporteModel extends Model{
 					a.sOBSERVACION, 
 					a.nCantidadTotalVenta,
 					a.sCostoTotalVenta, 
-					ROUND(SUM(c.fMONTO),2) AS sPagoTotalVenta, 
-					ROUND(a.sCostoTotalVenta - SUM(ROUND(c.fMONTO,2)),2) AS 'sDeudaTotalVenta'
+					ROUND(IFNULL(SUM(c.fMONTO),0),2) AS sPagoTotalVenta, 
+					ROUND(a.sCostoTotalVenta - SUM(ROUND(IFNULL(c.fMONTO,0),2)),2) AS 'sDeudaTotalVenta'
 				FROM 
 				(
 					SELECT 
