@@ -402,9 +402,9 @@ class compraController extends Controller{
 	public function finishpaymentCart(){
 
 		$codLocal		= $_POST['codLocal'];
-		$proveedor		= $_POST['proveedor'];
+		$proveedor		= strtoupper(trim($_POST['proveedor']));
 		$idProveedor	= $_POST['idProveedor'];
-		$observaciones	= $_POST['observaciones'];
+		$observaciones	= strtoupper(trim($_POST['observaciones']));
 
 
 		$objModel=$this->loadModel('compra');

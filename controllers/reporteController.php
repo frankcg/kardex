@@ -245,8 +245,6 @@ class reporteController extends Controller{
 					'sNOMBRE' => $reg->sNOMBRE,
 					'nCANTIDAD' => $reg->nCANTIDAD,
 					'nTOTAL' => $reg->nTOTAL,
-					'nTOTAL' => $reg->nTOTAL,
-					'nTOTAL' => $reg->nTOTAL,
 					'avgPorCantidadPrecio' => $reg->avgPorCantidadPrecio,	
 					'avgPrecio' => $reg->avgPrecio,
 
