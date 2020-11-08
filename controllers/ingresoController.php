@@ -266,8 +266,7 @@ class ingresoController extends Controller{
 								$idProductocompra =	$idProducto;
 							}
 
-						$idCompradetalle =	$objModel->insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio); 	
-	
+						$idCompradetalle =	$objModel->insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio); 
 						$result =	$objModel->insertCartTaller($idCompradetalle,$cProduccion,$ganancia); 	
 
 

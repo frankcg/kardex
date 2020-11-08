@@ -138,7 +138,6 @@ Class ingresoModel extends Model{
 				,'$ganancia'
 				,'$user'
 				);";
-		$this->_db->query($sql)or die ('Error en '.$sql);
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

@@ -44,7 +44,7 @@ Class extornoModel extends Model{
 			a.fPRECIO,
 			ROUND(a.fPRECIO*SUM(a.nCANTIDAD),2) AS 'COSTO'
 			FROM kar_venta_detalle a INNER JOIN kar_producto b ON a.nIDPRODUCTO=b.nIDPRODUCTO AND b.nESTADO=1
-			WHERE a.nIDVENTA = $idVenta
+			WHERE a.nIDVENTA = $idVenta and a.nESTADO=1
 			GROUP BY a.nIDVENTA, a.nIDPRODUCTO, b.sNOMBRE, a.fPRECIO";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
