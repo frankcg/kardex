@@ -508,9 +508,6 @@ class ventaController extends Controller{
 
 		$pdf->Ln(5);
 
-
-		
-		
 		// COLUMNAS
 		$pdf->SetFont('Helvetica', 'B', 7);
 		$pdf->Cell(30, 10, 'Articulo', 0);
@@ -520,8 +517,6 @@ class ventaController extends Controller{
 		$pdf->Ln(8);
 		$pdf->Cell(60,0,'','T');
 		$pdf->Ln(1);
-
-		
 
 		// PRODUCTOS
 		$pdf->SetFont('Helvetica', '', 7);
@@ -574,7 +569,7 @@ class ventaController extends Controller{
 		$pdf->Ln(3);
 		$pdf->Cell(60,0,'HASTA QUE EL RETIRO DE LA TIENDA',0,1,'C');
 		
-		$pdf->Output('ticket.pdf','i');
+		$pdf->Output('ticket-'.$idFactura.'.pdf','i');
  
  	}
 
@@ -708,7 +703,7 @@ class ventaController extends Controller{
 		$pdf->Cell(60,3,'caracter meramente informativo ',0,1,'C');
 		$pdf->Cell(60,3,'Su contenido carece de valor legal.',0,1,'C');
 
-		$pdf->Output('ticket.pdf','i');
+		$pdf->Output('ticket-'.$idFactura.'.pdf','i');
  
 	 }
 	 

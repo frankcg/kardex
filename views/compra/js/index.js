@@ -69,10 +69,18 @@ $(document).on('ready',function(){
 
 		$("#nombre").keypress(function(){
 		$('#idProducto').val('');
+		$('#divPreciosAnt').hide();
+		$("#htmlPrecios").html('');
 		console.log($('#idProducto').val())
 		});
 
+		// $('#nombre').click(function(){
+		// 	$('#idProducto').val('');
+		// 	$('#divPreciosAnt').hide();
+		// 	$("#htmlPrecios").html('');
+		// })
 
+		
 		
  
 		$('#cuenta').typeahead({
