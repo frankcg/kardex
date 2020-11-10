@@ -5,18 +5,24 @@ Class cuentacobroModel extends Model{
 		parent::__construct();
 	}
 
-	public function getCuentasPorCobrar($codLocal, $codVenta, $fechaInicio, $fechafin){
+	public function getCuentasPorCobrar($codLocal, $codVenta, $fechaInicio, $fechafin, $nIdCliente){
 
 		
 		$filtroVenta='';
 		$filtroFecha='';
+		$filtroCliente='';
 
 		if($codVenta!='vacio'){
 			$filtroVenta = "AND a.nIDVENTA=$codVenta";
 		}
 
-		if($fechaInicio!='' && $fechafin!=''){
+		if($fechaInicio!='vacio' && $fechafin!='vacio'){
 			$filtroFecha = "AND a.dFECHAVENTA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
+		}
+
+		if($nIdCliente!=null && $nIdCliente!='null'){
+			//echo gettype($nIdCliente); exit();
+			$filtroCliente = "AND a.nIDCLIENTE=$nIdCliente";
 		}
 		
 		$sql="
@@ -48,6 +54,7 @@ Class cuentacobroModel extends Model{
 					WHERE a.nidlocal=$codLocal and a.nESTADO=1 
 					$filtroVenta
 					$filtroFecha
+					$filtroCliente
 					GROUP BY a.dFECHAVENTA,
 					a.nIDVENTA,
 					a.nIDCLIENTE,
@@ -67,6 +74,53 @@ Class cuentacobroModel extends Model{
 			WHERE a.sDeudaTotalVenta>0
 		";
 		//echo $sql; exit();
+		$result=$this->_db->query($sql)or die ('Error en '.$sql);
+		return $result;
+	}
+
+	public function getClientesPorCobrar($codLocal){
+		$sql="SELECT DISTINCT a.nIDCLIENTE, b.sDESCRIPCION AS sCLIENTE
+			FROM 
+			(
+				SELECT 
+					a.dFECHAVENTA, 
+					a.nIDVENTA, 
+					a.nIDCLIENTE, 
+					a.nIDLOCAL, 
+					a.sOBSERVACION, 
+					a.nCantidadTotalVenta,
+					a.sCostoTotalVenta, 
+					IFNULL(ROUND(SUM(c.fMONTO),2),0) AS sPagoTotalVenta, 
+					ROUND(a.sCostoTotalVenta - SUM(ROUND(IFNULL(c.fMONTO,0),2)),2) AS 'sDeudaTotalVenta'
+				FROM 
+				(
+					SELECT 
+					a.dFECHAVENTA,
+					a.nIDVENTA,
+					a.nIDCLIENTE,
+					a.nIDLOCAL,
+					a.sOBSERVACION,
+					SUM(b.nCANTIDAD) AS nCantidadTotalVenta,
+					ROUND(SUM(b.nCANTIDAD * b.fPRECIO),2) AS sCostoTotalVenta
+					FROM kar_venta a 
+					INNER JOIN kar_venta_detalle b ON a.nIDVENTA = b.nIDVENTA AND b.nESTADO=1
+					WHERE a.nidlocal=$codLocal AND a.nESTADO=1
+					GROUP BY a.dFECHAVENTA,
+					a.nIDVENTA,
+					a.nIDCLIENTE,
+					a.nIDLOCAL,
+					a.sOBSERVACION
+				) 
+				AS a LEFT JOIN kar_venta_pago c ON a.nIDVENTA = c.nIDVENTA AND c.nESTADO=1
+				GROUP BY a.dFECHAVENTA,
+				a.nIDVENTA,
+				a.nIDCLIENTE,
+				a.nIDLOCAL,
+				a.sOBSERVACION,
+				a.sCostoTotalVenta
+			) AS a 
+			INNER JOIN sel_cliente b ON a.nIDCLIENTE = b.nIDCLIENTE AND b.nESTADO=1			
+			WHERE a.sDeudaTotalVenta>0";
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

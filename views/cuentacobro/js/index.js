@@ -10,18 +10,22 @@ $(document).on('ready',function(){
 		var codLocal = $('#codLocal').val();
 		var codVenta = $('#codVenta').val();
 		var fechaInicio = $('#fechaInicio').val();
-		var fechaFin = $('#fechaFin').val();		
+		var fechaFin = $('#fechaFin').val();
+		var nIdCliente = $('#nIdCliente').val();		
 
-		if(codVenta=='' && fechaInicio=='' && fechaFin==''){ toastr['warning']('Ingrese almenos un campo de busqueda', 'Cuentas por Cobrar', {optionsToastr});} 
-		else if(codVenta=='' && ((fechaInicio!='' && fechaFin=='') || (fechaInicio=='' && fechaFin!=''))){ toastr['warning']('Ingrese 2 fechas', 'Cuentas por Cobrar', {optionsToastr} );}
+		if(codVenta=='' && fechaInicio=='' && fechaFin=='' && nIdCliente==''){ toastr['warning']('Ingrese almenos un campo de busqueda', 'Cuentas por Cobrar', {optionsToastr});} 
+		else if(codVenta=='' && nIdCliente=='' && ((fechaInicio!='' && fechaFin=='') || (fechaInicio=='' && fechaFin!=''))){ toastr['warning']('Ingrese 2 fechas', 'Cuentas por Cobrar', {optionsToastr} );}
 		else if(fechaInicio > fechaFin){ toastr['warning']('La fecha Inicio debe no debe superar la fecha Fin', 'Cuentas por Cobrar', {optionsToastr});}
-		else{			
-			getCuentasPorPagar(codLocal,((codVenta=='') ? 'vacio' : codVenta), fechaInicio, fechaFin);
+		else{
+			codVenta = (codVenta=='') ? 'vacio' : codVenta;
+			fechaInicio = (fechaInicio=='') ? 'vacio' : fechaInicio;
+			fechaFin = (fechaFin=='') ? 'vacio' : fechaFin;
+			getCuentasPorPagar(codLocal, codVenta, fechaInicio, fechaFin,nIdCliente);
 		}
 	});
 
 
-	function getCuentasPorPagar(codLocal=0, codVenta=0, fechaInicio='', fechaFin=''){
+	function getCuentasPorPagar(codLocal=0, codVenta=0, fechaInicio='', fechaFin='',nIdCliente){
 		$('#tblCuentasPorCobrar').dataTable().fnDestroy();
 		$('#tblCuentasPorCobrar').DataTable({
 
@@ -47,7 +51,7 @@ $(document).on('ready',function(){
 			responsive: !0,*/
 			
 			//"order" : [ [ 0, "desc" ] ],
-			"ajax" : "cuentacobro/getCuentasPorCobrar/"+codLocal+'/'+codVenta+'/'+fechaInicio+'/'+fechaFin,
+			"ajax" : "cuentacobro/getCuentasPorCobrar/"+codLocal+'/'+codVenta+'/'+fechaInicio+'/'+fechaFin+'/'+nIdCliente,
 			"columns" : [
 			{
 				"data" : "dFECHAVENTA"

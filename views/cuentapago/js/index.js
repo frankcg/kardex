@@ -10,18 +10,22 @@ $(document).on('ready',function(){
 		var codLocal = $('#codLocal').val();
 		var codCompra = $('#codCompra').val();
 		var fechaInicio = $('#fechaInicio').val();
-		var fechaFin = $('#fechaFin').val();		
+		var fechaFin = $('#fechaFin').val();
+		var nIdProveedor = $('#nIdProveedor').val();
 
-		if(codCompra=='' && fechaInicio=='' && fechaFin==''){ toastr['warning']('Ingrese almenos un campo de busqueda', 'Cuentas por Pagar', {optionsToastr});} 
-		else if(codCompra=='' && ((fechaInicio!='' && fechaFin=='') || (fechaInicio=='' && fechaFin!=''))){ toastr['warning']('Ingrese 2 fechas', 'Cuentas por Pagar', {optionsToastr} );}
+		if(codCompra=='' && fechaInicio=='' && fechaFin=='' && nIdProveedor==''){ toastr['warning']('Ingrese almenos un campo de busqueda', 'Cuentas por Pagar', {optionsToastr});} 
+		else if(codCompra=='' && nIdProveedor!='' && ((fechaInicio!='' && fechaFin=='') || (fechaInicio=='' && fechaFin!=''))){ toastr['warning']('Ingrese 2 fechas', 'Cuentas por Pagar', {optionsToastr} );}
 		else if(fechaInicio > fechaFin){ toastr['warning']('La fecha Inicio debe no debe superar la fecha Fin', 'Cuentas por Pagar', {optionsToastr});}
-		else{			
-			getCuentasPorPagar(codLocal,((codCompra=='') ? 'vacio' : codCompra), fechaInicio, fechaFin);
+		else{
+			codCompra = (codCompra=='') ? 'vacio' : codCompra;
+			fechaInicio = (fechaInicio=='') ? 'vacio' : fechaInicio;
+			fechaFin = (fechaFin=='') ? 'vacio' : fechaFin;
+			getCuentasPorPagar(codLocal,codCompra, fechaInicio, fechaFin, nIdProveedor);
 		}
 	});
 
 
-	function getCuentasPorPagar(codLocal=0, codCompra=0, fechaInicio='', fechaFin=''){
+	function getCuentasPorPagar(codLocal=0, codCompra=0, fechaInicio='', fechaFin='', nIdProveedor=''){
 		$('#tblCuentasPorPagar').dataTable().fnDestroy();
 		$('#tblCuentasPorPagar').DataTable({
 
@@ -47,7 +51,7 @@ $(document).on('ready',function(){
 			responsive: !0,*/
 			
 			//"order" : [ [ 0, "desc" ] ],
-			"ajax" : "cuentapago/getCuentasPorPagar/"+codLocal+'/'+codCompra+'/'+fechaInicio+'/'+fechaFin,
+			"ajax" : "cuentapago/getCuentasPorPagar/"+codLocal+'/'+codCompra+'/'+fechaInicio+'/'+fechaFin+'/'+nIdProveedor,
 			"columns" : [
 			{
 				"data" : "dFECHACOMPRA"

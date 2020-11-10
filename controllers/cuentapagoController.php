@@ -16,13 +16,17 @@ class cuentapagoController extends Controller{
 		$nombreLocal = $objModel->getNombreLocal($idLocal);		
 		$this->_view->nombreLocal=$nombreLocal;
 
+		$objModel2=$this->loadModel('cuentapago');
+		$this->_view->proveedores=$objModel2->getProveedorPorPagar($idLocal);
+
 		$this->_view->setJs(array('index'));
 		$this->_view->renderizar('index');
 	}
 
-	public function getCuentasPorPagar($codLocal=0, $codCompra=0, $fechaInicio='', $fechafin=''){		
+	public function getCuentasPorPagar($codLocal=0, $codCompra=0, $fechaInicio='', $fechafin='', $nIdProveedor=''){
+		
 		$objModel=$this->loadModel('cuentapago');
-		$result=$objModel->getCuentasPorPagar($codLocal, $codCompra, $fechaInicio, $fechafin);
+		$result=$objModel->getCuentasPorPagar($codLocal, $codCompra, $fechaInicio, $fechafin, $nIdProveedor);
 		$data = array();
 
 		while($reg=$result->fetch_object()){			

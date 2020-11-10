@@ -16,13 +16,16 @@ class cuentacobroController extends Controller{
 		$nombreLocal = $objModel->getNombreLocal($idLocal);		
 		$this->_view->nombreLocal=$nombreLocal;
 
+		$objModel2=$this->loadModel('cuentacobro');
+		$this->_view->clientes=$objModel2->getClientesPorCobrar($idLocal);
+
 		$this->_view->setJs(array('index'));
 		$this->_view->renderizar('index');
 	}
 
-	public function getCuentasPorCobrar($codLocal=0, $codVenta=0, $fechaInicio='', $fechafin=''){		
+	public function getCuentasPorCobrar($codLocal=0, $codVenta=0, $fechaInicio='', $fechafin='', $nIdCliente=''){		
 		$objModel=$this->loadModel('cuentacobro');
-		$result=$objModel->getCuentasPorCobrar($codLocal, $codVenta, $fechaInicio, $fechafin);
+		$result=$objModel->getCuentasPorCobrar($codLocal, $codVenta, $fechaInicio, $fechafin, $nIdCliente);
 		$data = array();
 
 		while($reg=$result->fetch_object()){			

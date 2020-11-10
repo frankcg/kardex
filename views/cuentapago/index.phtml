@@ -26,19 +26,29 @@
                 <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
               </div>
 
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-3">
                 <label class="control-label" for="required-input">Cod. Compra</label>
                 <input type="text" class="form-control numeros" id="codCompra" name="codCompra">
               </div>
 
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-3">
                 <label class="control-label required" for="required-input">Fecha Inicio Compra</label>
                 <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
               </div>
 
-              <div class="form-group col-sm-4">
+              <div class="form-group col-sm-3">
                 <label class="control-label required" for="required-input">Fecha Fin Compra</label>
                 <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+              </div>
+
+              <div class="form-group col-sm-3">
+                <label class="control-label" for="required-input">Proveedor</label>
+                <select class="form-control" id="nIdProveedor" name="nIdProveedor">
+                  <option selected="selected" value="">--SELECCIONE--</option>
+                  <?php while($reg=$this->proveedores->fetch_object()): ?>
+                  <option value="<?php echo $reg->nIDPROVEEDOR; ?>"><?php echo $reg->sPROVEEDOR; ?></option>
+                  <?php endwhile; ?>                  
+                </select>
               </div>
 
           </form>          
