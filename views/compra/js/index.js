@@ -242,7 +242,7 @@ $(document).on('ready',function(){
 		console.log(items);
 
 		var proveedor = $('#proveedor').val();
-
+		var idproveedor = $("#idProveedor").val();
 		calc_totalPagos();
  
 
@@ -251,6 +251,9 @@ $(document).on('ready',function(){
 			e.preventDefault();
 		}else if(items == 0 ){
 			toastr['warning']('Ingrese un Producto', 'Paso 1', {optionsToastr});
+			e.preventDefault();
+		}else if(itemsPagos == 0 && idproveedor=='0001'){	
+			toastr['warning']('Ingrese un Proveedor Real', 'Paso 4', {optionsToastr});	
 			e.preventDefault();
 		}else if(itemsPagos == 0){
 			e.preventDefault();

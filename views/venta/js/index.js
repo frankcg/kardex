@@ -454,7 +454,8 @@ $(document).on('ready',function(){
 			});
 		}
 		
-		var cliente = $('#cliente').val();
+		var cliente 	= $('#cliente').val();
+		var idCliente 	= $("#idCliente").val();
 
 		if(cliente==''){
 			toastr['warning']('Ingrese un Cliente', 'Paso 4', {optionsToastr});
@@ -462,7 +463,11 @@ $(document).on('ready',function(){
 		}else if(items == 0 ){
 			toastr['warning']('Ingrese un Producto', 'Paso 1', {optionsToastr});
 			e.preventDefault();
+		}else if(itemsPagos == 0 && idCliente=='0000001'){	
+			toastr['warning']('Ingrese un Cliente Real', 'Paso 4', {optionsToastr});	
+			e.preventDefault();
 		}else if(itemsPagos == 0){
+		
 			e.preventDefault();
 			$.confirm({
 				title: 'No se ha registrado Ningun pago, es una venta a Credito?',
