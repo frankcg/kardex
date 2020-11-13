@@ -26,10 +26,11 @@ $(document).on('ready',function(){
 
 	function setTemplate (textColor) {
 		if (!textColor.id) { return textColor.text; }			
-			var textColor = $('<span>'+ textColor.text +  '<span style="color:red;">' +textColor.title +'</span></span>' );
+			var textColor = $('<span style="font-size: 16px;">'+ textColor.text +  '<span style="color:red;">' +textColor.title +'</span></span>' );
 			return textColor;
 	};
 	
+
 	function getComboProductos(codLocal) {
 
 		try{
@@ -49,6 +50,7 @@ $(document).on('ready',function(){
 						templateSelection: setTemplate,
 						dropdownAutoWidth : 'true',
 					  });
+					// $("#idProducto").select2({ dropdownCssClass: "select2Font16" });
 			});
 		});
 	}
