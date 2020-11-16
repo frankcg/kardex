@@ -140,7 +140,7 @@ Class usuarioModel extends Model{
 		$result=$this->_db->query($sql_validar) or die ('Error en '.$sql_validar);		
 
 		if(!$result->num_rows){
-			$sql="UPDATE kar_usuario SET CONTRASENIA = sha1('$contrasenia'), IDUSUARIOMOD='$user' WHERE IDUSUARIO = '$usuario'";
+			$sql="UPDATE kar_usuario SET CONTRASENIA = sha1('$contrasenia'), sIDUSUARIOMOD='$user' WHERE IDUSUARIO = '$usuario'";
 			$this->_db->query($sql) or die ('Error en '.$sql);
 		}else{
 			$sql="UPDATE kar_persona SET nombre='$nombre', ap_paterno='$apepaterno', ap_materno='$apematerno', numerodoc='$ndoc', correo='$correo', telefono='$telefono' WHERE IDPERSONA = '$idpersona'";
@@ -154,7 +154,7 @@ Class usuarioModel extends Model{
 
 	public function delusuario($idusuario, $estado){
 		$user=$_SESSION['user'];
-		$sql="UPDATE `kar_usuario` SET estado=$estado, idusuariomod='$user' WHERE idusuario='$idusuario'";
+		$sql="UPDATE `kar_usuario` SET estado=$estado, sidusuariomod='$user' WHERE idusuario='$idusuario'";
 		$this->_db->query($sql) or die ('Error en '.$sql);		
 		if($this->_db->errno)
 			return false;
@@ -225,7 +225,7 @@ Class usuarioModel extends Model{
 
 	public function inhabilitarprofile($idperfil, $estado){
 		$user=$_SESSION['user'];
-		$sql="UPDATE seguridad_perfil SET FLAG=$estado, IDUSUARIOMOD='$user' WHERE IDPERFIL = '$idperfil'";
+		$sql="UPDATE seguridad_perfil SET FLAG=$estado, sIDUSUARIOMOD='$user' WHERE IDPERFIL = '$idperfil'";
 		$this->_db->query($sql)or die ('Error en '.$sql);
 		if($this->_db->errno)
 			return false;
@@ -234,7 +234,7 @@ Class usuarioModel extends Model{
 
 	public function habilitarprofile($idperfil, $estado){
 		$user=$_SESSION['user'];
-		$sql="UPDATE sismarc_seguridad_perfil SET FLAG=$estado, IDUSUARIOMOD='$user' WHERE IDPERFIL = '$idperfil'";
+		$sql="UPDATE sismarc_seguridad_perfil SET FLAG=$estado, sIDUSUARIOMOD='$user' WHERE IDPERFIL = '$idperfil'";
 		$this->_db->query($sql)or die ('Error en '.$sql);
 		if($this->_db->errno)
 			return false;

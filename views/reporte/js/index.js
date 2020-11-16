@@ -68,7 +68,7 @@ $(document).on('ready',function(){
 				}
 			],
 
-			"order": [[ 0, "desc" ]],
+			"order": [[ 1, "desc" ]],
 			"ajax" : "reporte/getVentasTable/"+codLocal+'/'+tipoVenta+'/'+fechaInicio+'/'+fechaFin,
 			"columns" : [	
 				{ "data" : "dFECHAVENTA"},
