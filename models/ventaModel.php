@@ -71,10 +71,10 @@ Class ventaModel extends Model{
 
 	
 	public function getStockVenta($idProducto){		
-		$sql=	"
-					SELECT 
+		$sql="
+				SELECT 
 					a.nIDCOMPRADETALLE
-					,a.nCANTIDAD - (SELECT IFNULL(SUM(b.nCANTIDAD),0) FROM kar_venta_detalle AS b  WHERE a.nIDCOMPRADETALLE = b.nIDCOMPRADETALLE AND b.nIDPRODUCTO = a.nIDPRODUCTO) AS nSTOCK
+					,a.nCANTIDAD - (SELECT SUM(IFNULL(b.nCANTIDAD,0)) FROM kar_venta_detalle AS b  WHERE a.nIDCOMPRADETALLE = b.nIDCOMPRADETALLE AND b.nESTADO = 1 ) AS nSTOCK
 				FROM
 					kar_compra_detalle a
 				WHERE a.bSTOCK = 1 
@@ -85,11 +85,6 @@ Class ventaModel extends Model{
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
-
-
-
-
-
 
 	public function insertCliente($cliente){	
 		$user=$_SESSION['user'];
