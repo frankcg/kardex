@@ -414,10 +414,10 @@ class ventaController extends Controller{
 							if($codLocal != $idLocalProducto ){
 								if($countVentaInsert == 0){
 									$idVentaCompartida = $objModel->insertVentaCompartida($idLocalProducto,$idClientecompra,$observaciones,$idventa);
-									$result =	$objModel->insertVentaDetalleCompartida($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio,$idVentaCompartida);
+									$result =	$objModel->insertVentaDetalleCompartida($idVentaCompartida,$idCompraDetalle,$idProducto,$cantidadVendida,$precio );
 									$countVentaInsert++;
 								}else{
-									$result =	$objModel->insertVentaDetalleCompartida($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio,$idVentaCompartida);
+									$result =	$objModel->insertVentaDetalleCompartida($idVentaCompartida,$idCompraDetalle,$idProducto,$cantidadVendida,$precio );
 								}
 							}
 

@@ -288,14 +288,14 @@ Class ventaModel extends Model{
 					FROM
 					kar_venta_detalle AS a 
 					INNER JOIN kar_venta AS b 
-					ON a.nIDVENTA = b.nIDVENTA
+					ON a.nIDVENTA = b.nIDVENTA 
 					INNER JOIN kar_producto AS c
 					ON a.nIDPRODUCTO = c.nIDPRODUCTO
 					INNER JOIN sel_local AS d
 					ON b.nIDLOCAL = d.nIDLOCAL
 					INNER JOIN sel_cliente AS e 
 	    			ON e.nIDCLIENTE = b.nIDCLIENTE
-					WHERE a.nIDVENTA = '$idFactura'
+					WHERE a.nIDVENTA = '$idFactura' AND a.nESTADO='1'
 					GROUP BY a.nIDPRODUCTO ";
 				
 		$response=$this->_db->query($sql)or die ('Error en '.$sql);
