@@ -736,4 +736,162 @@ class ventaController extends Controller{
 		echo json_encode ( $data );
 	}
 
+
+
+	
+public function finishpaymentCarttest(){
+
+	$codLocal		= 002;
+	$cliente		= 001;
+	$idCLiente		= 001;
+	$observaciones	= 'finishpaymentCarttest';
+
+	$objModel=$this->loadModel('venta');
+
+	$idVentaCompartida = ''; 
+
+	try {
+
+		$existeProveedor =	$objModel->clientevalidate($idCLiente);
+		if($existeProveedor !== 1){
+			$idClientecompra =	$objModel->insertCliente($cliente);
+		}else{
+			$idClientecompra =	$idCLiente;
+		}
+
+		$idventa = 00000000;
+		$countVentaInsert = 0;
+
+		echo('<pre>');
+		print_r($_SESSION["cart"]["ventasproducts"] );
+		echo('</pre>');
+
+
+		try {
+			foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
+				foreach($productos as $items){
+		
+					$idProducto = $items['idProducto'];
+					$cantidad = $items['cantidad'];
+					$precio = $items['precio'];
+	
+					$idLocalProducto = $items['idLocal'];
+
+					$cantidadrestante = $cantidad ; 
+					$vendido = 0;
+					$vendidoFinal = 0;
+	
+					$result=$objModel->getStockVenta($idProducto);
+					$dataVenta = array();
+	
+					while($reg=$result->fetch_object()){
+						$cantidadrestante = $cantidadrestante - $reg->nSTOCK;
+						if($cantidadrestante>0){
+							$vendido = $reg->nSTOCK;
+						}else{
+							$vendido = 	$cantidad - $vendidoFinal;				 
+						}
+						//Esta cantidad es igual a la cantidad inicial test
+						$vendidoFinal += $vendido;
+						$dataVenta[] = array(
+							'nIDCOMPRADETALLE'	=> $reg->nIDCOMPRADETALLE,
+							'nSTOCK'			=> $reg->nSTOCK,
+							'nVENDIDO'			=> $vendido,
+						);
+						if($cantidadrestante > 0 ){
+						}else{
+							break;
+						}
+	 
+					}
+	
+					echo('<pre>');
+					print_r($dataVenta);
+					echo('</pre>');
+
+
+					foreach ($dataVenta as $key => $value) {
+	
+						$idCompraDetalle 	= $value['nIDCOMPRADETALLE'];
+						$nStock 			= $value['nSTOCK'];
+						$cantidadVendida 	= $value['nVENDIDO'];
+
+
+						if($cantidadVendida == $nStock){
+							// $objModel->updateCompraStockzer0($idCompraDetalle);
+							echo($idCompraDetalle);
+						}
+
+						// $result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio);
+						 	echo($idventa.$idCompraDetalle.$idProducto.$cantidadVendida.$precio);
+
+
+						if($codLocal != $idLocalProducto ){
+							if($countVentaInsert == 0){
+
+								echo('venta compartida');
+
+								// $idVentaCompartida = $objModel->insertVentaCompartida($idLocalProducto,$idClientecompra,$observaciones,$idventa);
+								// $result =	$objModel->insertVentaDetalleCompartida($idVentaCompartida,$idCompraDetalle,$idProducto,$cantidadVendida,$precio );
+								$countVentaInsert++;
+							}else{
+
+								echo('insertVentaDetalleCompartida');
+
+								// $result =	$objModel->insertVentaDetalleCompartida($idVentaCompartida,$idCompraDetalle,$idProducto,$cantidadVendida,$precio );
+							}
+						}
+
+					}
+	
+				}
+			}
+
+			try {
+				foreach ($_SESSION["cart"]["ventaspayments"] as $payments) {
+	
+					$idtipopago = $payments['formaPago'];
+					$cuenta 	= $payments['cuenta'];
+					$montopago 	= $payments['montopago'];
+					$idCuenta 	= $payments['idCuenta'];
+					$idCuentaventa = 1;
+					$existeCuenta= ($idCuenta=='' || !$idCuenta) ? 0 : $objModel->cuentavalidate($idCuenta);
+					
+						if(!$existeCuenta){
+							if($idtipopago=='02'){
+								$idCuentaventa = $objModel->insertCuenta($cuenta);	
+							}
+						}else{
+							if($idtipopago=='02'){
+								$idCuentaventa =$idCuenta;	
+							}
+						}
+
+					$result =	$objModel->insertVentaPagos($idventa, $idtipopago,$montopago,$idCuentaventa);
+
+				}
+			} catch (Exception $e) {
+				//Exception Pago Detalle
+			}
+		} catch (Exception $e) {
+			//Exception Producto
+		}
+	} catch (Exception $e) {
+		//Exception Proveedor / idCompra
+	}
+
+	if($result == 1 ){
+		$this->clearCartventas();
+	}
+
+	$data[] = array(
+		'idventa'	=> $idventa,
+		'result'	=> $result,
+	);
+
+	echo json_encode($data);
 }
+
+
+}
+

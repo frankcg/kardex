@@ -72,16 +72,20 @@ Class ventaModel extends Model{
 	
 	public function getStockVenta($idProducto){		
 		$sql="
-				SELECT 
-					a.nIDCOMPRADETALLE
-					,a.nCANTIDAD - (SELECT SUM(IFNULL(b.nCANTIDAD,0)) FROM kar_venta_detalle AS b  WHERE a.nIDCOMPRADETALLE = b.nIDCOMPRADETALLE AND a.nIDPRODUCTO=b.nIDPRODUCTO AND b.nESTADO = 1 ) AS nSTOCK
-				FROM
-					kar_compra_detalle a
-				WHERE a.bSTOCK = 1 
-					AND a.nESTADO = 1 
-					AND a.nIDPRODUCTO = '$idProducto' 
-				ORDER BY a.nIDCOMPRADETALLE ASC  
-					";
+		SELECT 
+		a.nIDCOMPRADETALLE
+		, a.nCANTIDAD - IFNULL(b.nCANTIDAD,0) AS nSTOCK
+		FROM
+				kar_compra_detalle a 
+				LEFT JOIN kar_venta_detalle AS b 
+						ON a.nIDCOMPRADETALLE = b.nIDCOMPRADETALLE 
+						AND a.nIDPRODUCTO = b.nIDPRODUCTO 
+						AND b.nestado = 1 
+		WHERE 	 1=1
+		AND a.nIDPRODUCTO = '$idProducto' 
+		AND a.bSTOCK = 1 
+			AND a.nESTADO = 1 
+		ORDER BY a.nIDCOMPRADETALLE ASC ; ";
 		$result = $this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}
