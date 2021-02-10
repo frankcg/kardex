@@ -20,7 +20,8 @@ class produccionController extends Controller{
 		$this->_view->renderizar('index');
 	}
 
-	public function getCompras($codLocal=0, $codCompra=0, $fechaInicio='', $fechafin=''){		
+	public function getCompras($codLocal=0, $codCompra=0, $fechaInicio='', $fechafin=''){	
+	 
 		$objModel=$this->loadModel('produccion');
 		$result=$objModel->getVentas($codLocal, $codCompra, $fechaInicio, $fechafin);
 		$data = array();

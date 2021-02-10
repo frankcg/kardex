@@ -87,7 +87,7 @@
               <label class="control-label required" for="required-input">Cantidad</label>
               <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off" maxlength="7">
             
-              <div class="form-group ">
+              <div class="form-group " id="divradVentacompartida">
                 <br>
  
 
@@ -104,7 +104,24 @@
                
               </div>
 
+              <div class="form-group " id="divradVentaentrelocales">
+                <br>
+ 
+
+                <div class=" ">
+                <label for="radVentaentrelocales" class="switcher switcher-rounded">
+                <input type="checkbox" id="radVentaentrelocales"  name="radVentaentrelocales"  unchecked="">
+                <div class="switcher-indicator">
+                  <div class="switcher-yes">SI</div>
+                  <div class="switcher-no">NO</div>
+                </div>
+                Venta Entre Locales ? 
+              </label>
+              </div>
+               
+              </div>
             </div>
+
 
             <div class="form-group col-sm-6">
               <label class="control-label required" for="required-input">Precio Venta (x Unidad)</label>
@@ -259,6 +276,16 @@
                 <label class="control-label required" for="required-input">Cliente</label>
                 <input type="text" class="form-control" id="cliente" name="cliente" autocomplete="off" maxlength="100">
               </div>
+
+
+              <!-- <div class="col-md-12 hide" id="dividLocaltranslado" >
+              <label class="control-label required" for="required-input">Local</label>
+              <select class="form-control" id="idLocaltranslado" name="idLocaltranslado" style="width: 100%" data-allow-clear="true">
+              </select>
+              <br>
+            </div> -->
+
+
               <div class="form-group col-md-12 hide">
                 <label class="control-label required" for="required-input">idCliente</label>
                 <input type="text" class="form-control" id="idCliente" name="idCliente" autocomplete="off">

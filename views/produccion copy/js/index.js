@@ -4,13 +4,6 @@ $(document).on('ready',function(){
 						progressBar: true,
 						preventDuplicates: true,
 						newestOnTop: true,};
- 
-	var anioActual = new Date().getFullYear(); 
-	var periodoInicio = anioActual+'-01-01';
-	var periodoFin = anioActual+'-12-31';
-	//console.log(periodoInicio);
-
-	//tablaCompra($('#codLocal').val(),((codCompra=='') ? 'vacio' : codCompra), periodoInicio, periodoFin);
 
 	$('#btnBuscar').click(function(){
 

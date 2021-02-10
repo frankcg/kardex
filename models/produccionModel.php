@@ -18,6 +18,7 @@ Class produccionModel extends Model{
 			$filtroFecha = "AND a.dFECHACOMPRA BETWEEN '$fechaInicio 00:00:00' AND '$fechafin 23:59:59'";
 		}
 		
+		
 		$sql="SELECT a.nIDLOCAL, a.nIDCOMPRA, a.nIDPROVEEDOR, a.dFECHACOMPRA, SUM(CONVERT(b.nCANTIDAD,UNSIGNED INTEGER)) AS CANTIDAD_TOTAL_COMPRA, ROUND(SUM(b.nCANTIDAD*b.fPRECIO),2) AS COSTO_TOTAL_COMPRA,c.sDESCRIPCION, a.sOBSERVACION
 			FROM kar_compra a 
 			INNER JOIN kar_compra_detalle b ON a.nIDCOMPRA=b.nIDCOMPRA AND b.nESTADO=1
@@ -27,6 +28,8 @@ Class produccionModel extends Model{
 			$filtroFecha
 			GROUP BY a.nIDLOCAL, a.nIDCOMPRA, a.nIDPROVEEDOR, a.dFECHACOMPRA";
 		
+		// echo($sql);
+		// exit();
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

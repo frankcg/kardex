@@ -33,8 +33,14 @@ Class ventaModel extends Model{
 	}
 
 
-	public function autocliente($valor){		
-		$sql="SELECT * FROM sel_cliente WHERE nESTADO=1 AND sDESCRIPCION LIKE '$valor%'";
+	public function autocliente($valor,$interno,$idLocal){	
+		if($interno == "si"){
+			$sql="SELECT * FROM sel_cliente WHERE nESTADO=2 AND sDESCRIPCION LIKE '$valor%' AND nIDCLIENTE!='$idLocal'";
+		}else{
+			$sql="SELECT * FROM sel_cliente WHERE nESTADO=1 AND sDESCRIPCION LIKE '$valor%'";
+			}
+		
+		
 		$result=$this->_db->query($sql)or die ('Error en '.$sql);
 		return $result;
 	}

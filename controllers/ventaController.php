@@ -72,9 +72,11 @@ class ventaController extends Controller{
 	}
 
 	public function autocliente(){
-		$search = $_GET['query'];
+		$search 	= $_GET['query'];
+		$interno 	= $_GET['interno'];
+		$idLocal 	= $_GET['idLocal'];
 		$objModel=$this->loadModel('venta');
-		$result=$objModel->autocliente($search);		
+		$result=$objModel->autocliente($search,$interno,$idLocal);		
 		$data = array();
 		while($reg=$result->fetch_object()){
 			$data[] = array("value"=>$reg->nIDCLIENTE,"label"=>$reg->sDESCRIPCION);
@@ -344,8 +346,10 @@ class ventaController extends Controller{
 		$cliente		= $_POST['cliente'];
 		$idCLiente		= $_POST['idCliente'];
 		$observaciones	= $_POST['observaciones'];
+		$interno		= $_POST['interno'];
 
-		$objModel=$this->loadModel('venta');
+		$objModel		=$this->loadModel('venta');
+		$objModelCompra	=$this->loadModel('compra');
 
 		$idVentaCompartida = ''; 
 
@@ -359,6 +363,11 @@ class ventaController extends Controller{
 			}
 	
 			$idventa = $objModel->insertVenta($codLocal,$idClientecompra,$observaciones);
+
+			if ($interno == 'on') {
+				$idCompra = $objModelCompra->insertcompra($idCLiente,$codLocal,$observaciones);
+			}
+
 			$countVentaInsert = 0;
 			try {
 				foreach ($_SESSION["cart"]["ventasproducts"] as $productos) {
@@ -367,13 +376,30 @@ class ventaController extends Controller{
 						$idProducto = $items['idProducto'];
 						$cantidad = $items['cantidad'];
 						$precio = $items['precio'];
-		
+						$nombre = $items['cartNombre'];
+
+
 						$idLocalProducto = $items['idLocal'];
 
 						$cantidadrestante = $cantidad ; 
 						$vendido = 0;
 						$vendidoFinal = 0;
 		
+						if ($interno == 'on') {
+							$result =	$objModelCompra->productvalidateNombre($nombre,$idCLiente );
+							$count=0;
+	
+							while($reg=$result->fetch_object()){
+								 $nIDPRODUCTO = $reg->nIDPRODUCTO;
+								 $count++;
+							}
+								if($count>0){
+									$idProductocompra =	$nIDPRODUCTO; 
+								}else{
+									$idProductocompra =	$objModelCompra->insertProducto($nombre, $idCLiente);
+								}
+						}
+
 						$result=$objModel->getStockVenta($idProducto);
 						$dataVenta = array();
 		
@@ -410,7 +436,8 @@ class ventaController extends Controller{
 							}
 
 							$result =	$objModel->insertVentaDetalle($idventa,$idCompraDetalle,$idProducto,$cantidadVendida,$precio);
-							 
+							
+
 							if($codLocal != $idLocalProducto ){
 								if($countVentaInsert == 0){
 									$idVentaCompartida = $objModel->insertVentaCompartida($idLocalProducto,$idClientecompra,$observaciones,$idventa);
@@ -420,7 +447,9 @@ class ventaController extends Controller{
 									$result =	$objModel->insertVentaDetalleCompartida($idVentaCompartida,$idCompraDetalle,$idProducto,$cantidadVendida,$precio );
 								}
 							}
-
+						}
+						if ($interno == 'on') {
+							$result =	$objModelCompra->insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio); 
 						}
 		
 					}
@@ -743,11 +772,12 @@ public function finishpaymentCarttest(){
 
 	$codLocal		= 002;
 	$cliente		= 001;
-	$idCLiente		= 001;
+	$idCLiente		= 003;
 	$observaciones	= 'finishpaymentCarttest';
+	$interno		= 'on';
 
 	$objModel=$this->loadModel('venta');
-
+	$objModelCompra	=$this->loadModel('compra');
 	$idVentaCompartida = ''; 
 
 	try {
@@ -762,6 +792,15 @@ public function finishpaymentCarttest(){
 		$idventa = 00000000;
 		$countVentaInsert = 0;
 
+		if ($interno == 'on') {
+
+			//$idCompra = $objModelCompra->insertcompra($idCLiente,$codLocal,$observaciones);
+
+			$idCompra = 22222222;
+		}
+
+
+
 		echo('<pre>');
 		print_r($_SESSION["cart"]["ventasproducts"] );
 		echo('</pre>');
@@ -774,16 +813,36 @@ public function finishpaymentCarttest(){
 					$idProducto = $items['idProducto'];
 					$cantidad = $items['cantidad'];
 					$precio = $items['precio'];
-	
+					$nombre = $items['cartNombre'];
+
+
 					$idLocalProducto = $items['idLocal'];
 
 					$cantidadrestante = $cantidad ; 
 					$vendido = 0;
 					$vendidoFinal = 0;
 	
+					if ($interno == 'on') {
+						$result =	$objModelCompra->productvalidateNombre($nombre,$idCLiente );
+						$count=0;
+
+						while($reg=$result->fetch_object()){
+							 $nIDPRODUCTO = $reg->nIDPRODUCTO;
+							 $count++;
+						}
+							if($count>0){
+								$idProductocompra =	$nIDPRODUCTO; 
+								echo('Existe:'.$idProductocompra);
+							}else{
+								$idProductocompra =	$objModelCompra->insertProducto($nombre, $idCLiente);
+								echo('Sin Existencia:'.$idProductocompra);
+							}
+						}
+
+
 					$result=$objModel->getStockVenta($idProducto);
 					$dataVenta = array();
-	
+
 					while($reg=$result->fetch_object()){
 						$cantidadrestante = $cantidadrestante - $reg->nSTOCK;
 						if($cantidadrestante>0){
@@ -807,11 +866,11 @@ public function finishpaymentCarttest(){
 	
 					echo('<pre>');
 					print_r($dataVenta);
-					echo('</pre>');
+					echo('</pre> dataventa <br>');
 
 
 					foreach ($dataVenta as $key => $value) {
-	
+						echo('foreachr');
 						$idCompraDetalle 	= $value['nIDCOMPRADETALLE'];
 						$nStock 			= $value['nSTOCK'];
 						$cantidadVendida 	= $value['nVENDIDO'];
@@ -842,8 +901,14 @@ public function finishpaymentCarttest(){
 							}
 						}
 
+						echo('<br> interno <br>');			
+
 					}
-	
+
+					if ($interno == 'on') {
+						//$result =	$objModel->insertCompraDetalle($idCompra,$idProductocompra,$cantidad,$precio); 
+						echo($idCompra.'--'.$idProductocompra.'--'.$cantidad.'--'.$precio.' --<br>');
+					}
 				}
 			}
 
@@ -867,7 +932,7 @@ public function finishpaymentCarttest(){
 							}
 						}
 
-					$result =	$objModel->insertVentaPagos($idventa, $idtipopago,$montopago,$idCuentaventa);
+					//$result =	$objModel->insertVentaPagos($idventa, $idtipopago,$montopago,$idCuentaventa);
 
 				}
 			} catch (Exception $e) {
@@ -881,7 +946,7 @@ public function finishpaymentCarttest(){
 	}
 
 	if($result == 1 ){
-		$this->clearCartventas();
+	//	$this->clearCartventas();
 	}
 
 	$data[] = array(
@@ -889,7 +954,7 @@ public function finishpaymentCarttest(){
 		'result'	=> $result,
 	);
 
-	echo json_encode($data);
+	//echo json_encode($data);
 }
 
 

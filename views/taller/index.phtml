@@ -1,0 +1,263 @@
+<style type="text/css">
+  .ui-autocomplete {
+    z-index: 2147483647;
+  }
+</style>
+<div class="px-content" style="padding-bottom: 210px">
+  <ol class="breadcrumb page-breadcrumb">
+    <li><a href="<?php echo BASE_URL; ?>compra?idLocal=<?php echo $this->idLocal; ?>"><?php echo $this->nombreLocal; ?></a></li>
+    <li class="active">Registrar Compra</li>
+  </ol>
+
+  <div class="page-header">
+    <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>Registrar Compra - Local: <?php echo $this->nombreLocal; ?></h1></h1>
+  </div>
+
+  <div class="form-group col-sm-4 hide">
+    <label class="control-label required" for="required-input">Cod. Local</label>
+    <input type="text" class="form-control numeros" id="codLocal" name="codLocal" value="<?php echo $this->idLocal; ?>">
+  </div>
+
+  <div class="wizard wizard-bordered" id="wizard-basic">
+    <div class="wizard-wrapper">
+      <ul class="wizard-steps">
+        <li data-target="#wizard-productos">
+          <span class="wizard-step-number">1</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Paso 1
+            <span class="wizard-step-description">Agregar Productos:</span>
+          </span>
+        </li>
+        <li data-target="#wizard-example-step2">
+          <span class="wizard-step-number">2</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Paso 2
+            <span class="wizard-step-description">Productos: <span class="label label-pill label-success" id="productos"> </span> <span class="label label-tag label-info" id="monto"> </span></span>
+          </span>
+        </li>
+
+        <li data-target="#wizard-example-step3">
+          <span class="wizard-step-number">3</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Pago 3
+            <span class="wizard-step-description">Pagos: <span class="label label-tag label-warning" id="montorestante"></span></span>
+          </span>
+        </li>
+        <li data-target="#wizard-example-step4">
+          <span class="wizard-step-number">4</span>
+          <span class="wizard-step-complete"><i class="fa fa-check text-success"></i></span>
+          <span class="wizard-step-caption">
+            Finalizar
+          </span>
+        </li>
+
+      </ul>
+    </div>
+    <div class="wizard-content">
+      <div class="wizard-pane" id="wizard-productos">
+
+        <form class="smart-form" id="formCompra">
+          <div class="form-group col-sm-6 hide">
+            <label class="control-label" for="required-input">ID Compra</label>
+            <input type="text" class="form-control" id="idProducto" name="idProducto" autocomplete="off" readonly="readonly">
+          </div>
+          <p>
+
+            <div class="panel-body">
+              <div class="form-group col-sm-12">
+                <label class="control-label required" for="required-input">Nombre del Producto:</label>
+                <input id="nombre" name="nombre" class="form-control" type="text" data-provide="typeahead" autocomplete="off">
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label class="control-label required" for="required-input">Cantidad</label>
+                <input type="text" class="numeros form-control" id="cantidad" name="cantidad" autocomplete="off">
+              
+              
+
+
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label class="control-label required" for="required-input">Precio Compra (x Unidad)</label>
+                <input type="text" class="form-control numerospunto" id="precioCompra" name="precioCompra" autocomplete="off">
+              <div class="widget-notifications-item" style="padding: unset;" class="hide" id="divPreciosAnt">
+              <div class="widget-notifications-title text-danger">PRECIOS ANTERIORES</div>
+              <div id="htmlPrecios" >
+
+              </div>
+              </div>
+ 
+            </div>
+            </div>
+            <button type="button" class="btn btn-primary m-r-1 pull-right " id="btn_add_compra">Agregar</button>
+        </form>
+
+        <div class="panel-body p-a-4 bg-white b-b-2">
+
+        </div>
+
+        <div class="form-group has-error">
+          <small class="form-message" id="msj_compra_producto"></small>
+        </div>
+
+        </p>
+        <div class="pull-right">
+          <button type="button" class="btn btn-primary" data-wizard-action="next">Siguiente</button>
+        </div>
+      </div>
+      <div class="wizard-pane" id="wizard-example-step2">
+
+        <p>
+          <div class="table-responsive">
+            <table class="table m-a-0">
+              <thead>
+                <tr class="bg-white darken">
+                  <th class="p-x-2">
+                    Decripcion
+                  </th>
+                  <th class="p-x-2">
+                    Cantidad
+                  </th>
+                  <th class="p-x-2">
+                    Precio
+                  </th>
+                  <th class="p-x-2">
+                    Total
+                  </th>
+                  <th class="p-x-2">
+                    Opciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="font-size-14" id="comprasCart">
+              </tbody>
+            </table>
+          </div>
+
+          <div class="box m-a-0 border-radius-0">
+            <div class="box-row valign-middle">
+
+              <div class="m-t-3 visible-xs visible-sm"></div>
+              <div class="box-cell col-md-12 bg-white darken p-x-3 p-y-2">
+                <div class="pull-xs-left m-y-1 font-size-12 text-muted"><strong>TOTAL:</strong></div>
+                <div class="pull-xs-right font-size-24"><strong>S/</strong><strong id="compraTotal"></strong></div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="page-wide-block">
+        </p>
+        <div class="pull-right">
+          <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
+          <button type="button" class="btn btn-primary" data-wizard-action="next">Siguiente</button>
+        </div>
+      </div>
+
+      <div class="wizard-pane" id="wizard-example-step3">
+      <p>
+        <form class="smart-form" id="formPago">
+          <div class="panel-body">
+            
+
+              <div class="form-group col-md-12">
+                <label for="formaPago" class="col-md-3 control-labe required">Forma de Pago</label>
+                <div class="col-md-12">
+                  <select class="form-control" id="formaPago" name="formaPago"></select>
+                </div>
+
+                <div class="col-md-12" id="divCuenta">
+                  <label class="control-label required" for="required-input">Cuenta</label>
+                  <input type="text" class="form-control hide" id="idCuenta" name="idCuenta" autocomplete="off">
+                  <input type="text" class="form-control" id="cuenta" name="cuenta" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="form-group col-md-12">
+                <div class="form-group col-md-12">
+                  <label class="control-label required" for="required-input">Monto</label>
+                  <input type="text" class="form-control numerospunto" id="montopago" name="montopago" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="form-group has-error">
+                <small class="form-message" id="msj_compra_producto"></small>
+              </div>
+
+              <button type="button" class="btn btn-primary m-r-1 pull-right " id="btn_add_pago">Agregar</button>
+            
+          </div>
+        </form>
+
+        <hr class="page-wide-block">
+
+        <div class="table-responsive">
+          <table class="table m-a-0">
+            <thead>
+              <tr class="bg-white darken">
+ 
+                <th class="p-x-2">
+                  Forma de pago
+                </th>
+                <th class="p-x-2">
+                  Monto
+                </th>
+                <th class="p-x-2">
+                  Opciones
+                </th>
+              </tr>
+            </thead>
+            <tbody class="font-size-14" id="pagosCart">
+            </tbody>
+          </table>
+        </div>
+
+
+        </p>
+
+        <div class="pull-right">
+          <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
+          <button type="button" class="btn btn-primary" data-wizard-action="next">Siguiente</button>
+        </div>
+
+      </div>
+
+      <div class="wizard-pane" id="wizard-example-step4">
+      <p>
+      <form class="smart-form" id="formProveedor">
+          <div class="form-group col-md-12">
+            <div class="form-group col-md-12">
+              <label class="control-label required" for="required-input">Proveedor</label>
+              <input type="text" class="form-control" id="proveedor" name="proveedor" autocomplete="off">
+            </div>
+            <div class="form-group col-md-12 hide">
+              <label class="control-label required" for="required-input">idProveedor</label>
+              <input type="text" class="form-control" id="idProveedor" name="idProveedor" autocomplete="off">
+            </div>
+
+            <div class="form-group col-md-12">
+              <label class="control-label" for="required-input">Observaciones</label>
+              <textarea class="form-control" rows="3" id="observaciones" name="observaciones" placeholder="Obsercaciones" ></textarea>
+
+            </div>
+
+
+
+          </div>
+      </form>
+
+
+      </p>
+      <div class="pull-right">
+          <button type="button" class="btn" data-wizard-action="prev">Anterior</button>
+          <button type="button" class="btn btn-success" data-wizard-action="finish">Finalizar Compra</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

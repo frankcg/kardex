@@ -108,6 +108,7 @@ class reporteController extends Controller{
 		$class='viewPdf';
 		$data = array();
 		while($reg=$result->fetch_object()){			
+			
 			$boton='<button id="'.$reg->nIDVENTA.'" class="'.$class.' btn '.$btn.' btn-xs" title="'.$title.'"><span class="fa '.$icon.'"></span></button>';
 
 			$data ['data'] [] = array(

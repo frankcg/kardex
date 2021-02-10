@@ -6,6 +6,11 @@ $(document).on('ready',function(){
 						preventDuplicates: true,
 						newestOnTop: true,};
 
+	function ventantrelocales() {
+		radioValueLocal = $("input[name='radVentaentrelocales']:checked").val();
+	};
+	ventantrelocales();
+
 	function showItems() {
 		$('#productos').show();
 		$('#monto').show();
@@ -63,10 +68,36 @@ $(document).on('ready',function(){
 
 		if(radioValue == "on"){
 			getComboProductos('vacio');
+			$('#divradVentaentrelocales').hide();
 		}else{
 			getComboProductos($('#codLocal').val());
+			$('#divradVentaentrelocales').show();
 		}
 	})
+
+
+	$('#radVentaentrelocales').change(function(){
+
+		ventantrelocales();
+
+		console.log(radioValueLocal);
+
+		$('#precioCompra').prop('readonly', true);
+		$('#idLocaltranslado').show();
+
+		if(radioValueLocal == "on"){
+			$('#divradVentacompartida').hide();
+			$("#idCliente").val('');
+			$("#cliente").val('');
+		}else{
+			$('#precioCompra').prop('readonly', false);
+			$('#idLocaltranslado').hide();
+			$('#divradVentacompartida').show();
+			$("#idCliente").val("0000001");
+			$("#cliente").val("CLIENTE GENERAL");
+		}
+	})
+
 
 	getComboProductos($('#codLocal').val());
 
@@ -103,6 +134,7 @@ $(document).on('ready',function(){
 	$("#cliente").val("CLIENTE GENERAL");
 
 	$('#cliente').typeahead({
+
 		displayText: function(item) {
 			 return item.label
 		},
@@ -111,9 +143,20 @@ $(document).on('ready',function(){
 			$('#idCliente').val(item.value);
 		},
 		source: function (query, process) {
-		  return $.getJSON('venta/autocliente', { query: query }, function(data) {
-			process(data)
-		  });
+
+			ventantrelocales();
+
+			if(radioValueLocal == "on"){
+				return $.getJSON('venta/autocliente', { query: query, interno : "si" , idLocal : $('#codLocal').val() }, function(data) {
+					process(data)
+				  });
+			}else{
+				return $.getJSON('venta/autocliente', { query: query , interno : "no" , idLocal : $('#codLocal').val()}, function(data) {
+					process(data)
+				  });
+			}
+
+
 		}   
 	})
 
@@ -142,9 +185,18 @@ $(document).on('ready',function(){
 		//$('#divPreciosAnt').show();
 		var idProducto = $(this).val();
 		promVentaProductos(idProducto);
+
+		if(radioValueLocal == "on"){
+			$("#idCliente").val();
+			$("#cliente").val();
+		}else{
+			$('#precioCompra').val();
+		}
+
 	});
 
 	function promVentaProductos(idProducto){
+		//precioVentaPromedio = 0;
 		datos = {"idProducto" : idProducto };
 		$.ajax({
 			url: 'venta/promVentaProductos',  
@@ -152,7 +204,8 @@ $(document).on('ready',function(){
 			data:  datos, 
 			cache: false,
 			dataType:'json',				
-			success: function(data){				 
+			success: function(data){
+				console.log(data);				 
 				var tableProducts='';
 				$.each(data, function( i, v ) {
 					precioVentaPromedio = v.AVG;
@@ -162,6 +215,13 @@ $(document).on('ready',function(){
 									+'<div class="widget-notifications-description"><strong>Maximo  : S/ </strong><a class="etPrecio">'+v.MAX+'</a></div>';
 				});
 				$('#htmlPrecios').html(tableProducts);
+
+				console.log(precioVentaPromedio);
+
+				if(radioValueLocal == "on"){
+					$('#precioCompra').val(precioVentaPromedio);
+				}
+
 			}				
 		});
 	}
@@ -186,6 +246,7 @@ $(document).on('ready',function(){
 			success: function(data){
 				obtenerCart();
 				calc_total();
+
 				// $('#mAddCompra').modal('hide');
 				// if(data=='ok'){
 				// 	$('#formCompra')[0].reset();
@@ -413,6 +474,19 @@ $(document).on('ready',function(){
 
 			var formData = new FormData($("#formProveedor")[0]);
 			formData.append("codLocal",$('#codLocal').val());
+			formData.append("interno",radioValueLocal);
+
+			var outputLog = {}, iterator = formData.entries(), end = false;
+			while(end == false) {
+				   var item = iterator.next();
+				   if(item.value!=undefined) {
+					   outputLog[item.value[0]] = item.value[1];
+				   } else if(item.done==true) {
+					  end = true;
+				   }
+			}
+			
+			console.log(outputLog);
 
 			$.ajax({
 				url: 'venta/finishpaymentCart',  
@@ -439,6 +513,10 @@ $(document).on('ready',function(){
 						hideItems();
 						tblReporteventas($('#codLocal').val());
 						
+						$('#precioCompra').prop('readonly', false);
+						$("input[name='radVentaentrelocales']").prop('checked', false);
+						$('#divradVentacompartida').show();
+
 						$("#idCliente").val("0000001");
 						$("#cliente").val("CLIENTE GENERAL");				
 
