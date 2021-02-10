@@ -24,7 +24,7 @@ class produccionController extends Controller{
 	 
 		$objModel=$this->loadModel('produccion');
 		$result=$objModel->getVentas($codLocal, $codCompra, $fechaInicio, $fechafin);
-		$data = array();
+		$data = array();	
 
 		while($reg=$result->fetch_object()){			
 
